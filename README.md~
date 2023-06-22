@@ -1,1 +1,15 @@
 # EntrenamientoSistemaDeEstacionamiento
+
+# Herramientas
+Este proyecto esta construido con:
+Java 17 (Jdk 17.0.7 en mi caso)
+Spring boot 3.1.0
+Gradle 8.1.1
+MySQL 8.0.33
+
+#Set up
+Base de datos: 
+Se necesita crear una base de datos con el nombre: sistema_de_estacionamiento
+Se puede hacer manualmente o bien ejecutando el archivo createDatabase.sh en
+una terminal que permita ejecutar archivos bash logeandose con el usuario root.
+o bien copiando los comandos de script.sql
