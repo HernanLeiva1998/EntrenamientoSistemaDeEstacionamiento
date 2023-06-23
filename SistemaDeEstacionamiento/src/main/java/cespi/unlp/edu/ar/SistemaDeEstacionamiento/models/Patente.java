@@ -31,6 +31,12 @@ public class Patente {
     public Patente() {
     	
     }
+    
+    public Patente(String patente, Automovilista automovilista) {
+    	this.patente=patente;
+    	this.automovilista=automovilista;
+    	this.tieneEstacionamientoIniciado = false;
+    }
 
 	public Long getId() {
 		return id;
@@ -63,8 +69,7 @@ public class Patente {
 	public void setAutomovilista(Automovilista automovilista) {
 		this.automovilista = automovilista;
 	}
-    
-    public 
+	
     
     
 }

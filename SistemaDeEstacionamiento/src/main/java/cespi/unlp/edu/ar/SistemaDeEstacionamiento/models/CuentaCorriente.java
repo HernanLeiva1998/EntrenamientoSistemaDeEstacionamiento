@@ -10,6 +10,8 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class CuentaCorriente {
+	
+
 	@Id
 	@Column(name = "id_cuenta_corriente")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +31,13 @@ public class CuentaCorriente {
     public CuentaCorriente() {
     	
     }
+    
+    public CuentaCorriente(String cbu, Double saldo, Automovilista automovilista) {
+		super();
+		this.cbu = cbu;
+		this.saldo = saldo;
+		this.automovilista = automovilista;
+	}
 
 	public Long getId() {
 		return id;

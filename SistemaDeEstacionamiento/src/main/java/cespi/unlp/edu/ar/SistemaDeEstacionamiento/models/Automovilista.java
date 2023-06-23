@@ -13,6 +13,8 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Automovilista {
 	
+	
+
 	@Id
 	@Column(name = "id_automovilista")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,6 +39,13 @@ public class Automovilista {
     public Automovilista() {
     	
     }
+    
+    public Automovilista(Long id, String telefono, String contraseña) {
+		super();
+		this.id = id;
+		this.telefono = telefono;
+		this.contraseña = contraseña;
+	}
 
 	public Long getId() {
 		return id;
