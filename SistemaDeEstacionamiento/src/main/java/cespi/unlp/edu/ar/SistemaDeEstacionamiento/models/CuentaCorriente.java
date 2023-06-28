@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class CuentaCorriente {
@@ -23,7 +24,7 @@ public class CuentaCorriente {
     @Column(nullable = false)
     private Double saldo;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "id_automovilista")
     private Automovilista automovilista;
 
@@ -32,11 +33,9 @@ public class CuentaCorriente {
     	
     }
     
-    public CuentaCorriente(String cbu, Double saldo, Automovilista automovilista) {
-		super();
+    public CuentaCorriente(String cbu, Double saldo) {
 		this.cbu = cbu;
 		this.saldo = saldo;
-		this.automovilista = automovilista;
 	}
 
 	public Long getId() {
@@ -69,5 +68,13 @@ public class CuentaCorriente {
 
 	public void setAutomovilista(Automovilista automovilista) {
 		this.automovilista = automovilista;
+	}
+	
+	public void restarSaldo(Double costoDeEstacionamientoFinalizado) {
+		this.saldo-= costoDeEstacionamientoFinalizado;
+	}
+	
+	public Boolean saldoEsInferiorA(Double costo) {
+		return costo > this.saldo;
 	}
 }

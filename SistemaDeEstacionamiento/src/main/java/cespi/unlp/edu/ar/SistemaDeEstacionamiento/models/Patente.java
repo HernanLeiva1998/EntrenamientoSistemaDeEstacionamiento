@@ -2,13 +2,18 @@ package cespi.unlp.edu.ar.SistemaDeEstacionamiento.models;
 
 
 
+import java.util.List;
+import java.util.ArrayList;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Patente {
@@ -23,18 +28,21 @@ public class Patente {
 	@Column(name = "tiene_estacionamiento_iniciado")
 	private Boolean tieneEstacionamientoIniciado;
 
-    @ManyToOne
-    @JoinColumn(name = "id_automovilista")
-    private Automovilista automovilista;
+	@ManyToMany(mappedBy = "patentes")
+    private List<Automovilista> automovilistas = new ArrayList<>();
+	
+	
+
+	@OneToMany(mappedBy = "patente")
+    private List<Reserva> reservas = new ArrayList<>();
 
     // Constructor, getters y setters
     public Patente() {
     	
     }
     
-    public Patente(String patente, Automovilista automovilista) {
+    public Patente(String patente) {
     	this.patente=patente;
-    	this.automovilista=automovilista;
     	this.tieneEstacionamientoIniciado = false;
     }
 
@@ -53,6 +61,10 @@ public class Patente {
 	public void setPatente(String patente) {
 		this.patente = patente;
 	}
+	
+	public List<Automovilista> getAutomovilistas() {
+		return automovilistas;
+	}
 
 	public Boolean getTieneEstacionamientoIniciado() {
 		return tieneEstacionamientoIniciado;
@@ -61,14 +73,11 @@ public class Patente {
 	public void setTieneEstacionamientoIniciado(Boolean tieneEstacionamientoIniciado) {
 		this.tieneEstacionamientoIniciado = tieneEstacionamientoIniciado;
 	}
-
-	public Automovilista getAutomovilista() {
-		return automovilista;
+	
+	public void addReserva(Reserva reserva) {
+		this.reservas.add(reserva);
 	}
 
-	public void setAutomovilista(Automovilista automovilista) {
-		this.automovilista = automovilista;
-	}
 	
     
     
