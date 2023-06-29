@@ -1,7 +1,10 @@
 package cespi.unlp.edu.ar.SistemaDeEstacionamiento;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.*;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.service.SistemaDeEstacionamientoService;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
 import net.bytebuddy.asm.Advice.This;
 
@@ -34,6 +38,8 @@ class SistemaDeEstacionamientoApplicationTests {
 	private LocalDateTime localDateTime12hrFin;
 	private LocalDateTime localDateTime13hrInicio;
 	private LocalDateTime localDateTime13hrFin;
+	private LocalDateTime localDateFueraDeHorario;
+	private LocalDateTime localDateFueraDeHorario1;
 	
 
 	@BeforeEach
@@ -70,6 +76,18 @@ class SistemaDeEstacionamientoApplicationTests {
 				    .withNano(0);
 
 		 this.localDateTime13hrFin = this.localDateTime13hrInicio.plusHours(13);
+		 
+		 this.localDateFueraDeHorario = LocalDateTime.now()
+					.withHour(7)
+				    .withMinute(59)
+				    .withSecond(0)
+				    .withNano(0);
+		 this.localDateFueraDeHorario1 = LocalDateTime.now()
+					.withHour(20)
+				    .withMinute(1)
+				    .withSecond(0)
+				    .withNano(0);
+		 
 		
 	}
 	@Test
@@ -106,7 +124,7 @@ class SistemaDeEstacionamientoApplicationTests {
 	}
 	
 	@Test
-	void testCrearAutomovilistaYAgregarPatente(){
+	void testCrearAutomovilistaYAgregarPatente() throws SistemaDeEstacionamientoException{
 		CuentaCorriente cuentaCorriente = this.service.crearCuentaCorriente( "1234567890123456789012", 10000d);
 		Automovilista automovilista = this.service.crearAutomovilista("2213334444", "1234", cuentaCorriente);
 		assertNotNull(automovilista.getId());
@@ -124,7 +142,7 @@ class SistemaDeEstacionamientoApplicationTests {
 	}
 	
 	@Test
-	void testIniciarYFinalizarReserva() {
+	void testIniciarYFinalizarReserva() throws SistemaDeEstacionamientoException {
 		
 		ConfiguracionDelSistema configuracionDelSistema = service.cambiarValorPrecioPorHora(10d);
 		CuentaCorriente cuentaCorriente = this.service.crearCuentaCorriente( "1234567890123456789012", 10000d);
@@ -138,6 +156,9 @@ class SistemaDeEstacionamientoApplicationTests {
 		
 		reserva= this.service.finalizarReserva(reserva, configuracionDelSistema.getPrecioPorHora());
 		assertEquals(10d, reserva.getMonto());
+		assertFalse(reserva.getEstaActiva());
+		assertEquals(9990, reserva.getAutomovilista().getCuentaCorriente().getSaldo());
+		
 		Reserva r1=service.crearReserva(localDateTime30minInicio, localDateTime30minFin, automovilista, patente);
 		assertEquals(10d, r1.getMonto());
 		Reserva r2=service.crearReserva(localDateTime60minInicio, localDateTime60minFin, automovilista, patente);
@@ -146,6 +167,15 @@ class SistemaDeEstacionamientoApplicationTests {
 		assertEquals(120d, r3.getMonto());
 		Reserva r4=service.crearReserva(localDateTime13hrInicio, localDateTime13hrFin, automovilista, patente);
 		assertEquals(120d, r4.getMonto());
+		assertEquals(9730d, r4.getAutomovilista().getCuentaCorriente().getSaldo());
+		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearReserva(this.localDateFueraDeHorario, localDateTime30minFin, automovilista, patente), "No es horario activo");
+		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearReserva(this.localDateFueraDeHorario1, localDateTime30minFin, automovilista, patente), "No es horario activo");
+		
+		CuentaCorriente cuentaCorriente1 = this.service.crearCuentaCorriente( "1234567890123456789013", 9d);
+		Automovilista automovilista1 = this.service.crearAutomovilista("2113334444", "1234", cuentaCorriente1);
+		Patente patente1= this.service.agregarPatente(automovilista, "112aaa");
+		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearReserva(this.localDateTime30minInicio, localDateTime30minFin, automovilista1, patente1), "No posee suficiente saldo para iniciar el estacionamiento");
+		
 	}
 	
 	

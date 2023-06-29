@@ -15,8 +15,8 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Reserva {
 	
-	public Reserva(Automovilista automovilista, Patente patente) {
-		this.inicioDeReserva=LocalDateTime.now();
+	public Reserva(Automovilista automovilista, Patente patente, LocalDateTime inicioDeReserva) {
+		this.inicioDeReserva=inicioDeReserva;
 		this.automovilista = automovilista;
 		this.patente = patente;
 		this.estaActiva = true;
@@ -24,7 +24,7 @@ public class Reserva {
 
 	
 	public Reserva(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) {
-		// TODO Auto-generated constructor stub
+		// Solo para test
 		this.inicioDeReserva=inicio;
 		this.finDeReserva=fin;
 		this.automovilista = a;

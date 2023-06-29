@@ -15,12 +15,15 @@ public class LocalTimeManager {
 	}
 	
 	private Boolean esAntesDelFin(LocalTime hora) {
-		return hora.isAfter(horaFin);
+		return !hora.isAfter(horaFin);
 	}
  	
 	public Boolean esHorarioActivo() {
 		LocalTime hora = LocalTime.now();
 		return this.esDespuesDelInicio(hora) && this.esAntesDelFin(hora) ;
+	}
+	public Boolean esHorarioActivo(LocalTime l) {
+		return this.esDespuesDelInicio(l) && this.esAntesDelFin(l) ;
 	}
 	
 	

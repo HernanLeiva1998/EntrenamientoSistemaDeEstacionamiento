@@ -18,6 +18,7 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.CuentaCorrienteRe
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.PatenteRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.ReservaRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalTimeManager;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
 
 @Transactional
@@ -55,15 +56,17 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		return this.automovilistaRepository.save(automovilista);
 	}
 	
-	public Reserva crearReserva(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) {
+	public Reserva crearReserva(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) throws SistemaDeEstacionamientoException {
 		//Solo para tests
+		if(!this.localTimeManager.esHorarioActivo(inicio.toLocalTime())) {
+			throw new SistemaDeEstacionamientoException("No es horario activo");
+		}
+		if (!a.puedeIniciarReserva(10d)) {
+			throw new SistemaDeEstacionamientoException("No posee suficiente saldo para iniciar el estacionamiento");
+		}
 		Reserva reserva = new Reserva(inicio, fin, a, p);
 		LocalDateTime finDeReserva = validarFinDeReservaParaCalculoDeUnidadesDeTiempo(inicio,fin);
-		int unidadesDeTiempo= this.timeUnitsManager
-				.calcularUnidadesDeTiempo(
-						reserva.getInicioDeReserva().toLocalTime()
-						, finDeReserva.toLocalTime()
-				);
+		int unidadesDeTiempo= calcularUnidadesDeTiempo(reserva, finDeReserva);
 			
 			reserva.setMonto(10d * unidadesDeTiempo);
 			reserva.setEstaActiva(false);
@@ -71,14 +74,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		return this.reservaRepository.save(reserva);
 	}
 
-	private LocalDateTime validarFinDeReservaParaCalculoDeUnidadesDeTiempo(LocalDateTime inicioDeReserva, LocalDateTime finDeReserva) {
-		LocalDateTime ldt= inicioDeReserva
-			    .withHour(20)
-			    .withMinute(0)
-			    .withSecond(0)
-			    .withNano(0);
-		if (finDeReserva.isAfter(ldt)) {return ldt;} else {return finDeReserva;}
-	}
+	
 
 	@Override
 	public Patente agregarPatente(Automovilista automovilista, String patenteString) {
@@ -95,9 +91,24 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	}
 
 	@Override
-	public Reserva iniciarReserva(Automovilista automovilista, Patente patente) {
-		//TODO validar si el horario de inicio esta dentro del horario hábil y que no exista otra reserva
-		Reserva reserva= new Reserva(automovilista, patente);
+	public Reserva iniciarReserva(Automovilista automovilista, Patente patente) throws SistemaDeEstacionamientoException {
+		//TODO validar que no exista otra reserva
+		Optional<Automovilista> automovilistaOptional=this.automovilistaRepository.findByIdAndExistingReservaActiva(automovilista.getId());
+		if (automovilistaOptional.isPresent()) {
+			throw new SistemaDeEstacionamientoException("Ya posee una reserva activa");
+		}
+		Optional<Patente> patenteOptional=this.patenteRepository.findByIdAndExistingReservaActiva(patente.getId());
+		if (patenteOptional.isPresent()) {
+			throw new SistemaDeEstacionamientoException("La patente ya posee una reserva activa");
+		}
+		LocalDateTime inicio= LocalDateTime.now();
+		if(!this.localTimeManager.esHorarioActivo(inicio.toLocalTime())) {
+			throw new SistemaDeEstacionamientoException("No es horario activo");
+		}
+		if (!automovilista.puedeIniciarReserva(10d)) {
+			throw new SistemaDeEstacionamientoException("No posee suficiente saldo para iniciar el estacionamiento");
+		}
+		Reserva reserva= new Reserva(automovilista, patente, inicio);
 		automovilista.addReserva(reserva);
 		patente.addReserva(reserva);
 		return this.reservaRepository.save(reserva);
@@ -105,17 +116,33 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 
 	@Override
 	public Reserva finalizarReserva(Reserva reserva, Double precioPorHora) {
-		reserva.setFinDeReserva(LocalDateTime.now());
-		int unidadesDeTiempo= this.timeUnitsManager
-			.calcularUnidadesDeTiempo(
-					reserva.getInicioDeReserva().toLocalTime()
-					, reserva.getFinDeReserva().toLocalTime()
-			);
+		
+		LocalDateTime finDeReserva= LocalDateTime.now();
+		reserva.setFinDeReserva(finDeReserva);
+		int unidadesDeTiempo= calcularUnidadesDeTiempo(reserva, finDeReserva);
 		
 		reserva.setMonto(precioPorHora * unidadesDeTiempo);
 		reserva.setEstaActiva(false);
 		reserva.getAutomovilista().restarSaldo(reserva.getMonto());
 		return this.reservaRepository.save(reserva);
+	}
+
+	private int calcularUnidadesDeTiempo(Reserva reserva, LocalDateTime finDeReserva) {
+		finDeReserva= this.validarFinDeReservaParaCalculoDeUnidadesDeTiempo(reserva.getInicioDeReserva(), finDeReserva);
+		return this.timeUnitsManager
+			.calcularUnidadesDeTiempo(
+					reserva.getInicioDeReserva().toLocalTime()
+					, finDeReserva.toLocalTime()
+			);
+	}
+	
+	private LocalDateTime validarFinDeReservaParaCalculoDeUnidadesDeTiempo(LocalDateTime inicioDeReserva, LocalDateTime finDeReserva) {
+		LocalDateTime ldt= inicioDeReserva
+			    .withHour(20)
+			    .withMinute(0)
+			    .withSecond(0)
+			    .withNano(0);
+		if (finDeReserva.isAfter(ldt)) {return ldt;} else {return finDeReserva;}
 	}
 	
 	public ConfiguracionDelSistema cambiarValorPrecioPorHora(Double valor) {
