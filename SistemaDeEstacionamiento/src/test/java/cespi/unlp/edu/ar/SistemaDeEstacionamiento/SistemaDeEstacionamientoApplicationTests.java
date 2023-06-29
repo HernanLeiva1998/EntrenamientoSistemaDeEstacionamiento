@@ -132,13 +132,18 @@ class SistemaDeEstacionamientoApplicationTests {
 		assertEquals(10000d, automovilista.getCuentaCorriente().getSaldo());
 		assertEquals("2213334444", automovilista.getTelefono());
 		
-		Patente patente= this.service.agregarPatente(automovilista, "111aaa");
+		Patente patente= this.service.agregarPatente(automovilista, "aaa111");
 		assertNotNull(patente);
-		assertEquals("111aaa", patente.getPatente());
+		assertEquals("aaa111", patente.getPatente());
+		Patente patente0= this.service.agregarPatente(automovilista, "aa111aa");
+		assertEquals("aa111aa", patente0.getPatente());
 		
 		Automovilista automovilista1 = this.service.crearAutomovilista("2213334443", "1234", cuentaCorriente);
-		Patente patente1= this.service.agregarPatente(automovilista1, "111aaa");
-		assertNotNull(patente);
+		Patente patente1= this.service.agregarPatente(automovilista1, "aaa111");
+		assertNotNull(patente1);
+		
+		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.agregarPatente(automovilista1, "54wq24"), "El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
+		
 	}
 	
 	@Test
@@ -147,10 +152,10 @@ class SistemaDeEstacionamientoApplicationTests {
 		ConfiguracionDelSistema configuracionDelSistema = service.cambiarValorPrecioPorHora(10d);
 		CuentaCorriente cuentaCorriente = this.service.crearCuentaCorriente( "1234567890123456789012", 10000d);
 		Automovilista automovilista = this.service.crearAutomovilista("2213334444", "1234", cuentaCorriente);
-		Patente patente= this.service.agregarPatente(automovilista, "111aaa");
+		Patente patente= this.service.agregarPatente(automovilista, "aaa111");
 		Reserva reserva= this.service.iniciarReserva(automovilista, patente);
 		assertNotNull(reserva);
-		assertEquals("111aaa", reserva.getPatente().getPatente());
+		assertEquals("aaa111", reserva.getPatente().getPatente());
 		assertEquals("2213334444", reserva.getAutomovilista().getTelefono());
 		
 		
@@ -173,7 +178,7 @@ class SistemaDeEstacionamientoApplicationTests {
 		
 		CuentaCorriente cuentaCorriente1 = this.service.crearCuentaCorriente( "1234567890123456789013", 9d);
 		Automovilista automovilista1 = this.service.crearAutomovilista("2113334444", "1234", cuentaCorriente1);
-		Patente patente1= this.service.agregarPatente(automovilista, "112aaa");
+		Patente patente1= this.service.agregarPatente(automovilista, "aaa112");
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearReserva(this.localDateTime30minInicio, localDateTime30minFin, automovilista1, patente1), "No posee suficiente saldo para iniciar el estacionamiento");
 		
 	}

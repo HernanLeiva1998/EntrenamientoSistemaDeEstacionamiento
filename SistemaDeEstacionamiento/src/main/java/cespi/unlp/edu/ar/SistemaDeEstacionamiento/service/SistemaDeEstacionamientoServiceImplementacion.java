@@ -18,6 +18,7 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.CuentaCorrienteRe
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.PatenteRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.ReservaRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalTimeManager;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.PatenteValidator;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
 
@@ -77,8 +78,11 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	
 
 	@Override
-	public Patente agregarPatente(Automovilista automovilista, String patenteString) {
+	public Patente agregarPatente(Automovilista automovilista, String patenteString) throws SistemaDeEstacionamientoException {
 		// TODO agregar validación de formato de patente.
+		if (!PatenteValidator.validarPatente(patenteString)){
+			throw new SistemaDeEstacionamientoException("El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
+		}
 		Patente patente;
 		Optional<Patente> patenteOptional = patenteRepository.findByPatente(patenteString);
 	    if (!patenteOptional.isPresent()) {
