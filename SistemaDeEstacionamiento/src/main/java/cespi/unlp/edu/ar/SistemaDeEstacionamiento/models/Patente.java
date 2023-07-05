@@ -3,6 +3,9 @@ package cespi.unlp.edu.ar.SistemaDeEstacionamiento.models;
 
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 
 import jakarta.persistence.Column;
@@ -27,12 +30,13 @@ public class Patente {
 	
 	@Column(name = "tiene_estacionamiento_iniciado")
 	private Boolean tieneEstacionamientoIniciado;
-
+	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "patentes")
     private List<Automovilista> automovilistas = new ArrayList<>();
 	
 	
-
+	@JsonIgnore
 	@OneToMany(mappedBy = "patente")
     private List<Reserva> reservas = new ArrayList<>();
 

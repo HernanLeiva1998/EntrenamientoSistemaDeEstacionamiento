@@ -24,9 +24,9 @@ public class CuentaCorriente {
     @Column(nullable = false)
     private Double saldo;
 
-    @OneToOne
+    /*@OneToOne
     @JoinColumn(name = "id_automovilista")
-    private Automovilista automovilista;
+    private Automovilista automovilista;*/
 
     // Constructor, getters y setters
     public CuentaCorriente() {
@@ -62,13 +62,13 @@ public class CuentaCorriente {
 		this.saldo = saldo;
 	}
 
-	public Automovilista getAutomovilista() {
+	/*public Automovilista getAutomovilista() {
 		return automovilista;
 	}
 
 	public void setAutomovilista(Automovilista automovilista) {
 		this.automovilista = automovilista;
-	}
+	}*/
 	
 	public void restarSaldo(Double costoDeEstacionamientoFinalizado) {
 		this.saldo-= costoDeEstacionamientoFinalizado;

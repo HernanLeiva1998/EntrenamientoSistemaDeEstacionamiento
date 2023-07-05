@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ public class Automovilista {
 	@Column(nullable = false, unique = true)
     private String telefono;
 	
+	@JsonIgnore
 	@Column(nullable = false)
 	private String contraseña;
 
@@ -43,7 +46,8 @@ public class Automovilista {
     )
     private List<Patente> patentes = new ArrayList<>();
 
-    @OneToOne(mappedBy = "automovilista")
+    @OneToOne
+    @JoinColumn(name = "id_cuenta_corriente")
     private CuentaCorriente cuentaCorriente;
     
     @OneToMany(mappedBy = "automovilista")

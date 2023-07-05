@@ -2,6 +2,7 @@ package cespi.unlp.edu.ar.SistemaDeEstacionamiento.service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	public Automovilista crearAutomovilista(String telefono, String contraseña, CuentaCorriente cuentaCorriente) {
 		Automovilista automovilista= new Automovilista(telefono, contraseña);
 		automovilista.setCuentaCorriente(cuentaCorriente);
-		cuentaCorriente.setAutomovilista(automovilista);
+		//cuentaCorriente.setAutomovilista(automovilista);
 		return this.automovilistaRepository.save(automovilista);
 	}
 	
@@ -153,5 +154,9 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		ConfiguracionDelSistema cds = new ConfiguracionDelSistema( valor);
 		return configuracionDelSistemaRepository.save(cds);
 	}
+	
+	public List<Automovilista> verTodosLosAutomovilistas() {
+        return (List<Automovilista>) automovilistaRepository.findAll();
+    }
 
 }

@@ -1,6 +1,7 @@
 package cespi.unlp.edu.ar.SistemaDeEstacionamiento.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,7 @@ public interface SistemaDeEstacionamientoService {
 	public Reserva finalizarReserva(Reserva reserva, Double precioPorHora) throws SistemaDeEstacionamientoException;
 	
 	public ConfiguracionDelSistema cambiarValorPrecioPorHora(Double valor) throws SistemaDeEstacionamientoException;
+	
+	public List<Automovilista> verTodosLosAutomovilistas();
 	
 }
