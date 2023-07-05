@@ -25,13 +25,8 @@ public class Patente {
 	@Column(nullable= false, unique = true)
     private String patente;
 	
-	@Column(name = "tiene_estacionamiento_iniciado")
-	private Boolean tieneEstacionamientoIniciado;
-
 	@ManyToMany(mappedBy = "patentes")
     private List<Automovilista> automovilistas = new ArrayList<>();
-	
-	
 
 	@OneToMany(mappedBy = "patente")
     private List<Reserva> reservas = new ArrayList<>();

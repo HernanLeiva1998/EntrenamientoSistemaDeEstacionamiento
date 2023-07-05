@@ -9,8 +9,8 @@ import jakarta.persistence.Id;
 @Entity
 public class ConfiguracionDelSistema {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_configuracion_del_sistema")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
 	private Double precioPorHora;

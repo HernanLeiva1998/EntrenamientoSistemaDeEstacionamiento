@@ -31,10 +31,6 @@ public class Automovilista {
 	@Column(nullable = false)
 	private String contraseña;
 
-
-	@Column(name = "tiene_estacionamiento_iniciado")
-	private Boolean tieneEstacionamientoIniciado;
-
     @ManyToMany
     @JoinTable(
             name = "automovilista_patente",
@@ -43,7 +39,8 @@ public class Automovilista {
     )
     private List<Patente> patentes = new ArrayList<>();
 
-    @OneToOne(mappedBy = "automovilista")
+    @OneToOne
+    @JoinColumn(name = "id_cuenta_corriente")
     private CuentaCorriente cuentaCorriente;
     
     @OneToMany(mappedBy = "automovilista")

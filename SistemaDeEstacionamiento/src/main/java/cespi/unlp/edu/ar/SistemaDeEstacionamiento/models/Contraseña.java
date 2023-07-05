@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.models;
+/*package cespi.unlp.edu.ar.SistemaDeEstacionamiento.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,4 +25,4 @@ public class Contraseña {
 
 	public Contraseña() {
 	}
-}
+}*/
