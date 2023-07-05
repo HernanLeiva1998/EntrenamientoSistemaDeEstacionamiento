@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +30,7 @@ public class Automovilista {
 	@Column(nullable = false, unique = true)
     private String telefono;
 	
+	@JsonIgnore
 	@Column(nullable = false)
 	private String contraseña;
 
@@ -87,14 +90,6 @@ public class Automovilista {
 
 	public void setContraseña(String contraseña) {
 		this.contraseña = contraseña;
-	}
-
-	public Boolean getTieneEstacionamientoIniciado() {
-		return tieneEstacionamientoIniciado;
-	}
-
-	public void setTieneEstacionamientoIniciado(Boolean tieneEstacionamientoIniciado) {
-		this.tieneEstacionamientoIniciado = tieneEstacionamientoIniciado;
 	}
 
 	public List<Patente> getPatentes() {

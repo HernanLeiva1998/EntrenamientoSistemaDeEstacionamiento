@@ -28,6 +28,7 @@ public class CuentaCorriente {
     @JoinColumn(name = "id_automovilista")
     private Automovilista automovilista;
  */
+
     // Constructor, getters y setters
     public CuentaCorriente() {
     	
@@ -61,15 +62,25 @@ public class CuentaCorriente {
 	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
 	}
+<<<<<<< HEAD
 /*
 	public Automovilista getAutomovilista() {
+=======
+
+	/*public Automovilista getAutomovilista() {
+>>>>>>> 1a79864e434fdd60e6ed0a3994f7a1d745df6143
 		return automovilista;
 	}
 
 	public void setAutomovilista(Automovilista automovilista) {
 		this.automovilista = automovilista;
+<<<<<<< HEAD
 	}
 	*/
+=======
+	}*/
+	
+>>>>>>> 1a79864e434fdd60e6ed0a3994f7a1d745df6143
 	public void restarSaldo(Double costoDeEstacionamientoFinalizado) {
 		this.saldo-= costoDeEstacionamientoFinalizado;
 	}

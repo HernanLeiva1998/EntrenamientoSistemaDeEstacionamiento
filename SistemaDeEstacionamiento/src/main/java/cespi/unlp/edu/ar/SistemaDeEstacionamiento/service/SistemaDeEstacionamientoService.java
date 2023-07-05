@@ -31,4 +31,6 @@ public interface SistemaDeEstacionamientoService {
 
 	public List<Automovilista> getAllAutomovilistas();
 	
+	public List<Automovilista> verTodosLosAutomovilistas();
+	
 }

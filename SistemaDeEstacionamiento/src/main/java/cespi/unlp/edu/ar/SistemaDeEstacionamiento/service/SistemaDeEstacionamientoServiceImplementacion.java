@@ -154,6 +154,10 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		ConfiguracionDelSistema cds = new ConfiguracionDelSistema( valor);
 		return configuracionDelSistemaRepository.save(cds);
 	}
+	
+	public List<Automovilista> verTodosLosAutomovilistas() {
+        return (List<Automovilista>) automovilistaRepository.findAll();
+    }
 
 	@Override
 	@Transactional

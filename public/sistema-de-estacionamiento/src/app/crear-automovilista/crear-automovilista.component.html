@@ -1,0 +1,11 @@
+<form (ngSubmit)="crearAutomovilista()">
+    <div>
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" [(ngModel)]="telefono" name="telefono" required>
+    </div>
+    <div>
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contrasena" [(ngModel)]="contrasena" name="contrasena" required>
+    </div>
+    <button type="submit">Crear Automovilista</button>
+</form>
