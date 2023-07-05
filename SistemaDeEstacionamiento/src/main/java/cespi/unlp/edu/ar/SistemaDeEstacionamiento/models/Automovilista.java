@@ -24,7 +24,7 @@ public class Automovilista {
 
 	@Id
 	@Column(name = "id_automovilista")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
 	@Column(nullable = false, unique = true)
@@ -49,14 +49,6 @@ public class Automovilista {
     @OneToMany(mappedBy = "automovilista")
     private List<Reserva> reservas = new ArrayList<>();
     
-    public Boolean puedeIniciarReserva(Double monto) {
-    	return !this.getCuentaCorriente().saldoEsInferiorA(monto);
-    }
-    
-    public void restarSaldo(Double monto) {
-		this.cuentaCorriente.restarSaldo(monto);
-		
-	}
     
     // Constructor, getters y setters
     public Automovilista() {
@@ -66,6 +58,15 @@ public class Automovilista {
     public Automovilista(String telefono, String contraseña) {
 		this.telefono = telefono;
 		this.contraseña = contraseña;
+	}
+    
+    public Boolean puedeIniciarReserva(Double monto) {
+    	return !this.getCuentaCorriente().saldoEsInferiorA(monto);
+    }
+    
+    public void restarSaldo(Double monto) {
+		this.cuentaCorriente.restarSaldo(monto);
+		
 	}
 
 	public Long getId() {

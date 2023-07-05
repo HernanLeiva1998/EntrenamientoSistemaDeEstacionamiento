@@ -15,7 +15,7 @@ public class CuentaCorriente {
 
 	@Id
 	@Column(name = "id_cuenta_corriente")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
 	@Column(nullable= false, unique = true)
@@ -62,25 +62,8 @@ public class CuentaCorriente {
 	public void setSaldo(Double saldo) {
 		this.saldo = saldo;
 	}
-<<<<<<< HEAD
-/*
-	public Automovilista getAutomovilista() {
-=======
-
-	/*public Automovilista getAutomovilista() {
->>>>>>> 1a79864e434fdd60e6ed0a3994f7a1d745df6143
-		return automovilista;
-	}
-
-	public void setAutomovilista(Automovilista automovilista) {
-		this.automovilista = automovilista;
-<<<<<<< HEAD
-	}
-	*/
-=======
-	}*/
 	
->>>>>>> 1a79864e434fdd60e6ed0a3994f7a1d745df6143
+	
 	public void restarSaldo(Double costoDeEstacionamientoFinalizado) {
 		this.saldo-= costoDeEstacionamientoFinalizado;
 	}

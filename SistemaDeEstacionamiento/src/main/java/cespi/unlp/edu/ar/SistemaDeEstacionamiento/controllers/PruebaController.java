@@ -43,7 +43,6 @@ public class PruebaController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	  public ResponseEntity<?> crearAutomovilista(@RequestBody AutomovilistaRequest request) {
 		Integer random= new Random().nextInt(1,100000);
-		System.out.println(request.getContrasena() + "AAAAAAAAAAAAAAAAAAAAAAAAAAAAABBBBBBBBBBCCCCCCCCC " + request.getTelefono());
 		CuentaCorriente cc = service.crearCuentaCorriente(String.valueOf(random), 1000d);
 	    Automovilista automovilista = service.crearAutomovilista(
 	        request.getTelefono(),

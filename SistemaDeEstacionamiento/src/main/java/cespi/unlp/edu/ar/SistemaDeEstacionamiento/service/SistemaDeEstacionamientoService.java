@@ -32,5 +32,9 @@ public interface SistemaDeEstacionamientoService {
 	public List<Automovilista> getAllAutomovilistas();
 	
 	public List<Automovilista> verTodosLosAutomovilistas();
+
+	public List<Patente> verPatentesDelAutomovilista(String telefono);
+
+	public void agregarPatenteSegunTelefonoDelAutomovilista(String telefono, String patente);
 	
 }

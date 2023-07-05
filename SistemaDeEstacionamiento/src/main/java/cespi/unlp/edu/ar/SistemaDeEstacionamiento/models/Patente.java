@@ -39,15 +39,16 @@ public class Patente {
     private List<Reserva> reservas = new ArrayList<>();
 
     // Constructor, getters y setters
-    public Patente() {
+	
+	public Patente() {
     	
     }
-    
-    public Patente(String patente) {
-    	this.patente=patente;
-    	this.tieneEstacionamientoIniciado = false;
+	
+    public Patente(String patenteString) {
+    	this.patente = patenteString;
+    	
     }
-
+ 
 	public Long getId() {
 		return id;
 	}
@@ -66,14 +67,6 @@ public class Patente {
 	
 	public List<Automovilista> getAutomovilistas() {
 		return automovilistas;
-	}
-
-	public Boolean getTieneEstacionamientoIniciado() {
-		return tieneEstacionamientoIniciado;
-	}
-
-	public void setTieneEstacionamientoIniciado(Boolean tieneEstacionamientoIniciado) {
-		this.tieneEstacionamientoIniciado = tieneEstacionamientoIniciado;
 	}
 	
 	public void addReserva(Reserva reserva) {
