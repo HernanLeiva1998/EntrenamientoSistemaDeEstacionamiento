@@ -35,6 +35,6 @@ public interface SistemaDeEstacionamientoService {
 
 	public List<Patente> verPatentesDelAutomovilista(String telefono);
 
-	public void agregarPatenteSegunTelefonoDelAutomovilista(String telefono, String patente);
+	public Automovilista agregarPatenteSegunTelefonoDelAutomovilista(String telefono, String patente) throws SistemaDeEstacionamientoException;
 	
 }

@@ -1,5 +1,6 @@
 package cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -16,5 +17,7 @@ public interface PatenteRepository extends CrudRepository<Patente, Long> {
 			+ "FROM Patente p JOIN p.reservas r "
 			+ "where p.id = :patenteId and r.estaActiva = true")
 	Optional<Patente> findByIdAndExistingReservaActiva(@Param("patenteId") Long patenteId);
+
+	List<Patente> findByAutomovilistasTelefono(String telefono);
 
 }

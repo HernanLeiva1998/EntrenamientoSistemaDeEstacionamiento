@@ -138,5 +138,14 @@ public class Automovilista {
         return Objects.hash(id, telefono);
     }
 
+	public boolean tienePatenteAsignada(String patenteString) {
+		for (Patente patente : patentes) {
+	        if (patente.getPatente().toLowerCase().equals(patenteString.toLowerCase())) {
+	            return true; // La patente existe en la lista
+	        }
+	    }
+		return false;
+	}
+
 	
 }

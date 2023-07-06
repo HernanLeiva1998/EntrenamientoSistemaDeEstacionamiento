@@ -3,6 +3,7 @@ package cespi.unlp.edu.ar.SistemaDeEstacionamiento.service;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +84,8 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		// TODO agregar validación de formato de patente.
 		if (!PatenteValidator.validarPatente(patenteString)){
 			throw new SistemaDeEstacionamientoException("El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
+		}else if (automovilista.tienePatenteAsignada(patenteString)) {
+			throw new SistemaDeEstacionamientoException("Esta patente ya esta agregada a la lista de patentes");	
 		}
 		Patente patente;
 		Optional<Patente> patenteOptional = patenteRepository.findByPatente(patenteString);
@@ -92,7 +95,11 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	    	patente = patenteOptional.get();
 	    }
 	    automovilista.addPatente(patente);
-		return this.patenteRepository.save(patente);
+	    try {
+	        return this.patenteRepository.save(patente);
+		} catch (Exception e) {
+			throw new SistemaDeEstacionamientoException("paso algo");
+		}
 	}
 
 	@Override
@@ -164,6 +171,27 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	public List<Automovilista> getAllAutomovilistas() {
 		// TODO Auto-generated method stub
 		return (List<Automovilista>) this.automovilistaRepository.findAll();
+	}
+
+	@Override
+	public List<Patente> verPatentesDelAutomovilista(String telefono) {
+		
+		return this.patenteRepository.findByAutomovilistasTelefono(telefono);
+	}
+
+	public Automovilista agregarPatenteSegunTelefonoDelAutomovilista(String telefono, String patenteString) throws SistemaDeEstacionamientoException {
+	    try {
+	        Optional<Automovilista> automovilistaOptional = this.automovilistaRepository.findByTelefono(telefono);
+	        if (automovilistaOptional.isPresent()) {
+	            Automovilista automovilista = automovilistaOptional.get();
+	            this.agregarPatente(automovilista, patenteString);
+	            return this.automovilistaRepository.save(automovilista);
+	        } else {
+	            throw new SistemaDeEstacionamientoException("El automovilista no existe");
+	        }
+	    } catch (Exception e) {
+	        throw e;
+	    }
 	}
 
 }

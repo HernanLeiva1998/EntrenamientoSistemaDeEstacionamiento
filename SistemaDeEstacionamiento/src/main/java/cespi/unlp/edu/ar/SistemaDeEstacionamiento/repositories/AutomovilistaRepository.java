@@ -13,4 +13,6 @@ public interface AutomovilistaRepository extends CrudRepository<Automovilista, L
 			+ "FROM Automovilista a JOIN a.reservas r "
 			+ "where a.id = :automovilistaId and r.estaActiva = true")
 	Optional<Automovilista> findByIdAndExistingReservaActiva(@Param("automovilistaId") Long automovilistaId);
+
+	 Optional<Automovilista> findByTelefono(String telefono);
 }
