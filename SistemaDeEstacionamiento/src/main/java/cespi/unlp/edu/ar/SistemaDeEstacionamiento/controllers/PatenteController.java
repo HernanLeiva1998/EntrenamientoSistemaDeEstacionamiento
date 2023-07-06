@@ -42,7 +42,8 @@ public class PatenteController {
             
             return ResponseEntity.created(null).body(automovilista);
         } catch (SistemaDeEstacionamientoException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        	if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 }

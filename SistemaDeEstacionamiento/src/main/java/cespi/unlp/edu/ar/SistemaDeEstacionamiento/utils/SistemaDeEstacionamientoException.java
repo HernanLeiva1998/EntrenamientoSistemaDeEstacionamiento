@@ -1,11 +1,18 @@
 package cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils;
 
+import org.springframework.http.HttpStatus;
+
 public class SistemaDeEstacionamientoException extends Exception{
 	
 	private String message;
+	private HttpStatus httpStatus;
 
     public SistemaDeEstacionamientoException(String message) {
         this.message = message;
+    }
+    public SistemaDeEstacionamientoException(String message, HttpStatus httpStatus) {
+        this.message = message;
+        this.httpStatus=httpStatus;
     }
 
     @Override
@@ -16,5 +23,10 @@ public class SistemaDeEstacionamientoException extends Exception{
     public void setMessage(String message) {
         this.message = message;
     }
+    
+
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
+	}
 
 }

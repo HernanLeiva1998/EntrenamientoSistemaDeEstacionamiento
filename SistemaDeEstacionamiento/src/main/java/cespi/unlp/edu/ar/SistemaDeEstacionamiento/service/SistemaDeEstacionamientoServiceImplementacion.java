@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
@@ -187,7 +188,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	            this.agregarPatente(automovilista, patenteString);
 	            return this.automovilistaRepository.save(automovilista);
 	        } else {
-	            throw new SistemaDeEstacionamientoException("El automovilista no existe");
+	            throw new SistemaDeEstacionamientoException("El automovilista no existe", HttpStatus.NOT_FOUND);
 	        }
 	    } catch (Exception e) {
 	        throw e;
