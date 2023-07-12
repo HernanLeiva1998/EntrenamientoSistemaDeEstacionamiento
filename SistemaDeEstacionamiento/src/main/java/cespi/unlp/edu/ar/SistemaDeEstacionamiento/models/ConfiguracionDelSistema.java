@@ -15,9 +15,14 @@ public class ConfiguracionDelSistema {
 	
 	private Double precioPorHora;
 
+	public ConfiguracionDelSistema() {
+		
+	}
+
 	public ConfiguracionDelSistema(Double valor) {
 		this.precioPorHora=valor;
 	}
+	
 
 	public Double getPrecioPorHora() {
 		return precioPorHora;

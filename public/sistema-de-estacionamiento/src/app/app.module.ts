@@ -9,13 +9,15 @@ import { AppComponent } from './app.component';
 import { PruebaComponent } from './prueba/prueba.component';
 import { AutomovilistasComponent } from './automovilistas/automovilistas.component';
 import { CrearAutomovilistaComponent } from './crear-automovilista/crear-automovilista.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PruebaComponent,
     AutomovilistasComponent,
-    CrearAutomovilistaComponent
+    CrearAutomovilistaComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

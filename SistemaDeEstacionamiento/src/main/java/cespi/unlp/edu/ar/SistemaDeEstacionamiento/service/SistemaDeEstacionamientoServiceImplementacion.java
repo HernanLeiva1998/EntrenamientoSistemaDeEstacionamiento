@@ -195,4 +195,55 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	    }
 	}
 
+	@Override
+	public Patente conseguirPatente(String patenteString) throws SistemaDeEstacionamientoException {
+		Optional<Patente> patenteOptional = this.patenteRepository.findByPatente(patenteString);
+		if (patenteOptional.isPresent()) {
+			return patenteOptional.get();
+		}
+		throw new SistemaDeEstacionamientoException("No existe la patente");
+	}
+
+	@Override
+	public Automovilista conseguirAutomovilistaPorTelefono(String telefono) throws SistemaDeEstacionamientoException {
+		Optional<Automovilista> automovilistaOptional = this.automovilistaRepository.findByTelefono(telefono);
+		if (automovilistaOptional.isPresent()) {
+			return automovilistaOptional.get();
+		}
+		throw new SistemaDeEstacionamientoException("No existe el automovilista");
+	}
+
+	@Override
+	public Reserva conseguirReservaPorId(Long id_reserva) throws SistemaDeEstacionamientoException {
+		// TODO Auto-generated method stub
+		Optional<Reserva> reservaOptional= this.reservaRepository.findById(id_reserva);
+		if (reservaOptional.isPresent()) {
+			return reservaOptional.get();
+		}
+		throw new SistemaDeEstacionamientoException("No existe la reserva");
+	}
+
+	@Override
+	public ConfiguracionDelSistema consequirConfiguracionDelSistema() {
+		// TODO Auto-generated method stub
+		return this.configuracionDelSistemaRepository.findById((long)1).get();
+	}
+
+	@Override
+	public Automovilista autenticar(String telefono, String password) throws SistemaDeEstacionamientoException {
+		try {
+	        Optional<Automovilista> automovilistaOptional = this.automovilistaRepository.findByTelefono(telefono);
+	        if (automovilistaOptional.isPresent()) {
+	        	Automovilista automovilista = automovilistaOptional.get();
+	        	if (automovilista.getContraseña().equals(password))
+	        		return automovilista; 
+	        }
+	        throw new SistemaDeEstacionamientoException("Error en el teléfono o contraseña", HttpStatus.NOT_FOUND);
+	    } catch (Exception e) {
+	        throw e;
+	    }
+		
+	}
+	
+
 }

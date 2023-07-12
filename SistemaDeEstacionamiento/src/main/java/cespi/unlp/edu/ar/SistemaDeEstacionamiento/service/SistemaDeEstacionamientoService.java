@@ -36,5 +36,15 @@ public interface SistemaDeEstacionamientoService {
 	public List<Patente> verPatentesDelAutomovilista(String telefono);
 
 	public Automovilista agregarPatenteSegunTelefonoDelAutomovilista(String telefono, String patente) throws SistemaDeEstacionamientoException;
+
+	public Patente conseguirPatente(String string) throws SistemaDeEstacionamientoException;
+
+	public Automovilista conseguirAutomovilistaPorTelefono(String string) throws SistemaDeEstacionamientoException;
+
+	public Reserva conseguirReservaPorId(Long id_reserva) throws SistemaDeEstacionamientoException;
+
+	public ConfiguracionDelSistema consequirConfiguracionDelSistema();
+
+	public Automovilista autenticar(String telefono, String password) throws SistemaDeEstacionamientoException;
 	
 }

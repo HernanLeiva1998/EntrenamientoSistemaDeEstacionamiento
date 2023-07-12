@@ -10,6 +10,7 @@ export class CrearAutomovilistaComponent {
   telefono: string = '';
   contrasena: string = '';
   saldo: number = 0;
+  
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +19,6 @@ export class CrearAutomovilistaComponent {
       telefono: this.telefono,
       contrasena: this.contrasena,
     };
-
     this.http.post('http://localhost:8080/automovilistas', automovilista)
       .subscribe(
         () => {

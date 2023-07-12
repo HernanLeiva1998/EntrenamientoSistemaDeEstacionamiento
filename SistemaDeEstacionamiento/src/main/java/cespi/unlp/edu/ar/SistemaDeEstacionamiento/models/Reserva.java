@@ -15,6 +15,8 @@ import jakarta.persistence.ManyToOne;
 @Entity
 public class Reserva {
 	
+	public Reserva() {}
+	
 	public Reserva(Automovilista automovilista, Patente patente, LocalDateTime inicioDeReserva) {
 		this.inicioDeReserva=inicioDeReserva;
 		this.automovilista = automovilista;
