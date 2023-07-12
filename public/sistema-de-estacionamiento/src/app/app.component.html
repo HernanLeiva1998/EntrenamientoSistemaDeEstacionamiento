@@ -1,5 +1,10 @@
-<h1>Bienvenido a la aplicación</h1>
+<h1>{{title}}</h1>
 
-<app-crear-automovilista></app-crear-automovilista>
-<app-prueba></app-prueba>
-<app-automovilistas></app-automovilistas>
+<nav>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/automovilistas">Automovilistas</a>
+    <a routerLink="/agregarPatente">agregarPatente</a>
+
+</nav>
+
+<router-outlet></router-outlet>

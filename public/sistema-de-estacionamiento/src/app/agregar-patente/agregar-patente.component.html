@@ -1,0 +1,16 @@
+<div *ngIf="automovilista">
+    <h2>Agregar Patente</h2>
+    <div><span>Automovilista: </span>{{automovilista.telefono}}</div>
+    <div>
+        <label for="nueva-patente">Nueva patente: </label>
+        <input id="nueva-patente" [(ngModel)]="patente.patente" placeholder="" />
+    </div>
+    <button type="button" (click)="save()">save</button>
+</div>
+
+<h2>Agregar Patente</h2>
+<div>
+    <label for="nueva-patente">Nueva patente: </label>
+    <input id="nueva-patente" [(ngModel)]="patente.patente" placeholder="" />
+</div>
+<button type="button" (click)="save()">save</button>

@@ -2,14 +2,12 @@
     <h2>Automovilista</h2>
     <p>ID: {{ automovilista.id }}</p>
     <p>Teléfono: {{ automovilista.telefono }}</p>
-    <p>Tiene Estacionamiento Iniciado: {{ automovilista.tieneEstacionamientoIniciado }}</p>
 
     <h3>Patentes</h3>
     <ul>
         <li *ngFor="let patente of automovilista.patentes">
             <p>ID: {{ patente.id }}</p>
             <p>Patente: {{ patente.patente }}</p>
-            <p>Tiene Estacionamiento Iniciado: {{ patente.tieneEstacionamientoIniciado }}</p>
         </li>
     </ul>
 
