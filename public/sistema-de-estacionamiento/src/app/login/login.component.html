@@ -1,1 +1,11 @@
-<p>login works!</p>
+<div>
+    <label for="telefono">telefono: </label>
+    <input id="telefono" #telefono />
+    <label for="password">password: </label>
+    <input id="password" type="password" #password />
+  
+    <!-- (click) passes input value to add() and then clears the input -->
+    <button type="button" class="add-button" (click)="logear(telefono.value, password.value); telefono.value=''">
+      Login
+    </button>
+  </div>

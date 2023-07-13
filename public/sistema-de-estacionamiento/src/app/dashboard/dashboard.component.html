@@ -1,1 +1,13 @@
-<p>dashboard works!</p>
+<div *ngIf="automovilista">
+    <h2> {{automovilista.telefono}}</h2>
+</div>
+<div *ngIf="estacionamientoActivo">
+    <h2> Estacionamiento activo</h2>
+    <span> Momento de inicio: {{estacionamientoActivo.inicioDeReserva}}</span>
+</div>
+<div *ngIf="automovilista">
+    <h2> Cuenta Corriente</h2>
+    <h2> {{automovilista.cuentaCorriente.saldo}}</h2>
+</div>
+
+
