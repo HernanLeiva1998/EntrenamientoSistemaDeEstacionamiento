@@ -1,13 +1,16 @@
 <div *ngIf="automovilista">
     <h2> {{automovilista.telefono}}</h2>
 </div>
-<div *ngIf="estacionamientoActivo">
+<div *ngIf="estacionamientoActivo; else elseBlock">
     <h2> Estacionamiento activo</h2>
     <span> Momento de inicio: {{estacionamientoActivo.inicioDeReserva}}</span>
 </div>
+<ng-template #elseBlock>
+    <nav>
+        <a routerLink="/iniciarEstacionamiento">Iniciar Estacionamiento</a>
+    </nav>
+</ng-template>
 <div *ngIf="automovilista">
     <h2> Cuenta Corriente</h2>
-    <h2> {{automovilista.cuentaCorriente.saldo}}</h2>
+    <span>Saldo: {{automovilista.cuentaCorriente.saldo}}</span>
 </div>
-
-

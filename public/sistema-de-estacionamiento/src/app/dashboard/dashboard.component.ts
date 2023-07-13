@@ -12,16 +12,16 @@ export class DashboardComponent {
   automovilista?: Automovilista;
   estacionamientoActivo?: Reserva;
 
-  constructor(private automovilistaService: AutomovilsitaService){}
+  constructor(private automovilistaService: AutomovilsitaService) { }
 
-  ngOnInit(){
-
+  ngOnInit() {
+    this.automovilistaService.getAutomovilista().subscribe(automovilista => this.automovilista = automovilista)
   }
 
-  getAutomovilsita(){//:Automovilista{
+  getAutomovilsita() {//:Automovilista{
     this.automovilistaService.getAutomovilista()
   }
-  getReserva(){//:Reserva{
+  getReserva() {//:Reserva{
 
   }
 
