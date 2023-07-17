@@ -46,5 +46,7 @@ public interface SistemaDeEstacionamientoService {
 	public ConfiguracionDelSistema consequirConfiguracionDelSistema();
 
 	public Automovilista autenticar(String telefono, String password) throws SistemaDeEstacionamientoException;
+
+	public Reserva conseguirReservaActivaPorTelefono(String telefono)  throws SistemaDeEstacionamientoException;;
 	
 }

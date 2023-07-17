@@ -2,16 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Automovilista } from './interfaces/automovilista';
+import { baseUrl } from './baseUrl';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AutomovilsitaService {
 
-  private automovilistaUrl = "http://localhost:8080/automovilistas/buscar/2213331111"
+  private automovilistaUrl = baseUrl + "automovilistas/buscar/" + localStorage.getItem('telefono');
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
+  ngOnInit(){
+    
+  }
   getAutomovilista(): Observable<Automovilista> {
     return this.http.get<Automovilista>(this.automovilistaUrl);
   }

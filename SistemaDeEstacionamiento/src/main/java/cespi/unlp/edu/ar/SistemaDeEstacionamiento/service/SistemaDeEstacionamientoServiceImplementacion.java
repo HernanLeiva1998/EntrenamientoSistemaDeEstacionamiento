@@ -242,6 +242,25 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	    } catch (Exception e) {
 	        throw e;
 	    }
+	}
+
+	@Override
+	public Reserva conseguirReservaActivaPorTelefono(String telefono) throws SistemaDeEstacionamientoException {
+		try {
+			Optional<Automovilista> automovilistaOptional = this.automovilistaRepository.findByTelefono(telefono);
+			if (automovilistaOptional.isPresent()) {
+				Automovilista automovilista= automovilistaOptional.get();
+				Optional<Reserva> reservaOptional=this.reservaRepository.findByActiva(automovilista.getId());
+				if (reservaOptional.isPresent()) {
+					return reservaOptional.get();
+				}
+				throw new SistemaDeEstacionamientoException("No tiene reserva activa", HttpStatus.NOT_FOUND);
+			}
+			throw new SistemaDeEstacionamientoException("No existe el automovilista", HttpStatus.NOT_FOUND);
+			
+		} catch (Exception e) {
+			throw e;
+		}
 		
 	}
 	

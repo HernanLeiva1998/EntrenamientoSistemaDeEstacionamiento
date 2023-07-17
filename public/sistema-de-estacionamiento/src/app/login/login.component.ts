@@ -14,7 +14,12 @@ export class LoginComponent {
   
   logear(telefono: string, contrasena: string){
     this.loginData= {telefono:telefono, contrasena:contrasena}
+      localStorage.setItem("telefono", this.loginData.telefono);
     }
+  
+  logout(){
+    localStorage.removeItem("telefono");
+  }
 
 
 }

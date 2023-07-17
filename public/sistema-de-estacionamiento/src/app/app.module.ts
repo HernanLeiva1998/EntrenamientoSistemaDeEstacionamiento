@@ -13,7 +13,6 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AgregarPatenteComponent } from './agregar-patente/agregar-patente.component';
 import { PatentesComponent } from './patentes/patentes.component';
-import { CuentaCorrienteComponent } from './cuenta-corriente/cuenta-corriente.component';
 import { IniciarEstacionamientoComponent } from './iniciar-estacionamiento/iniciar-estacionamiento.component';
 import { EstacionamientoActivoComponent } from './estacionamiento-activo/estacionamiento-activo.component';
 
@@ -27,7 +26,6 @@ import { EstacionamientoActivoComponent } from './estacionamiento-activo/estacio
     DashboardComponent,
     AgregarPatenteComponent,
     PatentesComponent,
-    CuentaCorrienteComponent,
     IniciarEstacionamientoComponent,
     EstacionamientoActivoComponent
   ],

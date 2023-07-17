@@ -1,5 +1,6 @@
 package cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class ReservaController {
     private SistemaDeEstacionamientoService service;
 	
 	@PostMapping("/reservas/iniciar")
+	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<?> iniciarReserva(@RequestBody Map<String, String> request){
 		try {
 			Patente patente= this.service.conseguirPatente(request.get("patente"));
@@ -39,12 +41,37 @@ public class ReservaController {
 		}
 	}
 	@PutMapping("/reservas/finalizar")
+	@CrossOrigin(origins = "http://localhost:4200")
 	public ResponseEntity<?> finalizarReserva(@RequestBody Map<String,Long> request){
 		try {
 			Double precioPorHora = this.service.consequirConfiguracionDelSistema().getPrecioPorHora();
 			Reserva reserva =this.service.conseguirReservaPorId(request.get("id_reserva"));
 			Reserva reservaFinalizada = this.service.finalizarReserva(reserva, precioPorHora);
 			return ResponseEntity.ok().body(reservaFinalizada);
+		} catch (SistemaDeEstacionamientoException e) {
+			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@GetMapping("/reservas/{id_reserva}")
+	@CrossOrigin(origins = "http://localhost:4200")
+	public ResponseEntity<?> conseguirReserva(@PathVariable String id_reserva){
+		try {
+			Reserva reserva =this.service.conseguirReservaPorId(Long.decode(id_reserva));
+			return ResponseEntity.ok().body(reserva);
+		} catch (SistemaDeEstacionamientoException e) {
+			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+	}
+	
+	@GetMapping("/reservas/reservaActiva/{telefono}")
+	@CrossOrigin(origins = "http://localhost:4200")
+	public ResponseEntity<?> conseguirReservaActiva(@PathVariable String telefono){
+		try {
+			Reserva reserva =this.service.conseguirReservaActivaPorTelefono(telefono);
+			return ResponseEntity.ok().body(reserva);
 		} catch (SistemaDeEstacionamientoException e) {
 			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

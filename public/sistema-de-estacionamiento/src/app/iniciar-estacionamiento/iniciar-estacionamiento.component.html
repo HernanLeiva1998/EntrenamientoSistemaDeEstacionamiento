@@ -1,1 +1,28 @@
-<p>iniciar-estacionamiento works!</p>
+<div>
+    <nav>
+        <button>
+            <a routerLink="/agregarPatente">Agregar Patente</a>
+        </button>
+    </nav>
+</div>
+<div *ngIf="patentes">
+    <h3>Patentes</h3>
+        <ul>
+            <li *ngFor="let patente of patentes">
+                <button [class.selected]="patente === patenteSeleccionada" type="button" (click)="onSelect(patente)">
+                    <span>Patente: {{ patente.patente }}</span>
+                </button>
+            </li>
+        </ul>
+</div>
+
+<div *ngIf="patenteSeleccionada"> 
+    <button type="button" class="iniciar" title="iniciar estacionamiento"
+      (click)="iniciarEstacionamiento()">Iniciar Estacionamiento</button>
+</div>
+
+<div *ngIf="estacionamiento"> 
+    Reserva iniciada el: {{estacionamiento.inicioDeReserva}}
+    <button type="button" class="finalizar" title="finalizar estacionamiento"
+      (click)="finalizarEstacionamiento()">Finalizar Estacionamiento</button>
+</div>
