@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="estacionamientoActivo; else elseBlock">
     <h2> Estacionamiento activo</h2>
-    <span> Momento de inicio: {{estacionamientoActivo.inicioDeReserva}}</span>
+    <span> Momento de inicio: {{estacionamientoActivo.inicioDeEstacionamiento}}</span>
     <button type="button" class="finalizar" title="finalizar estacionamiento"
       (click)="finalizarEstacionamiento()">Finalizar Estacionamiento</button>
 </div>

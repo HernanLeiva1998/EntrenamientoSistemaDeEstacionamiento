@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Automovilista } from '../interfaces/automovilista';
-import { Reserva } from '../interfaces/reserva';
-import { AutomovilsitaService } from '../automovilsita.service';
-import { EstacionamientoService } from '../estacionamiento.service';
+import { Estacionamiento } from '../interfaces/estacionamiento';
+import { AutomovilsitaService } from '../services/automovilsita.service';
+import { EstacionamientoService } from '../services/estacionamiento.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,21 +11,21 @@ import { EstacionamientoService } from '../estacionamiento.service';
 })
 export class DashboardComponent {
   automovilista?: Automovilista;
-  estacionamientoActivo?: Reserva;
+  estacionamientoActivo?: Estacionamiento;
 
   constructor(private automovilistaService: AutomovilsitaService, private estacionamientoService: EstacionamientoService) { }
 
 
   ngOnInit() {
     this.getAutomovilista();
-    this.getReserva();
+    this.getEstacionamiento();
   }
 
   getAutomovilista() {//:Automovilista{
     this.automovilistaService.getAutomovilista().subscribe(automovilista => this.automovilista = automovilista);
   }
 
-  getReserva() {//:Reserva{
+  getEstacionamiento() {
     this.estacionamientoService.getEstacionamiento().subscribe(estacionamiento =>{
        this.estacionamientoActivo = estacionamiento
       });

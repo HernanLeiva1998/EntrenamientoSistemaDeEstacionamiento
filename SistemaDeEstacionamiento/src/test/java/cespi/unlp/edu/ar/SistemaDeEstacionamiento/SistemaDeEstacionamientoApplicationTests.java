@@ -147,39 +147,39 @@ class SistemaDeEstacionamientoApplicationTests {
 	}
 	
 	@Test
-	void testIniciarYFinalizarReserva() throws SistemaDeEstacionamientoException {
+	void testIniciarYFinalizarEstacionamiento() throws SistemaDeEstacionamientoException {
 		
 		ConfiguracionDelSistema configuracionDelSistema = service.cambiarValorPrecioPorHora(10d);
 		CuentaCorriente cuentaCorriente = this.service.crearCuentaCorriente( "1234567890123456789012", 10000d);
 		Automovilista automovilista = this.service.crearAutomovilista("2213334444", "1234", cuentaCorriente);
 		Patente patente= this.service.agregarPatente(automovilista, "aaa111");
-		Reserva reserva= this.service.iniciarReserva(automovilista, patente);
-		assertNotNull(reserva);
-		assertEquals("aaa111", reserva.getPatente().getPatente());
-		assertEquals("2213334444", reserva.getAutomovilista().getTelefono());
+		Estacionamiento estacionamiento= this.service.iniciarEstacionamiento(automovilista, patente);
+		assertNotNull(estacionamiento);
+		assertEquals("aaa111", estacionamiento.getPatente().getPatente());
+		assertEquals("2213334444", estacionamiento.getAutomovilista().getTelefono());
 		
 		
-		reserva= this.service.finalizarReserva(reserva, configuracionDelSistema.getPrecioPorHora());
-		assertEquals(10d, reserva.getMonto());
-		assertFalse(reserva.getEstaActiva());
-		assertEquals(9990, reserva.getAutomovilista().getCuentaCorriente().getSaldo());
+		estacionamiento= this.service.finalizarEstacionamiento(estacionamiento, configuracionDelSistema.getPrecioPorHora());
+		assertEquals(10d, estacionamiento.getMonto());
+		assertFalse(estacionamiento.getEstaActivo());
+		assertEquals(9990, estacionamiento.getAutomovilista().getCuentaCorriente().getSaldo());
 		
-		Reserva r1=service.crearReserva(localDateTime30minInicio, localDateTime30minFin, automovilista, patente);
+		Estacionamiento r1=service.crearEstacionamiento(localDateTime30minInicio, localDateTime30minFin, automovilista, patente);
 		assertEquals(10d, r1.getMonto());
-		Reserva r2=service.crearReserva(localDateTime60minInicio, localDateTime60minFin, automovilista, patente);
+		Estacionamiento r2=service.crearEstacionamiento(localDateTime60minInicio, localDateTime60minFin, automovilista, patente);
 		assertEquals(10d, r2.getMonto());
-		Reserva r3=service.crearReserva(localDateTime12hrInicio, localDateTime12hrFin, automovilista, patente);
+		Estacionamiento r3=service.crearEstacionamiento(localDateTime12hrInicio, localDateTime12hrFin, automovilista, patente);
 		assertEquals(120d, r3.getMonto());
-		Reserva r4=service.crearReserva(localDateTime13hrInicio, localDateTime13hrFin, automovilista, patente);
+		Estacionamiento r4=service.crearEstacionamiento(localDateTime13hrInicio, localDateTime13hrFin, automovilista, patente);
 		assertEquals(120d, r4.getMonto());
 		assertEquals(9730d, r4.getAutomovilista().getCuentaCorriente().getSaldo());
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearReserva(this.localDateFueraDeHorario, localDateTime30minFin, automovilista, patente), "No es horario activo");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearReserva(this.localDateFueraDeHorario1, localDateTime30minFin, automovilista, patente), "No es horario activo");
+		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearEstacionamiento(this.localDateFueraDeHorario, localDateTime30minFin, automovilista, patente), "No es horario activo");
+		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearEstacionamiento(this.localDateFueraDeHorario1, localDateTime30minFin, automovilista, patente), "No es horario activo");
 		
 		CuentaCorriente cuentaCorriente1 = this.service.crearCuentaCorriente( "1234567890123456789013", 9d);
 		Automovilista automovilista1 = this.service.crearAutomovilista("2113334444", "1234", cuentaCorriente1);
 		Patente patente1= this.service.agregarPatente(automovilista, "aaa112");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearReserva(this.localDateTime30minInicio, localDateTime30minFin, automovilista1, patente1), "No posee suficiente saldo para iniciar el estacionamiento");
+		assertThrows(SistemaDeEstacionamientoException.class, () -> this.service.crearEstacionamiento(this.localDateTime30minInicio, localDateTime30minFin, automovilista1, patente1), "No posee suficiente saldo para iniciar el estacionamiento");
 		
 	}
 	

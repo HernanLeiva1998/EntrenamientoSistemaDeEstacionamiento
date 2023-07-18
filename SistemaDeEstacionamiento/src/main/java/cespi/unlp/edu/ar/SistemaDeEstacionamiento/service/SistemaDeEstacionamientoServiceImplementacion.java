@@ -14,12 +14,12 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.ConfiguracionDelSistema;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.CuentaCorriente;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Reserva;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Estacionamiento;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.AutomovilistaRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.ConfiguracionDelSistemaRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.PatenteRepository;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.ReservaRepository;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.EstacionamientoRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalTimeManager;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.PatenteValidator;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
@@ -35,7 +35,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	@Autowired
 	PatenteRepository patenteRepository;
 	@Autowired
-	ReservaRepository reservaRepository;
+	EstacionamientoRepository estacionamientoRepository;
 	@Autowired
 	ConfiguracionDelSistemaRepository configuracionDelSistemaRepository;
 	
@@ -60,22 +60,22 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		return this.automovilistaRepository.save(automovilista);
 	}
 	
-	public Reserva crearReserva(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) throws SistemaDeEstacionamientoException {
+	public Estacionamiento crearEstacionamiento(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) throws SistemaDeEstacionamientoException {
 		//Solo para tests
 		if(!this.localTimeManager.esHorarioActivo(inicio.toLocalTime())) {
 			throw new SistemaDeEstacionamientoException("No es horario activo");
 		}
-		if (!a.puedeIniciarReserva(10d)) {
+		if (!a.puedeIniciarEstacionamiento(10d)) {
 			throw new SistemaDeEstacionamientoException("No posee suficiente saldo para iniciar el estacionamiento");
 		}
-		Reserva reserva = new Reserva(inicio, fin, a, p);
-		LocalDateTime finDeReserva = validarFinDeReservaParaCalculoDeUnidadesDeTiempo(inicio,fin);
-		int unidadesDeTiempo= calcularUnidadesDeTiempo(reserva, finDeReserva);
+		Estacionamiento estacionamiento = new Estacionamiento(inicio, fin, a, p);
+		LocalDateTime finDeEstacionamiento = validarFinDeEstacionamientoParaCalculoDeUnidadesDeTiempo(inicio,fin);
+		int unidadesDeTiempo= calcularUnidadesDeTiempo(estacionamiento, finDeEstacionamiento);
 			
-			reserva.setMonto(10d * unidadesDeTiempo);
-			reserva.setEstaActiva(false);
-			reserva.getAutomovilista().restarSaldo(reserva.getMonto());
-		return this.reservaRepository.save(reserva);
+			estacionamiento.setMonto(10d * unidadesDeTiempo);
+			estacionamiento.setEstaActivo(false);
+			estacionamiento.getAutomovilista().restarSaldo(estacionamiento.getMonto());
+		return this.estacionamientoRepository.save(estacionamiento);
 	}
 
 	
@@ -104,58 +104,57 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	}
 
 	@Override
-	public Reserva iniciarReserva(Automovilista automovilista, Patente patente) throws SistemaDeEstacionamientoException {
-		//TODO validar que no exista otra reserva
-		Optional<Automovilista> automovilistaOptional=this.automovilistaRepository.findByIdAndExistingReservaActiva(automovilista.getId());
+	public Estacionamiento iniciarEstacionamiento(Automovilista automovilista, Patente patente) throws SistemaDeEstacionamientoException {
+		Optional<Automovilista> automovilistaOptional=this.automovilistaRepository.findByIdAndExistingEstacionamientoActivo(automovilista.getId());
 		if (automovilistaOptional.isPresent()) {
-			throw new SistemaDeEstacionamientoException("Ya posee una reserva activa");
+			throw new SistemaDeEstacionamientoException("Ya posee un estacionamiento activo");
 		}
-		Optional<Patente> patenteOptional=this.patenteRepository.findByIdAndExistingReservaActiva(patente.getId());
+		Optional<Patente> patenteOptional=this.patenteRepository.findByIdAndExistingEstacionamientoActivo(patente.getId());
 		if (patenteOptional.isPresent()) {
-			throw new SistemaDeEstacionamientoException("La patente ya posee una reserva activa");
+			throw new SistemaDeEstacionamientoException("La patente ya posee un estacionamiento activo");
 		}
 		LocalDateTime inicio= LocalDateTime.now();
 		if(!this.localTimeManager.esHorarioActivo(inicio.toLocalTime())) {
 			throw new SistemaDeEstacionamientoException("No es horario activo");
 		}
-		if (!automovilista.puedeIniciarReserva(10d)) {
+		if (!automovilista.puedeIniciarEstacionamiento(10d)) {
 			throw new SistemaDeEstacionamientoException("No posee suficiente saldo para iniciar el estacionamiento");
 		}
-		Reserva reserva= new Reserva(automovilista, patente, inicio);
-		automovilista.addReserva(reserva);
-		patente.addReserva(reserva);
-		return this.reservaRepository.save(reserva);
+		Estacionamiento estacionamiento= new Estacionamiento(automovilista, patente, inicio);
+		automovilista.addEstacionamiento(estacionamiento);
+		patente.addEstacionamiento(estacionamiento);
+		return this.estacionamientoRepository.save(estacionamiento);
 	}
 
 	@Override
-	public Reserva finalizarReserva(Reserva reserva, Double precioPorHora) {
+	public Estacionamiento finalizarEstacionamiento(Estacionamiento estacionamiento, Double precioPorHora) {
 		
-		LocalDateTime finDeReserva= LocalDateTime.now();
-		reserva.setFinDeReserva(finDeReserva);
-		int unidadesDeTiempo= calcularUnidadesDeTiempo(reserva, finDeReserva);
+		LocalDateTime finDeEstacionamiento= LocalDateTime.now();
+		estacionamiento.setFinDeEstacionamiento(finDeEstacionamiento);
+		int unidadesDeTiempo= calcularUnidadesDeTiempo(estacionamiento, finDeEstacionamiento);
 		
-		reserva.setMonto(precioPorHora * unidadesDeTiempo);
-		reserva.setEstaActiva(false);
-		reserva.getAutomovilista().restarSaldo(reserva.getMonto());
-		return this.reservaRepository.save(reserva);
+		estacionamiento.setMonto(precioPorHora * unidadesDeTiempo);
+		estacionamiento.setEstaActivo(false);
+		estacionamiento.getAutomovilista().restarSaldo(estacionamiento.getMonto());
+		return this.estacionamientoRepository.save(estacionamiento);
 	}
 
-	private int calcularUnidadesDeTiempo(Reserva reserva, LocalDateTime finDeReserva) {
-		finDeReserva= this.validarFinDeReservaParaCalculoDeUnidadesDeTiempo(reserva.getInicioDeReserva(), finDeReserva);
+	private int calcularUnidadesDeTiempo(Estacionamiento estacionamiento, LocalDateTime finDeEstacionamiento) {
+		finDeEstacionamiento= this.validarFinDeEstacionamientoParaCalculoDeUnidadesDeTiempo(estacionamiento.getInicioDeEstacionamiento(), finDeEstacionamiento);
 		return this.timeUnitsManager
 			.calcularUnidadesDeTiempo(
-					reserva.getInicioDeReserva().toLocalTime()
-					, finDeReserva.toLocalTime()
+					estacionamiento.getInicioDeEstacionamiento().toLocalTime()
+					, finDeEstacionamiento.toLocalTime()
 			);
 	}
 	
-	private LocalDateTime validarFinDeReservaParaCalculoDeUnidadesDeTiempo(LocalDateTime inicioDeReserva, LocalDateTime finDeReserva) {
-		LocalDateTime ldt= inicioDeReserva
+	private LocalDateTime validarFinDeEstacionamientoParaCalculoDeUnidadesDeTiempo(LocalDateTime inicioDeEstacionamiento, LocalDateTime finDeEstacionamiento) {
+		LocalDateTime ldt= inicioDeEstacionamiento
 			    .withHour(20)
 			    .withMinute(0)
 			    .withSecond(0)
 			    .withNano(0);
-		if (finDeReserva.isAfter(ldt)) {return ldt;} else {return finDeReserva;}
+		if (finDeEstacionamiento.isAfter(ldt)) {return ldt;} else {return finDeEstacionamiento;}
 	}
 	
 	public ConfiguracionDelSistema cambiarValorPrecioPorHora(Double valor) {
@@ -175,9 +174,13 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	}
 
 	@Override
-	public List<Patente> verPatentesDelAutomovilista(String telefono) {
+	public List<Patente> verPatentesDelAutomovilista(String telefono) throws SistemaDeEstacionamientoException {
+		try {
+			return this.patenteRepository.findByAutomovilistasTelefono(telefono);
+		} catch (Exception e) {
+			throw new SistemaDeEstacionamientoException(e.getMessage());
+		}
 		
-		return this.patenteRepository.findByAutomovilistasTelefono(telefono);
 	}
 
 	public Automovilista agregarPatenteSegunTelefonoDelAutomovilista(String telefono, String patenteString) throws SistemaDeEstacionamientoException {
@@ -214,13 +217,13 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	}
 
 	@Override
-	public Reserva conseguirReservaPorId(Long id_reserva) throws SistemaDeEstacionamientoException {
+	public Estacionamiento conseguirEstacionamientoPorId(Long id_estacionamiento) throws SistemaDeEstacionamientoException {
 		// TODO Auto-generated method stub
-		Optional<Reserva> reservaOptional= this.reservaRepository.findById(id_reserva);
-		if (reservaOptional.isPresent()) {
-			return reservaOptional.get();
+		Optional<Estacionamiento> estacionamientoOptional= this.estacionamientoRepository.findById(id_estacionamiento);
+		if (estacionamientoOptional.isPresent()) {
+			return estacionamientoOptional.get();
 		}
-		throw new SistemaDeEstacionamientoException("No existe la reserva");
+		throw new SistemaDeEstacionamientoException("No existe la estacionamiento");
 	}
 
 	@Override
@@ -245,16 +248,16 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	}
 
 	@Override
-	public Reserva conseguirReservaActivaPorTelefono(String telefono) throws SistemaDeEstacionamientoException {
+	public Estacionamiento conseguirEstacionamientoActivoPorTelefono(String telefono) throws SistemaDeEstacionamientoException {
 		try {
 			Optional<Automovilista> automovilistaOptional = this.automovilistaRepository.findByTelefono(telefono);
 			if (automovilistaOptional.isPresent()) {
 				Automovilista automovilista= automovilistaOptional.get();
-				Optional<Reserva> reservaOptional=this.reservaRepository.findByActiva(automovilista.getId());
-				if (reservaOptional.isPresent()) {
-					return reservaOptional.get();
+				Optional<Estacionamiento> estacionamientoOptional=this.estacionamientoRepository.findByActivo(automovilista.getId());
+				if (estacionamientoOptional.isPresent()) {
+					return estacionamientoOptional.get();
 				}
-				throw new SistemaDeEstacionamientoException("No tiene reserva activa", HttpStatus.NOT_FOUND);
+				throw new SistemaDeEstacionamientoException("No tiene estacionamiento activo", HttpStatus.NOT_FOUND);
 			}
 			throw new SistemaDeEstacionamientoException("No existe el automovilista", HttpStatus.NOT_FOUND);
 			

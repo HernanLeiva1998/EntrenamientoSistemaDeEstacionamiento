@@ -1,10 +1,10 @@
 import { Automovilista } from "./automovilista";
 import { Patente } from "./patente";
 
-export interface Reserva {
+export interface Estacionamiento {
     id: number;
-    inicioDeReserva: Date;
-    finDeReserva: Date;
+    inicioDeEstacionamiento: Date;
+    finDeEstacionamiento: Date;
     monto: number;
     estaActiva: boolean;
     automovilista: Automovilista;

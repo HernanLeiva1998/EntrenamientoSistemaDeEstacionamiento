@@ -13,51 +13,51 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Reserva {
+public class Estacionamiento {
 	
-	public Reserva() {}
+	public Estacionamiento() {}
 	
-	public Reserva(Automovilista automovilista, Patente patente, LocalDateTime inicioDeReserva) {
-		this.inicioDeReserva=inicioDeReserva;
+	public Estacionamiento(Automovilista automovilista, Patente patente, LocalDateTime inicioDeEstacionamiento) {
+		this.inicioDeEstacionamiento=inicioDeEstacionamiento;
 		this.automovilista = automovilista;
 		this.patente = patente;
-		this.estaActiva = true;
+		this.estaActivo = true;
 	}
 
 	
-	public Reserva(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) {
+	public Estacionamiento(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) {
 		// Solo para test
-		this.inicioDeReserva=inicio;
-		this.finDeReserva=fin;
+		this.inicioDeEstacionamiento=inicio;
+		this.finDeEstacionamiento=fin;
 		this.automovilista = a;
 		this.patente = p;
-		this.estaActiva = true;
+		this.estaActivo = true;
 	}
 
 
 	@Id
-	@Column(name = "id_reserva")
+	@Column(name = "id_estacionamiento")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	@Column(name = "inicio_de_reserva", nullable = false)
-	private LocalDateTime inicioDeReserva;
+	@Column(name = "inicio_de_estacionamiento", nullable = false)
+	private LocalDateTime inicioDeEstacionamiento;
 	
-	@Column(name = "fin_de_reserva", nullable = true)
-	private LocalDateTime finDeReserva;
+	@Column(name = "fin_de_estacionamiento", nullable = true)
+	private LocalDateTime finDeEstacionamiento;
 	
 	@Column(nullable = true)
 	private Double monto;
 	
 	@Column(nullable = false)
-	private Boolean estaActiva;
+	private Boolean estaActivo;
 	
 	@ManyToOne
-    @JoinColumn(name = "automovilista_id")
+    @JoinColumn(name = "id_automovilista")
     private Automovilista automovilista;
 
     @ManyToOne
-    @JoinColumn(name = "patente_id")
+    @JoinColumn(name = "id_patente")
     private Patente patente;
 
 	public Long getId() {
@@ -68,25 +68,25 @@ public class Reserva {
 		this.id = id;
 	}
 
-	public LocalDateTime getInicioDeReserva() {
-		return inicioDeReserva;
+	public LocalDateTime getInicioDeEstacionamiento() {
+		return inicioDeEstacionamiento;
 	}
 
-	public void setInicioDeReserva(LocalDateTime inicioDeReserva) {
-		this.inicioDeReserva = inicioDeReserva;
+	public void setInicioDeEstacionamiento(LocalDateTime inicioDeEstacionamiento) {
+		this.inicioDeEstacionamiento = inicioDeEstacionamiento;
 	}
 
-	public LocalDateTime getFinDeReserva() {
-		return finDeReserva;
+	public LocalDateTime getFinDeEstacionamiento() {
+		return finDeEstacionamiento;
 	}
 
-	public void setFinDeReserva(LocalDateTime finDeReserva) {
-		this.finDeReserva = finDeReserva;
+	public void setFinDeEstacionamiento(LocalDateTime finDeEstacionamiento) {
+		this.finDeEstacionamiento = finDeEstacionamiento;
 	}
 	
-	public void finalizarReserva(double monto) {
+	public void finalizarEstacionamiento(double monto) {
 		this.setMonto(monto);
-		this.setEstaActiva(false);
+		this.setEstaActivo(false);
 	}
 
 	public Double getMonto() {
@@ -113,12 +113,12 @@ public class Reserva {
 		this.patente = patente;
 	}
 
-	public Boolean getEstaActiva() {
-		return estaActiva;
+	public Boolean getEstaActivo() {
+		return estaActivo;
 	}
 
-	public void setEstaActiva(Boolean estaActiva) {
-		this.estaActiva = estaActiva;
+	public void setEstaActivo(Boolean estaActivo) {
+		this.estaActivo = estaActivo;
 	}
 	
 	
@@ -132,9 +132,9 @@ public class Reserva {
             return false;
         }
         
-        Reserva otraReserva = (Reserva) obj;
+        Estacionamiento otraEstacionamiento = (Estacionamiento) obj;
         
-        return Objects.equals(id, otraReserva.id);
+        return Objects.equals(id, otraEstacionamiento.id);
     }
     
     @Override

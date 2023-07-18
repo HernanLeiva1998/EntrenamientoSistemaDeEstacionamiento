@@ -6,11 +6,11 @@
     </nav>
 </div>
 <div *ngIf="patentes">
-    <h3>Patentes</h3>
+    <h3>Selecciona una patente</h3>
         <ul>
             <li *ngFor="let patente of patentes">
                 <button [class.selected]="patente === patenteSeleccionada" type="button" (click)="onSelect(patente)">
-                    <span>Patente: {{ patente.patente }}</span>
+                    <span>Patente: {{ patente.patente | uppercase }}</span>
                 </button>
             </li>
         </ul>
@@ -22,7 +22,7 @@
 </div>
 
 <div *ngIf="estacionamiento"> 
-    Reserva iniciada el: {{estacionamiento.inicioDeReserva}}
+    Estacionamiento iniciado el: {{estacionamiento.inicioDeEstacionamiento}}
     <button type="button" class="finalizar" title="finalizar estacionamiento"
       (click)="finalizarEstacionamiento()">Finalizar Estacionamiento</button>
 </div>

@@ -39,12 +39,12 @@ public class PruebaController {
         return service.verTodosLosAutomovilistas();
     }
 	
-	@PostMapping("/automovilistas")
+	@PostMapping("/automovilistas/crear")
 	@CrossOrigin(origins = "http://localhost:4200")
 	  public ResponseEntity<?> crearAutomovilista(@RequestBody AutomovilistaRequest request) {
 		Integer random= new Random().nextInt(1,100000);
 		CuentaCorriente cc = service.crearCuentaCorriente(String.valueOf(random), 1000d);
-	    Automovilista automovilista = service.crearAutomovilista(
+	    service.crearAutomovilista(
 	        request.getTelefono(),
 	        request.getContrasena(),
 	        cc

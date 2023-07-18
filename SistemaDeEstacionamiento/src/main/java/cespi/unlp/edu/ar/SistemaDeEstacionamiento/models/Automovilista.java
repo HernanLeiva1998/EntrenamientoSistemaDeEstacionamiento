@@ -47,7 +47,7 @@ public class Automovilista {
     private CuentaCorriente cuentaCorriente;
     
     @OneToMany(mappedBy = "automovilista")
-    private List<Reserva> reservas = new ArrayList<>();
+    private List<Estacionamiento> estacionamientos = new ArrayList<>();
     
     
     // Constructor, getters y setters
@@ -60,7 +60,7 @@ public class Automovilista {
 		this.contraseña = contraseña;
 	}
     
-    public Boolean puedeIniciarReserva(Double monto) {
+    public Boolean puedeIniciarEstacionamiento(Double monto) {
     	return !this.getCuentaCorriente().saldoEsInferiorA(monto);
     }
     
@@ -120,8 +120,8 @@ public class Automovilista {
 		this.patentes.add(patente);
 	}
 	
-	public void addReserva(Reserva reserva) {
-		this.reservas.add(reserva);
+	public void addEstacionamiento(Estacionamiento estacionamiento) {
+		this.estacionamientos.add(estacionamiento);
 	}
 	
 	@Override

@@ -26,14 +26,20 @@ public class PatenteController {
     @Autowired
     private SistemaDeEstacionamientoService service;
 
-    @GetMapping("/patentes/buscar/{telefono}")
+    @GetMapping("/api/patentes/buscar/{telefono}")
     @CrossOrigin(origins = "http://localhost:4200")
-    public List<Patente> getPatentesPorTelefono(@PathVariable String telefono) {
-        return service.verPatentesDelAutomovilista(telefono);
+    public ResponseEntity<?> getPatentesPorTelefono(@PathVariable String telefono) {
+    	try {
+    		return ResponseEntity.ok(service.verPatentesDelAutomovilista(telefono));
+		} catch (SistemaDeEstacionamientoException e) {
+			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+		}
+        
     }
 
-    @PostMapping("/patentes/agregar")
-   //@CrossOrigin(origins = "http://localhost:4200")
+    @PostMapping("/api/patentes/agregar")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> agregarPatenteAutomovilista(@RequestBody Map<String, String> request) {
         String patente = request.get("patente");
         String telefono = request.get("telefono");

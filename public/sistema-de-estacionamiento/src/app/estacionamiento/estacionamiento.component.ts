@@ -1,20 +1,26 @@
 import { Component } from '@angular/core';
 import { Patente } from '../interfaces/patente';
-import { EstacionamientoService } from '../estacionamiento.service';
-import { Reserva } from '../interfaces/reserva';
+import { EstacionamientoService } from '../services/estacionamiento.service';
+import { Estacionamiento } from '../interfaces/estacionamiento';
+import { PatenteService } from '../services/patente.service';
 
 @Component({
-  selector: 'app-iniciar-estacionamiento',
-  templateUrl: './iniciar-estacionamiento.component.html',
-  styleUrls: ['./iniciar-estacionamiento.component.css']
+  selector: 'app-estacionamiento',
+  templateUrl: './estacionamiento.component.html',
+  styleUrls: ['./estacionamiento.component.css']
 })
-export class IniciarEstacionamientoComponent {
-  estacionamiento?: Reserva;
+export class EstacionamientoComponent {
+  estacionamiento?: Estacionamiento;
 
-  constructor(private service: EstacionamientoService){}
+  constructor(private service: EstacionamientoService, private patenteService: PatenteService){}
 
-  patentes?: Patente[] = [{id:1, patente:"aaa111"}];
+  patentes?: Patente[] = [];
   patenteSeleccionada?: Patente;
+
+
+  ngOnInit(){
+    this.patenteService.getPatentesAutomovilsita().subscribe(p => this.patentes = p)
+  }
 
   onSelect(patente: Patente) {
     this.patenteSeleccionada=patente;

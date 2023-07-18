@@ -1,1 +1,9 @@
-<p>patentes works!</p>
+<div *ngIf="patentes">
+    <h3>Patentes</h3>
+    <ul>
+        <li *ngFor="let patente of patentes">
+            <p>ID: {{ patente.id }}</p>
+            <p>Patente: {{ patente.patente }}</p>
+        </li>
+    </ul>
+</div>

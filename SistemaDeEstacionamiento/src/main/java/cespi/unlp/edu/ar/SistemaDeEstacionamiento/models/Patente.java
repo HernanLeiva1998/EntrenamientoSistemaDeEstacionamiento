@@ -36,7 +36,7 @@ public class Patente {
 	
 	@JsonIgnore
 	@OneToMany(mappedBy = "patente")
-    private List<Reserva> reservas = new ArrayList<>();
+    private List<Estacionamiento> estacionamientos = new ArrayList<>();
 
     // Constructor, getters y setters
 	
@@ -69,8 +69,8 @@ public class Patente {
 		return automovilistas;
 	}
 	
-	public void addReserva(Reserva reserva) {
-		this.reservas.add(reserva);
+	public void addEstacionamiento(Estacionamiento estacionamiento) {
+		this.estacionamientos.add(estacionamiento);
 	}
 
 	

@@ -22,12 +22,12 @@ public class AutomovilistaController {
 	@Autowired
 	SistemaDeEstacionamientoService service;
 	
-	@GetMapping("/")
+	@GetMapping("/api/automovilistas")
 	public List<Automovilista> getAllAutomovilistas() {
 		return this.service.getAllAutomovilistas();
 	}
 	
-	@GetMapping("/automovilistas/buscar/{telefono}")
+	@GetMapping("/api/automovilistas/buscar/{telefono}")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> getAutomovilistaPorTelefono(@PathVariable String telefono) {
         try {
