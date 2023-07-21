@@ -1,28 +1,42 @@
-<div>
-    <nav>
-        <button>
-            <a routerLink="/agregarPatente">Agregar Patente</a>
-        </button>
-    </nav>
-</div>
-<div *ngIf="patentes">
-    <h3>Selecciona una patente</h3>
-        <ul>
-            <li *ngFor="let patente of patentes">
-                <button [class.selected]="patente === patenteSeleccionada" type="button" (click)="onSelect(patente)">
-                    <span>Patente: {{ patente.patente | uppercase }}</span>
-                </button>
+<!-- Utilizamos el contenedor "container" para el contenido principal -->
+<div class="container">
+
+    <!-- Botón "Agregar Patente" con estilo de Bootstrap -->
+    <div class="mb-4">
+        <!-- Utilizamos las clases "btn btn-primary" para el estilo del botón -->
+        <a class="btn btn-primary" routerLink="/agregarPatente">Agregar Patente</a>
+    </div>
+
+    <!-- Lista de patentes -->
+    <div *ngIf="patentes">
+        <h3>Selecciona una patente</h3>
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let patente of patentes">
+                <!-- Utilizamos la clase "d-flex" para convertir el elemento en un flexbox -->
+                <div class="d-flex">
+                    <button class="btn btn-primary flex-grow-1" [class.selected]="patente === patenteSeleccionada"
+                        (click)="onSelect(patente)">
+                        <span>Patente: {{ patente.patente | uppercase }}</span>
+                    </button>
+                </div>
             </li>
         </ul>
-</div>
 
-<div *ngIf="patenteSeleccionada"> 
-    <button type="button" class="iniciar" title="iniciar estacionamiento"
-      (click)="iniciarEstacionamiento()">Iniciar Estacionamiento</button>
-</div>
 
-<div *ngIf="estacionamiento"> 
-    Estacionamiento iniciado el: {{estacionamiento.inicioDeEstacionamiento}}
-    <button type="button" class="finalizar" title="finalizar estacionamiento"
-      (click)="finalizarEstacionamiento()">Finalizar Estacionamiento</button>
+    </div>
+
+    <!-- Botón para iniciar estacionamiento -->
+    <div *ngIf="patenteSeleccionada">
+        <button class="btn btn-success iniciar" (click)="iniciarEstacionamiento()">Iniciar Estacionamiento</button>
+    </div>
+
+    <!-- Información del estacionamiento en curso -->
+    <div *ngIf="estacionamiento">
+        <!-- Mostrar la fecha en formato "dd/MM/yyyy" -->
+        <p>Estacionamiento iniciado el: {{ estacionamiento.inicioDeEstacionamiento | date: 'dd/MM/yyyy' }}</p>
+        <!-- Mostrar la hora en formato "HH:mm:ss" -->
+        <p>Hora de inicio: {{ estacionamiento.inicioDeEstacionamiento | date: 'HH:mm:ss' }}</p>
+        <button class="btn btn-danger finalizar" (click)="finalizarEstacionamiento()">Finalizar Estacionamiento</button>
+    </div>
+
 </div>

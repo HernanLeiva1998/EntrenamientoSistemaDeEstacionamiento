@@ -1,11 +1,24 @@
-<div>
-    <label for="telefono">telefono: </label>
-    <input id="telefono" #telefono />
-    <label for="password">password: </label>
-    <input id="password" type="password" #password />
-  
-    <!-- (click) passes input value to add() and then clears the input -->
-    <button type="button" class="add-button" (click)="logear(telefono.value, password.value); telefono.value=''">
-      Login
-    </button>
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input id="telefono" class="form-control" #telefono />
+          </div>
+          <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input id="password" type="password" class="form-control" #password />
+          </div>
+          <div class="text-center">
+            <button type="button" class="btn btn-primary"
+              (click)="logear(telefono.value, password.value); telefono.value=''">
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
