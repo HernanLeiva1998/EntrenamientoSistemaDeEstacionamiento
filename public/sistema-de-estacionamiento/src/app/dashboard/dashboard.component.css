@@ -20,3 +20,17 @@ nav a:hover {
 nav a:active {
     background-color: black;
 }
+
+/* Estilos de borde para resaltar la sección */
+.resaltar-seccion {
+    border: 0px solid black;
+    /* Color de borde de btn-primary por defecto */
+    border-radius: 5px;
+    /* Redondear los bordes para que se vea más agradable */
+    padding: 10px;
+    /* Agregar un poco de espacio interno para separar el contenido del borde */
+}
+
+.fondo-container {
+    background-color: rgb(250, 247, 239)
+}

@@ -12,35 +12,43 @@ import { PatenteService } from '../services/patente.service';
 export class EstacionamientoComponent {
   estacionamiento?: Estacionamiento;
 
-  constructor(private service: EstacionamientoService, private patenteService: PatenteService){}
+
+  constructor(private service: EstacionamientoService, private patenteService: PatenteService) { }
 
   patentes?: Patente[] = [];
   patenteSeleccionada?: Patente;
+  estacionamientoYaIniciado: boolean = false;
 
 
-  ngOnInit(){
+  ngOnInit() {
     this.patenteService.getPatentesAutomovilsita().subscribe(p => this.patentes = p)
+    this.service.getEstacionamiento().subscribe(e => {
+      this.estacionamientoYaIniciado = true,
+        this.estacionamiento = e
+    }
+    )
   }
 
   onSelect(patente: Patente) {
-    this.patenteSeleccionada=patente;
+    this.patenteSeleccionada = patente;
   }
   iniciarEstacionamiento() {
-   this.service.iniciarEstacionamiento(this.patenteSeleccionada).subscribe(r=>
-    {
-      this.estacionamiento=r; 
-      if (this.estacionamiento){
-        localStorage.setItem('id_estacionamiento_activo',  this.estacionamiento.id.toString());
+    this.service.iniciarEstacionamiento(this.patenteSeleccionada).subscribe(r => {
+      this.estacionamiento = r;
+      if (this.estacionamiento) {
+        localStorage.setItem('id_estacionamiento_activo', this.estacionamiento.id.toString());
       }
+      this.estacionamientoYaIniciado = true;
     });
   }
 
-  finalizarEstacionamiento(){
-    this.service.finalizarEstacionamiento().subscribe(r=>{
-      this.estacionamiento=r
+  finalizarEstacionamiento() {
+    this.service.finalizarEstacionamiento().subscribe(r => {
+      this.estacionamiento = r
       localStorage.removeItem('id_estacionamiento_activo')
+      this.estacionamientoYaIniciado = false
     });
-    
+
   }
 
 

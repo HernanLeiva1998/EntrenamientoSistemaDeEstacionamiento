@@ -26,17 +26,18 @@ export class DashboardComponent {
   }
 
   getEstacionamiento() {
-    this.estacionamientoService.getEstacionamiento().subscribe(estacionamiento =>{
-       this.estacionamientoActivo = estacionamiento
-      });
+    this.estacionamientoService.getEstacionamiento().subscribe(estacionamiento => {
+      this.estacionamientoActivo = estacionamiento
+    });
   }
 
-  finalizarEstacionamiento(){
-    this.estacionamientoService.finalizarEstacionamiento().subscribe(r=>{
+  finalizarEstacionamiento() {
+    this.estacionamientoService.finalizarEstacionamiento().subscribe(r => {
       this.estacionamientoActivo = r;
-      if (this.automovilista){ this.automovilista.cuentaCorriente.saldo - r.monto}
+      if (this.automovilista) { this.automovilista.cuentaCorriente.saldo - r.monto }
       this.estacionamientoActivo = undefined;
       localStorage.removeItem('id_estacionamiento_activo')
+      this.automovilista = r.automovilista
     });
   }
 

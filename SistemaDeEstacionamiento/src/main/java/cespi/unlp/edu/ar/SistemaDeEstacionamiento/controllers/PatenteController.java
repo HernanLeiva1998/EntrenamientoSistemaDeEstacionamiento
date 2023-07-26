@@ -33,7 +33,7 @@ public class PatenteController {
     		return ResponseEntity.ok(service.verPatentesDelAutomovilista(telefono));
 		} catch (SistemaDeEstacionamientoException e) {
 			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
 		}
         
     }
@@ -49,7 +49,7 @@ public class PatenteController {
             return ResponseEntity.created(null).body(automovilista);
         } catch (SistemaDeEstacionamientoException e) {
         	if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
         }
     }
 }

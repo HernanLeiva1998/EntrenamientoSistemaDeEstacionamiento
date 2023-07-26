@@ -2,19 +2,21 @@
 <div class="container">
 
     <!-- Botón "Agregar Patente" con estilo de Bootstrap -->
-    <div class="mb-4">
+    <div *ngIf="estacionamientoYaIniciado == false" class="mb-4">
         <!-- Utilizamos las clases "btn btn-primary" para el estilo del botón -->
         <a class="btn btn-primary" routerLink="/agregarPatente">Agregar Patente</a>
     </div>
 
     <!-- Lista de patentes -->
-    <div *ngIf="patentes">
+    <div *ngIf="patentes && estacionamientoYaIniciado == false">
         <h3>Selecciona una patente</h3>
         <ul class="list-group">
             <li class="list-group-item" *ngFor="let patente of patentes">
                 <!-- Utilizamos la clase "d-flex" para convertir el elemento en un flexbox -->
                 <div class="d-flex">
-                    <button class="btn btn-primary flex-grow-1" [class.selected]="patente === patenteSeleccionada"
+
+                    <button class="flex-grow-1  btn"
+                        [ngClass]="{'btn-primary': patente === patenteSeleccionada, 'btn-custom': patente !== patenteSeleccionada}"
                         (click)="onSelect(patente)">
                         <span>Patente: {{ patente.patente | uppercase }}</span>
                     </button>
@@ -26,12 +28,12 @@
     </div>
 
     <!-- Botón para iniciar estacionamiento -->
-    <div *ngIf="patenteSeleccionada">
+    <div *ngIf="patenteSeleccionada && estacionamientoYaIniciado == false">
         <button class="btn btn-success iniciar" (click)="iniciarEstacionamiento()">Iniciar Estacionamiento</button>
     </div>
 
     <!-- Información del estacionamiento en curso -->
-    <div *ngIf="estacionamiento">
+    <div *ngIf="estacionamiento && estacionamientoYaIniciado == true">
         <!-- Mostrar la fecha en formato "dd/MM/yyyy" -->
         <p>Estacionamiento iniciado el: {{ estacionamiento.inicioDeEstacionamiento | date: 'dd/MM/yyyy' }}</p>
         <!-- Mostrar la hora en formato "HH:mm:ss" -->
