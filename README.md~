@@ -2,10 +2,13 @@
 
 # Herramientas
 Este proyecto esta construido con:
-Java 17 (Jdk 17.0.7 en mi caso)
+Java 17 (Jdk 17.0.7)
 Spring boot 3.1.0
 Gradle 8.1.1
 MySQL 8.0.33
+Nodejs 18.16.1ng
+npm 9.7.2
+Angular CLI 16.1.3
 
 #Set up
 Base de datos: 
@@ -13,3 +16,11 @@ Se necesita crear una base de datos con el nombre: sistema_de_estacionamiento
 Se puede hacer manualmente o bien ejecutando el archivo createDatabase.sh en
 una terminal que permita ejecutar archivos bash logeandose con el usuario root.
 o bien copiando los comandos de script.sql
+
+Spring
+Ya con la Base de datos creada entrar en la carpeta SistemaDeEstacionamiento 
+y ejecutar el comando "gradle bootRun".
+
+Angular:
+Dentro de la carpeta public\sistema_de_estacionamiento ejecutar el comando npm install. 
+Usar el comando ng serve --open para iniciar la aplicación y abrirla automaticamente en el navegador. 

@@ -24,6 +24,7 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalTimeManager;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.PatenteValidator;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
+import ch.qos.logback.core.joran.conditional.IfAction;
 
 @Transactional
 public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeEstacionamientoService {
@@ -227,9 +228,14 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	}
 
 	@Override
-	public ConfiguracionDelSistema consequirConfiguracionDelSistema() {
+	public ConfiguracionDelSistema consequirConfiguracionDelSistema() throws SistemaDeEstacionamientoException{
 		// TODO Auto-generated method stub
-		return this.configuracionDelSistemaRepository.findById((long)1).get();
+		List<ConfiguracionDelSistema> configuracionDelSistemaList= (List<ConfiguracionDelSistema>) this.configuracionDelSistemaRepository.findAll();
+		if (!configuracionDelSistemaList.isEmpty()) {
+			return configuracionDelSistemaList.get(0);
+		}
+		return  this.cambiarValorPrecioPorHora(10d);
+		
 	}
 
 	@Override

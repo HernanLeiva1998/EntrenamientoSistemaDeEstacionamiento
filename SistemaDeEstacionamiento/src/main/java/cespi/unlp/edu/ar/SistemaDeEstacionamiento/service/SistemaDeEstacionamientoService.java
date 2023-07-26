@@ -43,7 +43,7 @@ public interface SistemaDeEstacionamientoService {
 
 	public Estacionamiento conseguirEstacionamientoPorId(Long id_estacionamiento) throws SistemaDeEstacionamientoException;
 
-	public ConfiguracionDelSistema consequirConfiguracionDelSistema();
+	public ConfiguracionDelSistema consequirConfiguracionDelSistema() throws SistemaDeEstacionamientoException;
 
 	public Automovilista autenticar(String telefono, String password) throws SistemaDeEstacionamientoException;
 

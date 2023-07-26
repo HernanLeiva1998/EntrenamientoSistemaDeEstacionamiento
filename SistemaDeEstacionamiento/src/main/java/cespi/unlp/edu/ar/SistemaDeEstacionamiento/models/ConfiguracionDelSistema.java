@@ -23,6 +23,9 @@ public class ConfiguracionDelSistema {
 		this.precioPorHora=valor;
 	}
 	
+	public void setId(Long id) {
+		this.id=id;
+	}
 
 	public Double getPrecioPorHora() {
 		return precioPorHora;
