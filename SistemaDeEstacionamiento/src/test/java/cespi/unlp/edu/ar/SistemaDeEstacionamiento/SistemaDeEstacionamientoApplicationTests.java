@@ -126,11 +126,11 @@ class SistemaDeEstacionamientoApplicationTests {
 	@Test
 	void testCrearAutomovilistaYAgregarPatente() throws SistemaDeEstacionamientoException{
 		CuentaCorriente cuentaCorriente = this.service.crearCuentaCorriente( "1234567890123456789012", 10000d);
-		Automovilista automovilista = this.service.crearAutomovilista("2213334444", "1234", cuentaCorriente);
+		Automovilista automovilista = this.service.crearAutomovilista("2223334444", "1234", cuentaCorriente);
 		assertNotNull(automovilista.getId());
 		assertEquals("1234567890123456789012", automovilista.getCuentaCorriente().getCbu());
 		assertEquals(10000d, automovilista.getCuentaCorriente().getSaldo());
-		assertEquals("2213334444", automovilista.getTelefono());
+		assertEquals("2223334444", automovilista.getTelefono());
 		
 		Patente patente= this.service.agregarPatente(automovilista, "aaa111");
 		assertNotNull(patente);
@@ -151,12 +151,12 @@ class SistemaDeEstacionamientoApplicationTests {
 		
 		ConfiguracionDelSistema configuracionDelSistema = service.cambiarValorPrecioPorHora(10d);
 		CuentaCorriente cuentaCorriente = this.service.crearCuentaCorriente( "1234567890123456789012", 10000d);
-		Automovilista automovilista = this.service.crearAutomovilista("2213334444", "1234", cuentaCorriente);
+		Automovilista automovilista = this.service.crearAutomovilista("4443334444", "1234", cuentaCorriente);
 		Patente patente= this.service.agregarPatente(automovilista, "aaa111");
 		Estacionamiento estacionamiento= this.service.iniciarEstacionamiento(automovilista, patente);
 		assertNotNull(estacionamiento);
 		assertEquals("aaa111", estacionamiento.getPatente().getPatente());
-		assertEquals("2213334444", estacionamiento.getAutomovilista().getTelefono());
+		assertEquals("4443334444", estacionamiento.getAutomovilista().getTelefono());
 		
 		
 		estacionamiento= this.service.finalizarEstacionamiento(estacionamiento, configuracionDelSistema.getPrecioPorHora());

@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers;
+package cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos;
 
 public class AutomovilistaRequest {
 

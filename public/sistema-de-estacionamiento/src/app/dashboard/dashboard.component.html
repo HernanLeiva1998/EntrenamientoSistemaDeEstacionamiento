@@ -1,4 +1,5 @@
 <div class="container resaltar-seccion fondo-container">
+    <app-mensaje [mensaje]="errorMessage"></app-mensaje>
     <div *ngIf="automovilista" class="mb-4">
         <h2>Cuenta: {{automovilista.telefono}}</h2>
     </div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AutomovilsitaService } from '../services/automovilsita.service';
 
 @Component({
   selector: 'app-crear-automovilista',
@@ -9,25 +10,19 @@ import { HttpClient } from '@angular/common/http';
 export class CrearAutomovilistaComponent {
   telefono: string = '';
   contrasena: string = '';
-  saldo: number = 0;
+  email: string= '';
+  cbu: string = '';
+  errorMensaje?: string;
   
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private service: AutomovilsitaService) { }
 
-  crearAutomovilista(): void {
-    const automovilista = {
-      telefono: this.telefono,
-      contrasena: this.contrasena,
-    };
-    this.http.post('http://localhost:8080/automovilistas', automovilista)
-      .subscribe(
-        () => {
-          console.log('Automovilista creado exitosamente');
-        },
-        error => {
-          console.error('Error al crear el automovilista:', error);
-        }
-      );
+  crearAutomovilista(telefono: string, contrasena: string, email: string, cbu: string): void {
+
+    this.service.crearAutomovilista(telefono, contrasena, email,cbu).subscribe({
+      next:() =>{this.errorMensaje= "creado"} ,
+      error: (e) => {this.errorMensaje= this.errorMensaje=e}
+    })
   }
 }
 

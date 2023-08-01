@@ -30,6 +30,9 @@ public class Automovilista {
 	@Column(nullable = false, unique = true)
     private String telefono;
 	
+	@Column(unique = true)
+    private String email;
+	
 	@JsonIgnore
 	@Column(nullable = false)
 	private String contraseña;
@@ -58,6 +61,12 @@ public class Automovilista {
     public Automovilista(String telefono, String contraseña) {
 		this.telefono = telefono;
 		this.contraseña = contraseña;
+	}
+    
+    public Automovilista(String telefono, String contraseña, String email) {
+		this.telefono = telefono;
+		this.contraseña = contraseña;
+		this.email = email;
 	}
     
     public Boolean puedeIniciarEstacionamiento(Double monto) {

@@ -15,9 +15,14 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamiento
 @Service
 public interface SistemaDeEstacionamientoService {
 	
-	public CuentaCorriente crearCuentaCorriente(String cbu, Double saldo);
+	public CuentaCorriente crearCuentaCorriente(String cbu, Double saldo) throws SistemaDeEstacionamientoException;
 	
-	public Automovilista crearAutomovilista(String telefono, String contraseña, CuentaCorriente cuentaCorriente);
+	public Automovilista crearAutomovilista(String telefono, String contraseña, CuentaCorriente cuentaCorriente) throws SistemaDeEstacionamientoException;
+	
+	public Automovilista crearAutomovilista(String telefono, String contraseña, String email, CuentaCorriente cuentaCorriente) throws SistemaDeEstacionamientoException;
+	
+	public boolean existeAutomovilistaPorTelefono(String telefono);
+	public boolean existeAutomovilistaPorEmail(String email);
 	
 	public Estacionamiento crearEstacionamiento(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) throws SistemaDeEstacionamientoException;
 	
@@ -47,6 +52,8 @@ public interface SistemaDeEstacionamientoService {
 
 	public Automovilista autenticar(String telefono, String password) throws SistemaDeEstacionamientoException;
 
-	public Estacionamiento conseguirEstacionamientoActivoPorTelefono(String telefono)  throws SistemaDeEstacionamientoException;;
+	public Estacionamiento conseguirEstacionamientoActivoPorTelefono(String telefono)  throws SistemaDeEstacionamientoException;
+
+	public boolean existeCbu(String cbu);
 	
 }

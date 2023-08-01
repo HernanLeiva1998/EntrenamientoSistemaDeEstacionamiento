@@ -1,8 +1,9 @@
 <div class="container">
     <h2 class="mt-4">Agregar Patente</h2>
-    <div *ngIf="errorMessage" class="alert alert-danger">
-        {{errorMessage}}
-    </div>
+    
+    
+    <app-mensaje [mensaje]="errorMessage"></app-mensaje>
+   
 
     <div class="mb-3">
         <label for="nueva-patente" class="form-label">Nueva patente:</label>

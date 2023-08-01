@@ -10,6 +10,10 @@ Nodejs 18.16.1ng
 npm 9.7.2
 Angular CLI 16.1.3
 
+Ademas se uso Insomnia para testear los endpoints. Los archivos Insomnia_2023-07-31.json y
+My-collection.postman_collection.json sirven para importar los HTTP resquest a insomnia y postman
+respectivamente.
+
 #Set up
 Base de datos: 
 Se necesita crear una base de datos con el nombre: sistema_de_estacionamiento
@@ -20,7 +24,15 @@ o bien copiando los comandos de script.sql
 Spring
 Ya con la Base de datos creada entrar en la carpeta SistemaDeEstacionamiento 
 y ejecutar el comando "gradle bootRun".
+Al ejecutar el comando la aplicación isntalará las dependencias y creara por defecto las tablas de la base de datos. Ademas,
+al iniciar la aplicacion spring, se insertará automaticamente una fila en ConfiguracionDelSistema 
+y dos automovlistas con su cuenta corriente. Si no hubo ningun problema la aplicacion spring 
+estará lista para recibir consultas http.
+
 
 Angular:
 Dentro de la carpeta public\sistema_de_estacionamiento ejecutar el comando npm install. 
 Usar el comando ng serve --open para iniciar la aplicación y abrirla automaticamente en el navegador. 
+Se requiere que este en ejecución la aplicación spring para utilizar las funcionalidades de la aplicación angular.
+
+

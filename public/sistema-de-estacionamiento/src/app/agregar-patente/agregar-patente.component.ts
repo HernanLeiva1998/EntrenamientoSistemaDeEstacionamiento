@@ -15,10 +15,16 @@ export class AgregarPatenteComponent {
 
   errorMessage?: String;
 
+  ngOnInit() {
+    if(localStorage.getItem('telefono') == undefined){
+      this.router.navigate(['/login']);
+    } 
+  }
+
   save(patente: string) {
 
     this.service.crearPatente(patente).subscribe({
-      next: (p) => this.router.navigate(['/iniciarEstacionamiento']),
+      next: () => this.router.navigate(['/iniciarEstacionamiento']),
       error: (e) => this.errorMessage = e
     })
 

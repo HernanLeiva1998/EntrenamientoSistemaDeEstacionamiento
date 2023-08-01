@@ -15,4 +15,6 @@ public interface AutomovilistaRepository extends CrudRepository<Automovilista, L
 	Optional<Automovilista> findByIdAndExistingEstacionamientoActivo(@Param("automovilistaId") Long automovilistaId);
 
 	 Optional<Automovilista> findByTelefono(String telefono);
+
+	 Optional<Automovilista> findByEmail(String email);
 }

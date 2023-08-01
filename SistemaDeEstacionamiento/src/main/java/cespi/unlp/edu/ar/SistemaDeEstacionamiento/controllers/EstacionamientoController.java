@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.ErrorDTO;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.ConfiguracionDelSistema;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
@@ -36,8 +37,8 @@ public class EstacionamientoController {
 			Estacionamiento estacionamiento = this.service.iniciarEstacionamiento(automovilista, patente);
 			return ResponseEntity.created(null).body(estacionamiento);
 		} catch (SistemaDeEstacionamientoException e) {
-			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(new ErrorDTO(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
 		}
 	}
 	@PutMapping("/api/estacionamientos/finalizar")
@@ -49,8 +50,8 @@ public class EstacionamientoController {
 			Estacionamiento estacionamientoFinalizada = this.service.finalizarEstacionamiento(estacionamiento, precioPorHora);
 			return ResponseEntity.ok().body(estacionamientoFinalizada);
 		} catch (SistemaDeEstacionamientoException e) {
-			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(new ErrorDTO(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
 		}
 	}
 	
@@ -61,8 +62,8 @@ public class EstacionamientoController {
 			Estacionamiento estacionamiento =this.service.conseguirEstacionamientoPorId(Long.decode(id_estacionamiento));
 			return ResponseEntity.ok().body(estacionamiento);
 		} catch (SistemaDeEstacionamientoException e) {
-			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(new ErrorDTO(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
 		}
 	}
 	
@@ -73,8 +74,8 @@ public class EstacionamientoController {
 			Estacionamiento estacionamiento =this.service.conseguirEstacionamientoActivoPorTelefono(telefono);
 			return ResponseEntity.ok().body(estacionamiento);
 		} catch (SistemaDeEstacionamientoException e) {
-			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(new ErrorDTO(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
 		}
 	}
 	

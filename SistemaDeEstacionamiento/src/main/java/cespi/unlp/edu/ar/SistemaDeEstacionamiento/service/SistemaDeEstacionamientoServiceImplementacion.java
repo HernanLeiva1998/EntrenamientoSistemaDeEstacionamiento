@@ -26,6 +26,7 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamiento
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
 import ch.qos.logback.core.joran.conditional.IfAction;
 
+
 @Transactional
 public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeEstacionamientoService {
 
@@ -48,19 +49,70 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		this.timeUnitsManager= new TimeUnitsManager();
 	}
 	
-	public CuentaCorriente crearCuentaCorriente(String cbu, Double saldo) {
-		CuentaCorriente cuentaCorriente = new CuentaCorriente(cbu, saldo);
-		return this.cuentaCorrienteRepository.save(cuentaCorriente);
+	@Transactional
+	public CuentaCorriente crearCuentaCorriente(String cbu, Double saldo) throws SistemaDeEstacionamientoException {
+		try {
+			CuentaCorriente cuentaCorriente = new CuentaCorriente(cbu, saldo);
+			return this.cuentaCorrienteRepository.save(cuentaCorriente);
+		} catch (Exception e) {
+			throw new SistemaDeEstacionamientoException(e.getMessage());
+		}
+		
 	}
 	
 	@Override
-	public Automovilista crearAutomovilista(String telefono, String contraseña, CuentaCorriente cuentaCorriente) {
-		Automovilista automovilista= new Automovilista(telefono, contraseña);
-		automovilista.setCuentaCorriente(cuentaCorriente);
-		//cuentaCorriente.setAutomovilista(automovilista);
-		return this.automovilistaRepository.save(automovilista);
+	@Transactional
+	public Automovilista crearAutomovilista(String telefono, String contraseña, CuentaCorriente cuentaCorriente) 
+			throws SistemaDeEstacionamientoException{
+		try {
+			if (this.existeAutomovilistaPorTelefono(telefono)) {
+				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este teléfono");
+			}
+			Automovilista automovilista= new Automovilista(telefono, contraseña);
+			automovilista.setCuentaCorriente(cuentaCorriente);
+			return this.automovilistaRepository.save(automovilista);
+			
+		} catch (SistemaDeEstacionamientoException e) {
+			throw e;
+		}
+		
+		
+		
 	}
 	
+	@Override
+	@Transactional
+	public Automovilista crearAutomovilista(String telefono, String contraseña, String email, CuentaCorriente cuentaCorriente)
+			throws SistemaDeEstacionamientoException{
+		try {
+			if (this.existeAutomovilistaPorTelefono(telefono)) {
+				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este teléfono");
+			}else if (this.existeAutomovilistaPorEmail(email)) {
+				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este correo electrónico");
+			}
+			Automovilista automovilista= new Automovilista(telefono, contraseña, email);
+			automovilista.setCuentaCorriente(cuentaCorriente);
+			return this.automovilistaRepository.save(automovilista);
+			
+		} catch (SistemaDeEstacionamientoException e) {
+			throw e;
+		}
+	}
+	
+	public boolean existeAutomovilistaPorEmail(String email) {
+		return this.automovilistaRepository.findByEmail(email).isPresent();
+	}
+	
+	public boolean existeAutomovilistaPorTelefono(String telefono) {
+		return this.automovilistaRepository.findByTelefono(telefono).isPresent();
+	}
+	
+	@Override
+	public boolean existeCbu(String cbu) {
+		return this.cuentaCorrienteRepository.findByCbu(cbu).isPresent();
+	}
+
+	@Transactional
 	public Estacionamiento crearEstacionamiento(LocalDateTime inicio, LocalDateTime fin, Automovilista a, Patente p) throws SistemaDeEstacionamientoException {
 		//Solo para tests
 		if(!this.localTimeManager.esHorarioActivo(inicio.toLocalTime())) {
@@ -82,8 +134,8 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	
 
 	@Override
+	@Transactional
 	public Patente agregarPatente(Automovilista automovilista, String patenteString) throws SistemaDeEstacionamientoException {
-		// TODO agregar validación de formato de patente.
 		if (!PatenteValidator.validarPatente(patenteString)){
 			throw new SistemaDeEstacionamientoException("El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
 		}else if (automovilista.tienePatenteAsignada(patenteString)) {
@@ -216,6 +268,8 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		}
 		throw new SistemaDeEstacionamientoException("No existe el automovilista");
 	}
+	
+	
 
 	@Override
 	public Estacionamiento conseguirEstacionamientoPorId(Long id_estacionamiento) throws SistemaDeEstacionamientoException {
@@ -272,6 +326,8 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		}
 		
 	}
+
+	
 	
 
 }

@@ -14,6 +14,7 @@ import { AgregarPatenteComponent } from './agregar-patente/agregar-patente.compo
 import { PatentesComponent } from './patentes/patentes.component';
 import { EstacionamientoComponent } from './estacionamiento/estacionamiento.component';
 import { EstacionamientoActivoComponent } from './estacionamiento-activo/estacionamiento-activo.component';
+import { MensajeComponent } from './mensaje/mensaje.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { EstacionamientoActivoComponent } from './estacionamiento-activo/estacio
     AgregarPatenteComponent,
     PatentesComponent,
     EstacionamientoComponent,
-    EstacionamientoActivoComponent
+    EstacionamientoActivoComponent,
+    MensajeComponent
   ],
   imports: [
     BrowserModule,

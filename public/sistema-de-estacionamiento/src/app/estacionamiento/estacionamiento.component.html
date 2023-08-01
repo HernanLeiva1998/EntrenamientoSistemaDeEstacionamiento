@@ -5,6 +5,10 @@
     <div *ngIf="estacionamientoYaIniciado == false" class="mb-4">
         <!-- Utilizamos las clases "btn btn-primary" para el estilo del botón -->
         <a class="btn btn-primary" routerLink="/agregarPatente">Agregar Patente</a>
+        <!-- Botón para iniciar estacionamiento -->
+        <div *ngIf="patenteSeleccionada">
+            <button class="btn btn-success iniciar" (click)="iniciarEstacionamiento()">Iniciar Estacionamiento</button>
+        </div>
     </div>
 
     <!-- Lista de patentes -->
@@ -27,10 +31,7 @@
 
     </div>
 
-    <!-- Botón para iniciar estacionamiento -->
-    <div *ngIf="patenteSeleccionada && estacionamientoYaIniciado == false">
-        <button class="btn btn-success iniciar" (click)="iniciarEstacionamiento()">Iniciar Estacionamiento</button>
-    </div>
+    
 
     <!-- Información del estacionamiento en curso -->
     <div *ngIf="estacionamiento && estacionamientoYaIniciado == true">

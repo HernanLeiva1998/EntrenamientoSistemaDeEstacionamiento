@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Patente } from '../interfaces/patente';
 import { Estacionamiento } from '../interfaces/estacionamiento';
 import { baseUrl } from '../baseUrl';
-import { Observable } from 'rxjs';
+import { Observable, catchError } from 'rxjs';
+import { ErrorHandlerService } from './error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,9 @@ export class EstacionamientoService {
 
   iniciarEstacionamiento(patente: Patente | undefined ): Observable<Estacionamiento> {
     return this.http.post<Estacionamiento>(this.urlIniciar,{patente: patente?.patente, telefono: localStorage.getItem('telefono')})
+    .pipe(
+      catchError(this.errorHandler.handleError)
+    )
   } 
 
   finalizarEstacionamiento(): Observable<Estacionamiento> {
@@ -29,5 +33,5 @@ export class EstacionamientoService {
     return this.http.get<Estacionamiento>(this.urlConseguir + localStorage.getItem('telefono'))
 
   }
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private errorHandler: ErrorHandlerService) { }
 }
