@@ -22,9 +22,10 @@ export class DashboardComponent {
   ngOnInit() {
     if(localStorage.getItem('telefono') == undefined){
       this.router.navigate(['/login']);
-    } 
-    this.getAutomovilista();
-    this.getEstacionamiento();
+    } else {
+      this.getAutomovilista();
+      this.getEstacionamiento();
+    }
   }
 
   getAutomovilista() {//:Automovilista{

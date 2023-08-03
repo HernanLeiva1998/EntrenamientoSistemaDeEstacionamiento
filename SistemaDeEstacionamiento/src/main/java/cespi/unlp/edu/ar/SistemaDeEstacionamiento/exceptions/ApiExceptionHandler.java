@@ -1,7 +1,15 @@
-packcage cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions;
+package cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.ErrorDTO;
+
+
+
+
 @ControllerAdvice
 public class ApiExceptionHandler {
 

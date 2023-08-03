@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils;
+package cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions;
 
 import org.springframework.http.HttpStatus;
 

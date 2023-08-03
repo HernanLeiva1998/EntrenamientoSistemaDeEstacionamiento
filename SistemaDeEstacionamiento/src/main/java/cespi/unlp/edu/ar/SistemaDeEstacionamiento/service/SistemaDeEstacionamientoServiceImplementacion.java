@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.ConfiguracionDelSistema;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.CuentaCorriente;
@@ -22,7 +23,6 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.PatenteRepository
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.EstacionamientoRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalTimeManager;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.PatenteValidator;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
 import ch.qos.logback.core.joran.conditional.IfAction;
 
