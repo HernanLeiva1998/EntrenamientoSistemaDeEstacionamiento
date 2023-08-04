@@ -11,6 +11,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./estacionamiento.component.css']
 })
 export class EstacionamientoComponent {
+
+  message?: string;
   estacionamiento?: Estacionamiento;
 
 
@@ -29,31 +31,35 @@ export class EstacionamientoComponent {
     
 
     this.patenteService.getPatentesAutomovilsita().subscribe(p => this.patentes = p)
-    this.service.getEstacionamiento().subscribe(e => {
-      this.estacionamientoYaIniciado = true,
-        this.estacionamiento = e
-    }
-    )
+    this.service.getEstacionamiento().subscribe({
+      next: (e) => {this.estacionamientoYaIniciado = true
+        this.estacionamiento = e}
+    })
   }
 
   onSelect(patente: Patente) {
     this.patenteSeleccionada = patente;
   }
   iniciarEstacionamiento() {
-    this.service.iniciarEstacionamiento(this.patenteSeleccionada).subscribe(r => {
-      this.estacionamiento = r;
-      if (this.estacionamiento) {
-        localStorage.setItem('id_estacionamiento_activo', this.estacionamiento.id.toString());
-      }
-      this.estacionamientoYaIniciado = true;
+    this.service.iniciarEstacionamiento(this.patenteSeleccionada).subscribe({next: (e) => 
+      {
+        this.estacionamiento = e
+        if (this.estacionamiento) {
+          localStorage.setItem('id_estacionamiento_activo', this.estacionamiento.id.toString());
+        }
+        this.estacionamientoYaIniciado = true;
+      },
+      error: (e) => this.message = e
     });
   }
 
   finalizarEstacionamiento() {
-    this.service.finalizarEstacionamiento().subscribe(r => {
-      this.estacionamiento = r
-      localStorage.removeItem('id_estacionamiento_activo')
-      this.estacionamientoYaIniciado = false
+    this.service.finalizarEstacionamiento().subscribe({ next:(e) => 
+      {
+        this.estacionamiento = e
+        localStorage.removeItem('id_estacionamiento_activo')
+        this.estacionamientoYaIniciado = false
+      }
     });
 
   }

@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.ErrorDTO;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.service.SistemaDeEstacionamientoService;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
 
 @RestController
 public class PatenteController {
@@ -29,28 +29,21 @@ public class PatenteController {
 
     @GetMapping("/api/patentes/buscar/{telefono}")
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<?> getPatentesPorTelefono(@PathVariable String telefono) {
-    	try {
-    		return ResponseEntity.ok(service.verPatentesDelAutomovilista(telefono));
-		} catch (SistemaDeEstacionamientoException e) {
-			if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(new ErrorDTO(e.getMessage()));
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
-		}
+    public ResponseEntity<?> getPatentesPorTelefono(@PathVariable String telefono) throws SistemaDeEstacionamientoException {
+    	
+    	return ResponseEntity.ok(service.verPatentesDelAutomovilista(telefono));
+		
         
     }
 
     @PostMapping("/api/patentes/agregar")
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<?> agregarPatenteAutomovilista(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> agregarPatenteAutomovilista(@RequestBody Map<String, String> request) throws SistemaDeEstacionamientoException {
         String patente = request.get("patente");
         String telefono = request.get("telefono");
-        try {
-            Automovilista automovilista = service.agregarPatenteSegunTelefonoDelAutomovilista(telefono, patente);
-            
-            return ResponseEntity.created(null).body(automovilista);
-        } catch (SistemaDeEstacionamientoException e) {
-        	if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(new ErrorDTO(e.getMessage()));
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
-        }
+        Automovilista automovilista = service.agregarPatenteSegunTelefonoDelAutomovilista(telefono, patente);
+        
+        return ResponseEntity.created(null).body(automovilista);
+        
     }
 }

@@ -5,10 +5,10 @@ Este proyecto esta construido con:
 Java 17 (Jdk 17.0.7)
 Spring boot 3.1.0
 Gradle 8.1.1
-MySQL 8.0.33
-Nodejs 18.16.1ng
-npm 9.7.2
-Angular CLI 16.1.3
+MySQL 8.0.33  
+Nodejs 18.16.1 (descargar la version de node LTS que aparesca en la pagina oficial)
+npm 9.7.2 (viene incluido al instalar  node)
+Angular CLI 16.1.3 (despues de isntalar node: npm install -g @angular/cli)
 
 Ademas se uso Insomnia para testear los endpoints. Los archivos Insomnia_2023-07-31.json y
 My-collection.postman_collection.json sirven para importar los HTTP resquest a insomnia y postman
@@ -17,9 +17,14 @@ respectivamente.
 #Set up
 Base de datos: 
 Se necesita crear una base de datos con el nombre: sistema_de_estacionamiento
-Se puede hacer manualmente o bien ejecutando el archivo createDatabase.sh en
-una terminal que permita ejecutar archivos bash logeandose con el usuario root.
-o bien copiando los comandos de script.sql
+Se necesita un usuario "admin" con contraseña "admin" que tenga todos los privilegios
+sobre la base de datos sistema_de_estacionamiento.
+Se puede hacer copiando los comandos del archivo script.sql y ejecutarlos
+en la linea de comandos de MySQL o en una herramienta gráfica como puede 
+ser MySQLWorkbench. 
+Otra opcion es ejecutar el archivo createDatabase.sh Solo funciona si la terminal
+reconoce el comando "mysql"
+
 
 Spring
 Ya con la Base de datos creada entrar en la carpeta SistemaDeEstacionamiento 
@@ -31,8 +36,13 @@ estará lista para recibir consultas http.
 
 
 Angular:
+
 Dentro de la carpeta public\sistema_de_estacionamiento ejecutar el comando npm install. 
 Usar el comando ng serve --open para iniciar la aplicación y abrirla automaticamente en el navegador. 
 Se requiere que este en ejecución la aplicación spring para utilizar las funcionalidades de la aplicación angular.
 
+Telefonos de automovilsitas: 2213334444, 1112223333
+Contraseña de ambos: 1234
 
+Recargar la pagina si despues de loguearse es redirigido al dashboard
+pero no aparecen los datos correspondientes.

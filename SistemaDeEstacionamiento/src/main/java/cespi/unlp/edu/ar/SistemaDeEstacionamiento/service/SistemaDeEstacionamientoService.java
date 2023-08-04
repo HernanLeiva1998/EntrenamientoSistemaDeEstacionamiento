@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.ConfiguracionDelSistema;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.CuentaCorriente;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Estacionamiento;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
 
 @Service
 public interface SistemaDeEstacionamientoService {
