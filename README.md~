@@ -44,5 +44,4 @@ Se requiere que este en ejecución la aplicación spring para utilizar las funci
 Telefonos de automovilsitas: 2213334444, 1112223333
 Contraseña de ambos: 1234
 
-Recargar la pagina si despues de loguearse es redirigido al dashboard
-pero no aparecen los datos correspondientes.
+Bug: Despues de loguearse hay que recargar la pagina para que aparescan los datos correspondientes.
