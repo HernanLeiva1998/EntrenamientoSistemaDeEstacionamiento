@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.ErrorDTO;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.LoginDTO;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.service.SistemaDeEstacionamientoService;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.SistemaDeEstacionamientoException;
@@ -22,16 +23,11 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	   @CrossOrigin(origins = "http://localhost:4200")
-	    public ResponseEntity<?> agregarPatenteAutomovilista(@RequestBody Map<String, String> request) {
-	        String password = request.get("contrasena");
-	        String telefono = request.get("telefono");
-	        try {
-	            Automovilista automovilista = service.autenticar(telefono, password);
-	            
+	    public ResponseEntity<?> agregarPatenteAutomovilista(@RequestBody LoginDTO request) throws SistemaDeEstacionamientoException {
+		
+	            Automovilista automovilista = service.autenticar(request.getTelefono(), request.getContrasena());
+	  
 	            return ResponseEntity.ok().body(automovilista);
-	        } catch (SistemaDeEstacionamientoException e) {
-	        	if (e.getHttpStatus() != null) return ResponseEntity.status(e.getHttpStatus()).body(new ErrorDTO(e.getMessage()));
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorDTO(e.getMessage()));
-	        }
+	        
 	    }
 }
