@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.ErrorDTO;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.patenteDTO;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
@@ -38,10 +39,9 @@ public class PatenteController {
 
     @PostMapping("/api/patentes/agregar")
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<?> agregarPatenteAutomovilista(@RequestBody Map<String, String> request) throws SistemaDeEstacionamientoException {
-        String patente = request.get("patente");
-        String telefono = request.get("telefono");
-        Automovilista automovilista = service.agregarPatenteSegunTelefonoDelAutomovilista(telefono, patente);
+    public ResponseEntity<?> agregarPatenteAutomovilista(@RequestBody patenteDTO request) throws SistemaDeEstacionamientoException {
+        
+        Automovilista automovilista = service.agregarPatenteSegunTelefonoDelAutomovilista(request.getTelefono(), request.getPatente());
         
         return ResponseEntity.created(null).body(automovilista);
         

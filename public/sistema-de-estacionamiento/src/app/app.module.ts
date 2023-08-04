@@ -13,7 +13,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AgregarPatenteComponent } from './agregar-patente/agregar-patente.component';
 import { PatentesComponent } from './patentes/patentes.component';
 import { EstacionamientoComponent } from './estacionamiento/estacionamiento.component';
-import { EstacionamientoActivoComponent } from './estacionamiento-activo/estacionamiento-activo.component';
 import { MensajeComponent } from './mensaje/mensaje.component';
 
 @NgModule({
@@ -26,7 +25,6 @@ import { MensajeComponent } from './mensaje/mensaje.component';
     AgregarPatenteComponent,
     PatentesComponent,
     EstacionamientoComponent,
-    EstacionamientoActivoComponent,
     MensajeComponent
   ],
   imports: [

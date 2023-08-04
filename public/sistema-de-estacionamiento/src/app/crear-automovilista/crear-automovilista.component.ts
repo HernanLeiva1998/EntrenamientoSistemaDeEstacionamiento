@@ -12,7 +12,7 @@ export class CrearAutomovilistaComponent {
   contrasena: string = '';
   email: string= '';
   cbu: string = '';
-  errorMensaje?: string;
+  mensaje?: string;
   
 
   constructor(private http: HttpClient, private service: AutomovilsitaService) { }
@@ -20,8 +20,8 @@ export class CrearAutomovilistaComponent {
   crearAutomovilista(telefono: string, contrasena: string, email: string, cbu: string): void {
 
     this.service.crearAutomovilista(telefono, contrasena, email,cbu).subscribe({
-      next:() =>{this.errorMensaje= "creado"} ,
-      error: (e) => {this.errorMensaje= this.errorMensaje=e}
+      next:() =>{this.mensaje= "Creado"} ,
+      error: (e) => { this.mensaje=e}
     })
   }
 }

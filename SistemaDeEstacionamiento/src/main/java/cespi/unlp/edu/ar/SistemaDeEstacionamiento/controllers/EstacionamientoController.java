@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.ErrorDTO;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers.dtos.iniciarEstacionamientoDTO;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.ConfiguracionDelSistema;
@@ -30,19 +31,23 @@ public class EstacionamientoController {
 	
 	@PostMapping("/api/estacionamientos/iniciar")
 	@CrossOrigin(origins = "http://localhost:4200")
-	public ResponseEntity<?> iniciarEstacionamiento(@RequestBody Map<String, String> request) throws SistemaDeEstacionamientoException{
-		Patente patente= this.service.conseguirPatente(request.get("patente"));
-		Automovilista automovilista = this.service.conseguirAutomovilistaPorTelefono(request.get("telefono"));
-		Estacionamiento estacionamiento = this.service.iniciarEstacionamiento(automovilista, patente);
+	public ResponseEntity<?> iniciarEstacionamiento(@RequestBody iniciarEstacionamientoDTO request) throws SistemaDeEstacionamientoException{
+	
+		Estacionamiento estacionamiento = this.service.iniciarEstacionamiento(
+				this.service.conseguirAutomovilistaPorTelefono(request.getTelefono()),
+				this.service.conseguirPatente(request.getPatente())
+			);
 		return ResponseEntity.created(null).body(estacionamiento);
 		
 	}
 	@PutMapping("/api/estacionamientos/finalizar")
 	@CrossOrigin(origins = "http://localhost:4200")
-	public ResponseEntity<?> finalizarEstacionamiento(@RequestBody Map<String,Long> request) throws SistemaDeEstacionamientoException{
-		Double precioPorHora = this.service.consequirConfiguracionDelSistema().getPrecioPorHora();
-		Estacionamiento estacionamiento =this.service.conseguirEstacionamientoPorId(request.get("id_estacionamiento"));
-		Estacionamiento estacionamientoFinalizada = this.service.finalizarEstacionamiento(estacionamiento, precioPorHora);
+	public ResponseEntity<?> finalizarEstacionamiento(@RequestBody Map<String,String> request) throws SistemaDeEstacionamientoException{
+
+		Estacionamiento estacionamientoFinalizada = this.service.finalizarEstacionamiento(
+				this.service.conseguirEstacionamientoActivoPorTelefono(request.get("telefono")),
+				this.service.consequirConfiguracionDelSistema().getPrecioPorHora()
+			);
 		return ResponseEntity.ok().body(estacionamientoFinalizada);
 		
 	}

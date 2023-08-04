@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class MensajeComponent {
   @Input() mensaje?: String;
+  @Input() mensajeOk?: String;
 
   constructor(){}
 

@@ -26,7 +26,7 @@ export class EstacionamientoService {
   } 
 
   finalizarEstacionamiento(): Observable<Estacionamiento> {
-    return this.http.put<Estacionamiento>(this.urlFinalizar,{id_estacionamiento: localStorage.getItem('id_estacionamiento_activo')})
+    return this.http.put<Estacionamiento>(this.urlFinalizar,{telefono: localStorage.getItem('telefono')})
   }
 
   getEstacionamiento(): Observable<Estacionamiento> { 
