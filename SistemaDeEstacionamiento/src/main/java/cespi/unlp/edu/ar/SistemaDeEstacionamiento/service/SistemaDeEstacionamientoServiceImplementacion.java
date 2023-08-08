@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
@@ -28,6 +29,7 @@ import ch.qos.logback.core.joran.conditional.IfAction;
 
 
 @Transactional
+@Service
 public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeEstacionamientoService {
 
 	@Autowired
