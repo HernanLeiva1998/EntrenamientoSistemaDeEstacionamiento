@@ -11,18 +11,22 @@ import java.time.LocalTime;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.*;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.service.SistemaDeEstacionamientoService;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.service.SistemaDeEstacionamientoServiceImplementacion;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
 import net.bytebuddy.asm.Advice.This;
 
 @SpringBootTest
+//@ContextConfiguration(classes = SistemaDeEstacionamientoServiceImplementacion.class)
 @Transactional
 @Rollback(true)
 class SistemaDeEstacionamientoApplicationTests {
@@ -44,6 +48,7 @@ class SistemaDeEstacionamientoApplicationTests {
 
 	@BeforeEach
 	void setUp() {
+		//this.service= new SistemaDeEstacionamientoServiceImplementacion();
 		timeUnitsManager=new TimeUnitsManager();
 		this.localDateTime30minInicio = LocalDateTime.now()
 			    .withHour(8)

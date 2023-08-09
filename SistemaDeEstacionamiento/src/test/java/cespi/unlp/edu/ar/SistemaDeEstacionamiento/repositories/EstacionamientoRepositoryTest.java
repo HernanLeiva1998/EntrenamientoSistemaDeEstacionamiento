@@ -1,7 +1,7 @@
 package cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -18,7 +18,7 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Estacionamiento;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
 
 @DataJpaTest
-class AutomovilistaRepositoryTest {
+class EstacionamientoRepositoryTest {
 
 	@Autowired
 	AutomovilistaRepository automovilistaRepository;
@@ -35,7 +35,7 @@ class AutomovilistaRepositoryTest {
 	LocalDateTime horaInicio, horaFin;
 	
 	@BeforeEach
-	void setUp() {
+	void setUp() throws Exception {
 		horaInicio = LocalDateTime.now()
 			    .withHour(8)
 			    .withMinute(0)
@@ -50,50 +50,31 @@ class AutomovilistaRepositoryTest {
 		automovilista.setCuentaCorriente(this.cuentaCorrienteRepository.save(new CuentaCorriente("01234567890123456", 1000d)));
 		patente= this.patenteRepository.save(new Patente("AAA999"));
 		automovilista.addPatente(patente);
+		automovilistaRepository.save(automovilista);
 		estacionamiento=new Estacionamiento(automovilista, patente, horaInicio);
 	}
-	
-	@Test
-	void debeEncontrarAlAutomovilsitaPorEstacionamientoActivoTest() {
-		//Given
-		estacionamiento = this.estacionamientoRepository.save(estacionamiento);
-		automovilista.addEstacionamiento(estacionamiento);
-		this.automovilistaRepository.save(automovilista);
-		
-		//When
-		Optional<Automovilista> automovilistaOptional = this.automovilistaRepository.findByIdAndExistingEstacionamientoActivo(automovilista.getId());
-		//then
-		assertThat(automovilistaOptional).isPresent();
-		assertThat(automovilistaOptional.get()).usingRecursiveComparison().isEqualTo(automovilista);
+
+	@AfterEach
+	void tearDown() throws Exception {
 	}
-	
+
 	@Test
-	void noDebeEncontrarAlAutomovilsitaPorEstacionamientoActivoTest() {
-		//When
-		Optional<Automovilista> automovilistaOptional = this.automovilistaRepository.findByIdAndExistingEstacionamientoActivo(automovilista.getId());
-		//then
-		assertThat(automovilistaOptional).isEmpty();
+	void testFindByActivo() {
+		Optional<Estacionamiento> estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		assertThat(estacionamientoOptional).isEmpty();
 		
-		//and Given
+		estacionamientoRepository.save(estacionamiento);
+		estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		assertThat(estacionamientoOptional).isPresent();
+		assertThat(estacionamientoOptional.get()).usingRecursiveComparison().isEqualTo(estacionamiento);
+		
 		estacionamiento.setFinDeEstacionamiento(horaFin);
 		estacionamiento.setEstaActivo(false);
 		estacionamiento = this.estacionamientoRepository.save(estacionamiento);
-		automovilista.addEstacionamiento(estacionamiento);
-		automovilista= this.automovilistaRepository.save(automovilista);
 		
-		//When
-		automovilistaOptional= this.automovilistaRepository.findByIdAndExistingEstacionamientoActivo(automovilista.getId());
-		//then
-		assertThat(automovilistaOptional).isEmpty();
+		estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		assertThat(estacionamientoOptional).isEmpty();
 		
-	}
-	
-	@AfterEach
-	void tearDown() {
-		estacionamientoRepository.deleteAll();
-		patenteRepository.deleteAll();
-		automovilistaRepository.deleteAll();
-		cuentaCorrienteRepository.deleteAll();
 	}
 
 }

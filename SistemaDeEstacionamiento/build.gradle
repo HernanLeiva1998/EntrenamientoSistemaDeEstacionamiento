@@ -28,6 +28,7 @@ dependencies {
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.2.220'
 	// https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin
 	implementation 'org.jacoco:jacoco-maven-plugin:0.7.7.201606060606'
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	
 }
 
