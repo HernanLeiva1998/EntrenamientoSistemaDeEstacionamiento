@@ -10,6 +10,7 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.ConfiguracionDelSistema;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.CuentaCorriente;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalDateTimeProvider;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Estacionamiento;
 
 @Service
@@ -55,5 +56,7 @@ public interface SistemaDeEstacionamientoService {
 	public Estacionamiento conseguirEstacionamientoActivoPorTelefono(String telefono)  throws SistemaDeEstacionamientoException;
 
 	public boolean existeCbu(String cbu);
+	
+	public void changeLocalDateTimeProvider(LocalDateTimeProvider ldtp);
 	
 }

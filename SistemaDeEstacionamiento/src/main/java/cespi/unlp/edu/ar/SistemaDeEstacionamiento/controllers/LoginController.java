@@ -23,7 +23,7 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	   @CrossOrigin(origins = "http://localhost:4200")
-	    public ResponseEntity<?> agregarPatenteAutomovilista(@RequestBody LoginDTO request) throws SistemaDeEstacionamientoException {
+	    public ResponseEntity<?> autenticar(@RequestBody LoginDTO request) throws SistemaDeEstacionamientoException {
 		
 	            Automovilista automovilista = service.autenticar(request.getTelefono(), request.getContrasena());
 	  

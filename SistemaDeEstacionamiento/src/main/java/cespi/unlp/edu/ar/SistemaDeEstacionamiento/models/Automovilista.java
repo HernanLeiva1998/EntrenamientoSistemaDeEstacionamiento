@@ -156,5 +156,10 @@ public class Automovilista {
 		return false;
 	}
 
+	public String getEmail() {
+		// TODO Auto-generated method stub
+		return this.email;
+	}
+
 	
 }

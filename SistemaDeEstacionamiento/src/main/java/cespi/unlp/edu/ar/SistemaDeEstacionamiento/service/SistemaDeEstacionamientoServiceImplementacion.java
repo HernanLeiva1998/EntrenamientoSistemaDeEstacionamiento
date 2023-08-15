@@ -7,6 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,8 @@ import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.ConfiguracionDelS
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.PatenteRepository;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.EstacionamientoRepository;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalDateTimeProvider;
+import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalDateTimeProviderImplementation;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalTimeManager;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.PatenteValidator;
 import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
@@ -45,10 +48,16 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	
 	LocalTimeManager localTimeManager;
 	TimeUnitsManager timeUnitsManager;
+	LocalDateTimeProvider localDateTimeProvider;
 	
-	public SistemaDeEstacionamientoServiceImplementacion() {
+	
+	public SistemaDeEstacionamientoServiceImplementacion(LocalDateTimeProvider ldtp) {
 		this.localTimeManager= new LocalTimeManager();
 		this.timeUnitsManager= new TimeUnitsManager();
+		this.localDateTimeProvider=ldtp;
+	}
+	public SistemaDeEstacionamientoServiceImplementacion() {
+		this(new LocalDateTimeProviderImplementation());
 	}
 	
 	@Transactional
@@ -57,7 +66,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 			CuentaCorriente cuentaCorriente = new CuentaCorriente(cbu, saldo);
 			return this.cuentaCorrienteRepository.save(cuentaCorriente);
 		} catch (Exception e) {
-			throw new SistemaDeEstacionamientoException(e.getMessage());
+			throw new SistemaDeEstacionamientoException("El CBU ya esta cargado en el sistema");
 		}
 		
 	}
@@ -66,39 +75,27 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	@Transactional
 	public Automovilista crearAutomovilista(String telefono, String contraseña, CuentaCorriente cuentaCorriente) 
 			throws SistemaDeEstacionamientoException{
-		try {
-			if (this.existeAutomovilistaPorTelefono(telefono)) {
-				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este teléfono");
-			}
-			Automovilista automovilista= new Automovilista(telefono, contraseña);
-			automovilista.setCuentaCorriente(cuentaCorriente);
-			return this.automovilistaRepository.save(automovilista);
-			
-		} catch (SistemaDeEstacionamientoException e) {
-			throw e;
+		
+		if (this.existeAutomovilistaPorTelefono(telefono)) {
+			throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este teléfono");
 		}
-		
-		
-		
+		Automovilista automovilista= new Automovilista(telefono, contraseña);
+		automovilista.setCuentaCorriente(cuentaCorriente);
+		return this.automovilistaRepository.save(automovilista);		
 	}
 	
 	@Override
 	@Transactional
 	public Automovilista crearAutomovilista(String telefono, String contraseña, String email, CuentaCorriente cuentaCorriente)
 			throws SistemaDeEstacionamientoException{
-		try {
-			if (this.existeAutomovilistaPorTelefono(telefono)) {
-				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este teléfono");
-			}else if (this.existeAutomovilistaPorEmail(email)) {
-				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este correo electrónico");
-			}
-			Automovilista automovilista= new Automovilista(telefono, contraseña, email);
-			automovilista.setCuentaCorriente(cuentaCorriente);
-			return this.automovilistaRepository.save(automovilista);
-			
-		} catch (SistemaDeEstacionamientoException e) {
-			throw e;
+		if (this.existeAutomovilistaPorTelefono(telefono)) {
+			throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este teléfono");
+		}else if (this.existeAutomovilistaPorEmail(email)) {
+			throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este correo electrónico");
 		}
+		Automovilista automovilista= new Automovilista(telefono, contraseña, email);
+		automovilista.setCuentaCorriente(cuentaCorriente);
+		return this.automovilistaRepository.save(automovilista);
 	}
 	
 	public boolean existeAutomovilistaPorEmail(String email) {
@@ -168,7 +165,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		if (patenteOptional.isPresent()) {
 			throw new SistemaDeEstacionamientoException("La patente ya posee un estacionamiento activo");
 		}
-		LocalDateTime inicio= LocalDateTime.now();
+		LocalDateTime inicio= this.localDateTimeProvider.now();
 		if(!this.localTimeManager.esHorarioActivo(inicio.toLocalTime())) {
 			throw new SistemaDeEstacionamientoException("No es horario activo");
 		}
@@ -184,7 +181,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 	@Override
 	public Estacionamiento finalizarEstacionamiento(Estacionamiento estacionamiento, Double precioPorHora) {
 		
-		LocalDateTime finDeEstacionamiento= LocalDateTime.now();
+		LocalDateTime finDeEstacionamiento= this.localDateTimeProvider.now();
 		estacionamiento.setFinDeEstacionamiento(finDeEstacionamiento);
 		int unidadesDeTiempo= calcularUnidadesDeTiempo(estacionamiento, finDeEstacionamiento);
 		
@@ -280,7 +277,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		if (estacionamientoOptional.isPresent()) {
 			return estacionamientoOptional.get();
 		}
-		throw new SistemaDeEstacionamientoException("No existe la estacionamiento");
+		throw new SistemaDeEstacionamientoException("No existe el estacionamiento");
 	}
 
 	@Override
@@ -326,6 +323,11 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		} catch (Exception e) {
 			throw e;
 		}
+		
+	}
+	@Override
+	public void changeLocalDateTimeProvider(LocalDateTimeProvider ldtp) {
+		this.localDateTimeProvider=ldtp;
 		
 	}
 
