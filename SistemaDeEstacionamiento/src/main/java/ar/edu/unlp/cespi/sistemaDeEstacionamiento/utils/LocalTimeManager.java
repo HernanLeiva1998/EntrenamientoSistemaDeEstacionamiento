@@ -2,8 +2,6 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils;
 
 import java.time.LocalTime;
 
-import org.hibernate.query.NativeQuery.ReturnableResultNode;
-
 public class LocalTimeManager {
 	protected LocalTime horaInicio = LocalTime.of(8, 0);
 	protected LocalTime horaFin = LocalTime.of(20, 0);

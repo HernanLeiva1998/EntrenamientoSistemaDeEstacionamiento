@@ -1,11 +1,6 @@
 package ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers;
 
-import java.util.List;
-import java.util.Random;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,25 +9,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers.dtos.AutomovilistaRequest;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers.dtos.ErrorDTO;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers.dtos.NuevoAutomovilistaDTO;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.SistemaDeEstacionamientoService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
 
 @RestController
 public class AutomovilistaController {
 
 	@Autowired
-	SistemaDeEstacionamientoService service;
+	AutomovilistaService service;
 	
-	@GetMapping("/api/automovilistas")
-	public List<Automovilista> getAllAutomovilistas() throws SistemaDeEstacionamientoException {
-		return this.service.getAllAutomovilistas();
-	}
 	
 	@GetMapping("/api/automovilistas/buscar/{telefono}")
     @CrossOrigin(origins = "http://localhost:4200")

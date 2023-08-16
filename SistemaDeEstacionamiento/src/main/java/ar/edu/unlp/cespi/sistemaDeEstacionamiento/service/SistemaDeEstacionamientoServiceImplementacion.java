@@ -1,9 +1,7 @@
 package ar.edu.unlp.cespi.sistemaDeEstacionamiento.service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +20,8 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.CuentaCorrienteRe
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.EstacionamientoRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalTimeManager;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.ValidadorPatente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.TimeUnitsManager;
-import ch.qos.logback.core.joran.conditional.IfAction;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.ValidadorPatente;
 
 
 @Transactional

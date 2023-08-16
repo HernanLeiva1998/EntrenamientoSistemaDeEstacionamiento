@@ -1,7 +1,6 @@
 package ar.edu.unlp.cespi.sistemaDeEstacionamiento.models;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
