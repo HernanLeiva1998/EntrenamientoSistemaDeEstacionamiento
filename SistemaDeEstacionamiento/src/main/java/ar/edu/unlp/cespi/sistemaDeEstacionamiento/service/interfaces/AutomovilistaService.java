@@ -21,5 +21,6 @@ public interface AutomovilistaService {
 	
 	public Automovilista conseguirAutomovilistaPorTelefono(String string) throws SistemaDeEstacionamientoException;
 
+	public boolean existeCbu(String cbu);
 	
 }
