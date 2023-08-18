@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories;
+package ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,13 +12,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.CuentaCorriente;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Estacionamiento;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.EstacionamientoRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
 
 @DataJpaTest
-class PatenteRepositoryTest {
+class EstacionamientoRepositoryTest {
 
 	@Autowired
 	AutomovilistaRepository automovilistaRepository;
@@ -52,38 +56,28 @@ class PatenteRepositoryTest {
 		automovilista.addPatente(patente);
 		automovilistaRepository.save(automovilista);
 		estacionamiento=new Estacionamiento(automovilista, patente, horaInicio);
-		
-		
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		estacionamientoRepository.deleteAll();
-		patenteRepository.deleteAll();
-		automovilistaRepository.deleteAll();
-		cuentaCorrienteRepository.deleteAll();
 	}
 
 	@Test
-	void testFindByIdAndExistingEstacionamientoActivo() {
+	void testFindByActivo() {
+		Optional<Estacionamiento> estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		assertThat(estacionamientoOptional).isEmpty();
 		
-		Optional<Patente> patenteOptional= this.patenteRepository.findByIdAndExistingEstacionamientoActivo(patente.getId());
-		assertThat(patenteOptional).isEmpty();
-		
-		estacionamiento = this.estacionamientoRepository.save(estacionamiento);
-		patente.addEstacionamiento(estacionamiento);
-		patente= this.patenteRepository.save(patente);
-		
-		patenteOptional= this.patenteRepository.findByIdAndExistingEstacionamientoActivo(patente.getId());
-		assertThat(patenteOptional).isPresent();
-		assertThat(patenteOptional.get()).usingRecursiveComparison().isEqualTo(patente);
+		estacionamientoRepository.save(estacionamiento);
+		estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		assertThat(estacionamientoOptional).isPresent();
+		assertThat(estacionamientoOptional.get()).usingRecursiveComparison().isEqualTo(estacionamiento);
 		
 		estacionamiento.setFinDeEstacionamiento(horaFin);
 		estacionamiento.setEstaActivo(false);
 		estacionamiento = this.estacionamientoRepository.save(estacionamiento);
 		
-		patenteOptional= this.patenteRepository.findByIdAndExistingEstacionamientoActivo(patente.getId());
-		assertThat(patenteOptional).isEmpty();
+		estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		assertThat(estacionamientoOptional).isEmpty();
 		
 	}
 

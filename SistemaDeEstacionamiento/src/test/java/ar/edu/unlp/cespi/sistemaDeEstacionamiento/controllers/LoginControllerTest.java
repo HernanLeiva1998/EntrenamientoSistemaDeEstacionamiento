@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers;
+package ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class AutomovilistaControllerTest {
+class LoginControllerTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -17,7 +17,7 @@ class AutomovilistaControllerTest {
 	}
 
 	@Test
-	void test() {
+	void testAutenticar() {
 		fail("Not yet implemented");
 	}
 

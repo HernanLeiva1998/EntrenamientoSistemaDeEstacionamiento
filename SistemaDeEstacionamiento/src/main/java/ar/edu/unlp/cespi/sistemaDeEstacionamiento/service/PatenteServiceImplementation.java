@@ -9,9 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.ConfiguracionDelSistema;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.PatenteService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.ValidadorPatente;
 
@@ -21,15 +23,20 @@ public class PatenteServiceImplementation implements PatenteService {
 	PatenteRepository patenteRepository;
 	@Autowired
 	AutomovilistaRepository automovilistaRepository;
+	@Autowired
+	ConfiguracionDelSistemaService configuracionDelSistemaService;
 	
 	@Override
 	@Transactional
 	public Patente agregarPatente(Automovilista automovilista, String patenteString) throws SistemaDeEstacionamientoException {
-		if (!ValidadorPatente.validarPatente(patenteString)){
+		patenteString = patenteString.toUpperCase();
+		String formatosValidos = this.configuracionDelSistemaService.consequirConfiguracionDelSistema().getFormatosPatentes(); 
+		if (!ValidadorPatente.validarPatente(patenteString, formatosValidos)){
 			throw new SistemaDeEstacionamientoException("El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
 		}else if (automovilista.tienePatenteAsignada(patenteString)) {
 			throw new SistemaDeEstacionamientoException("Esta patente ya esta agregada a la lista de patentes");	
 		}
+		
 		Patente patente;
 		Optional<Patente> patenteOptional = patenteRepository.findByPatente(patenteString);
 	    if (!patenteOptional.isPresent()) {
@@ -63,7 +70,7 @@ public class PatenteServiceImplementation implements PatenteService {
 	            this.agregarPatente(automovilista, patenteString);
 	            return this.automovilistaRepository.save(automovilista);
 	        } else {
-	            throw new SistemaDeEstacionamientoException("El automovilista no existe", HttpStatus.NOT_FOUND);
+	            throw new SistemaDeEstacionamientoException("El automovilista no existe");
 	        }
 	    } catch (Exception e) {
 	        throw e;

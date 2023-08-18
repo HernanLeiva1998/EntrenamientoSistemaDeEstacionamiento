@@ -23,6 +23,7 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 	@Transactional
 	public CuentaCorriente crearCuentaCorriente(String cbu, Double saldo) throws SistemaDeEstacionamientoException {
 		try {
+	    	if (this.existeCbu(cbu)) { throw new SistemaDeEstacionamientoException("Ya existe el cbu");}
 			CuentaCorriente cuentaCorriente = new CuentaCorriente(cbu, saldo);
 			return this.cuentaCorrienteRepository.save(cuentaCorriente);
 		} catch (Exception e) {
@@ -33,13 +34,22 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 	
 	@Override
 	@Transactional
-	public Automovilista crearAutomovilista(String telefono, String contraseña, CuentaCorriente cuentaCorriente) 
+	public Automovilista crearAutomovilista(String telefono, String contrasena, CuentaCorriente cuentaCorriente) 
 			throws SistemaDeEstacionamientoException{
 		try {
+			if (telefono.length() != 10) {
+				throw new SistemaDeEstacionamientoException("El telefono debe contener 10 números");	
+			}
+			if (!telefono.matches("\\d+")) {
+				throw new SistemaDeEstacionamientoException("El telefono solo puede contener caracteres númericos");	
+			}		
+			if(contrasena.length()<4) {
+				throw new SistemaDeEstacionamientoException("La contraseña debe tener un largo igual o mayor a 4 carácteres");	
+			}
 			if (this.existeAutomovilistaPorTelefono(telefono)) {
 				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este teléfono");
 			}
-			Automovilista automovilista= new Automovilista(telefono, contraseña);
+			Automovilista automovilista= new Automovilista(telefono, contrasena);
 			automovilista.setCuentaCorriente(cuentaCorriente);
 			return this.automovilistaRepository.save(automovilista);
 			
@@ -53,15 +63,21 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 	
 	@Override
 	@Transactional
-	public Automovilista crearAutomovilista(String telefono, String contraseña, String email, CuentaCorriente cuentaCorriente)
+	public Automovilista crearAutomovilista(String telefono, String contrasena, String email, CuentaCorriente cuentaCorriente)
 			throws SistemaDeEstacionamientoException{
 		try {
+			if (telefono.length() != 10) {
+				throw new SistemaDeEstacionamientoException("El telefono debe contener 10 números");	
+			}
+			if (!telefono.matches("\\d+")) {
+				throw new SistemaDeEstacionamientoException("El telefono solo puede contener caracteres númericos");	
+			}		
 			if (this.existeAutomovilistaPorTelefono(telefono)) {
 				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este teléfono");
 			}else if (this.existeAutomovilistaPorEmail(email)) {
 				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este correo electrónico");
 			}
-			Automovilista automovilista= new Automovilista(telefono, contraseña, email);
+			Automovilista automovilista= new Automovilista(telefono, contrasena, email);
 			automovilista.setCuentaCorriente(cuentaCorriente);
 			return this.automovilistaRepository.save(automovilista);
 			

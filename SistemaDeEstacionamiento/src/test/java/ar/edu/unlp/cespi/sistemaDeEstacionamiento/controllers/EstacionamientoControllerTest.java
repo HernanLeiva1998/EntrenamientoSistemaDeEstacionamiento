@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.controllers;
+package ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 

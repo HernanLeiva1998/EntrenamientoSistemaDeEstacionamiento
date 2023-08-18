@@ -128,9 +128,9 @@ public class EstacionamientoServiceImplementation implements EstacionamientoServ
 				if (estacionamientoOptional.isPresent()) {
 					return estacionamientoOptional.get();
 				}
-				throw new SistemaDeEstacionamientoException("No tiene estacionamiento activo", HttpStatus.NOT_FOUND);
+				throw new SistemaDeEstacionamientoException("No tiene estacionamiento activo");
 			}
-			throw new SistemaDeEstacionamientoException("No existe el automovilista", HttpStatus.NOT_FOUND);
+			throw new SistemaDeEstacionamientoException("No existe el automovilista");
 			
 		} catch (Exception e) {
 			throw e;

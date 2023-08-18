@@ -12,6 +12,7 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.ConfiguracionDelSistema
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProvider;
 
 @Service
 public interface SistemaDeEstacionamientoService {

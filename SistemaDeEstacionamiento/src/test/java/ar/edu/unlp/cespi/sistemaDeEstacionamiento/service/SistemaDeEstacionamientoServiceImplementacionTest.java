@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.service;
+package ar.edu.unlp.cespi.sistemaDeEstacionamiento.service;
 /*
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils;
+package ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils;
 
 import java.time.LocalDateTime;
 

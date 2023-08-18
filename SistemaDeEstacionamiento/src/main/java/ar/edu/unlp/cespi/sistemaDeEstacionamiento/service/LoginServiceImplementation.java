@@ -24,7 +24,7 @@ public class LoginServiceImplementation implements LoginService {
 	        	if (automovilista.getContraseña().equals(password))
 	        		return automovilista; 
 	        }
-	        throw new SistemaDeEstacionamientoException("Error en el teléfono o contraseña", HttpStatus.NOT_FOUND);
+	        throw new SistemaDeEstacionamientoException("Error en el teléfono o contraseña");
 	    } catch (Exception e) {
 	        throw e;
 	    }

@@ -1,5 +1,6 @@
 package ar.edu.unlp.cespi.sistemaDeEstacionamiento.service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,27 @@ public class ConfiguracionDelSistemaServiceImplementation implements Configuraci
 		if (!configuracionDelSistemaList.isEmpty()) {
 			return configuracionDelSistemaList.get(0);
 		}
-		return  this.cambiarValorPrecioPorHora(10d);
-		
+		return  this.configurar(
+				10d, 
+				LocalTime.of(8, 0),
+				LocalTime.of(20, 0), 
+				"^(?:[A-Za-z]{3}\\d{3}|[A-Za-z]{2}\\d{3}[A-Za-z]{2})$");
 	}
-
-	public ConfiguracionDelSistema cambiarValorPrecioPorHora(Double valor) {
-		ConfiguracionDelSistema cds = new ConfiguracionDelSistema( valor);
+	
+	private ConfiguracionDelSistema configurar(Double valor, LocalTime horaInicio, LocalTime horaFin, String formatosDePatentes) {
+		ConfiguracionDelSistema cds = new ConfiguracionDelSistema( valor, horaInicio, horaFin, formatosDePatentes );
 		return configuracionDelSistemaRepository.save(cds);
+	}
+	public ConfiguracionDelSistema cambiarValorPrecioPorHora(Double valor) throws SistemaDeEstacionamientoException {
+		ConfiguracionDelSistema cds = this.consequirConfiguracionDelSistema();
+		cds.setPrecioPorHora(valor);
+		return configuracionDelSistemaRepository.save(cds);
+	}
+	
+	public ConfiguracionDelSistema cambiarHorarioActivo(LocalTime horaInicio, LocalTime horaFin) throws SistemaDeEstacionamientoException {
+		ConfiguracionDelSistema configuracionDelSistema = this.consequirConfiguracionDelSistema();
+		configuracionDelSistema.cambiarHorario(horaInicio, horaFin);
+		return this.configuracionDelSistemaRepository.save(configuracionDelSistema);
 	}
 
 }

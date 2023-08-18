@@ -2,6 +2,7 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.AutomovilistaServiceImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.ConfiguracionDelSistemaServiceImplementation;
@@ -19,6 +20,7 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.PatenteServ
 @Configuration
 public class SpringDataConfiguration {
 	@Bean
+	@Primary
     public SistemaDeEstacionamientoService springDataJpaService() {
         return new SistemaDeEstacionamientoServiceImplementacion();
     }

@@ -1,4 +1,4 @@
-package cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories;
+package ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,10 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Automovilista;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.CuentaCorriente;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Estacionamiento;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.Patente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.EstacionamientoRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
 
 @DataJpaTest
 class AutomovilistaRepositoryTest {

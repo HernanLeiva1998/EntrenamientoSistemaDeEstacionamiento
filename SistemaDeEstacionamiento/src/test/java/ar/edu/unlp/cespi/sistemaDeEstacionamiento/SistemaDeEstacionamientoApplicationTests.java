@@ -19,19 +19,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-<<<<<<< HEAD:SistemaDeEstacionamiento/src/test/java/cespi/unlp/edu/ar/SistemaDeEstacionamiento/SistemaDeEstacionamientoApplicationTests.java
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.models.*;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.AutomovilistaRepository;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.EstacionamientoRepository;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.repositories.PatenteRepository;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.service.SistemaDeEstacionamientoService;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.service.SistemaDeEstacionamientoServiceImplementacion;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.LocalDateTimeProviderTest;
-import cespi.unlp.edu.ar.SistemaDeEstacionamiento.utils.TimeUnitsManager;
-import net.bytebuddy.asm.Advice.This;
-=======
+
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.ConfiguracionDelSistema;
@@ -39,8 +27,8 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.SistemaDeEstacionamientoService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProviderTest;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.TimeUnitsManager;
->>>>>>> 9a6854b8a186822b05c1eae28c8259988bb6b391:SistemaDeEstacionamiento/src/test/java/ar/edu/unlp/cespi/sistemaDeEstacionamiento/SistemaDeEstacionamientoApplicationTests.java
 
 @SpringBootTest
 //@ContextConfiguration(classes = SistemaDeEstacionamientoServiceImplementacion.class)

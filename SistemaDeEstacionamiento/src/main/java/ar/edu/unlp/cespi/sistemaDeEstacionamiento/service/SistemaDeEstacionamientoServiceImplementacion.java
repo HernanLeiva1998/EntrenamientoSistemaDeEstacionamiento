@@ -5,11 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
@@ -22,6 +20,8 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.ConfiguracionDelS
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.EstacionamientoRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProvider;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProviderImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalTimeManager;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.TimeUnitsManager;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.ValidadorPatente;
@@ -326,6 +326,7 @@ public class SistemaDeEstacionamientoServiceImplementacion implements SistemaDeE
 		this.localDateTimeProvider=ldtp;
 		
 	}
+	
 
 	
 	
