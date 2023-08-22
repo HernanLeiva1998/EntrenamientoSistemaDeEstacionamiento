@@ -8,6 +8,7 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionam
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProvider;
 
 @Service
 public interface EstacionamientoService {
@@ -20,5 +21,7 @@ public interface EstacionamientoService {
 	public Estacionamiento conseguirEstacionamientoPorId(Long id_estacionamiento) throws SistemaDeEstacionamientoException;
 
 	public Estacionamiento conseguirEstacionamientoActivoPorTelefono(String telefono)  throws SistemaDeEstacionamientoException;
+
+	void changeLocalDateTimeProvider(LocalDateTimeProvider ldtp);
 
 }

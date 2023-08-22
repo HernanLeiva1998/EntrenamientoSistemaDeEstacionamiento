@@ -6,29 +6,32 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.SistemaDeEstacionamientoService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
 
 @Configuration
 public class ApplicationStartConfiguration implements ApplicationRunner {
 	
 	@Autowired
-	SistemaDeEstacionamientoService service;
+	AutomovilistaService automovilistaService;
+    @Autowired 
+    private ConfiguracionDelSistemaService configuracionDelSistemaService;
 	
 	@Override
 	public void run(ApplicationArguments args) throws SistemaDeEstacionamientoException {
-		this.service.consequirConfiguracionDelSistema();
-		if (!this.service.existeAutomovilistaPorTelefono("2213334444") )
-		this.service.crearAutomovilista(
+		this.configuracionDelSistemaService.consequirConfiguracionDelSistema();
+		if (!this.automovilistaService.existeAutomovilistaPorTelefono("2213334444") )
+		this.automovilistaService.crearAutomovilista(
 				"2213334444",
 				"1234",
 				"user@email.com",
-				service.crearCuentaCorriente(String.valueOf("123456789012"), 1000d));
-		if (!this.service.existeAutomovilistaPorTelefono("1112223333"))
-		this.service.crearAutomovilista(
+				automovilistaService.crearCuentaCorriente(String.valueOf("123456789012"), 1000d));
+		if (!this.automovilistaService.existeAutomovilistaPorTelefono("1112223333"))
+		this.automovilistaService.crearAutomovilista(
 				"1112223333",
 				"1234",
 				"user0@email.com",
-				service.crearCuentaCorriente(String.valueOf("111111111111"), 1d));	
+				automovilistaService.crearCuentaCorriente(String.valueOf("111111111111"), 1d));	
 	}
 
 }

@@ -21,6 +21,7 @@ public class AutomovilistaController {
 	AutomovilistaService service;
 	
 	
+	
 	@GetMapping("/api/automovilistas/buscar/{telefono}")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> getAutomovilistaPorTelefono(@PathVariable String telefono) throws SistemaDeEstacionamientoException {

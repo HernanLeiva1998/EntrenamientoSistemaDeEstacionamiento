@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
@@ -15,6 +14,8 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepo
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.EstacionamientoRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.EstacionamientoService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProvider;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProviderImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalTimeManager;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.TimeUnitsManager;
 
@@ -29,10 +30,21 @@ public class EstacionamientoServiceImplementation implements EstacionamientoServ
 	
 	LocalTimeManager localTimeManager;
 	TimeUnitsManager timeUnitsManager;
+	LocalDateTimeProvider localDateTimeProvider;
 	
-	public EstacionamientoServiceImplementation() {
+	public EstacionamientoServiceImplementation(LocalDateTimeProvider ldtp) {
 		this.localTimeManager= new LocalTimeManager();
 		this.timeUnitsManager= new TimeUnitsManager();
+		this.localDateTimeProvider = ldtp;
+	}
+	
+	public EstacionamientoServiceImplementation() {
+		this(new LocalDateTimeProviderImplementation());
+	}
+	
+	@Override
+	public void changeLocalDateTimeProvider(LocalDateTimeProvider ldtp) {
+		this.localDateTimeProvider=ldtp;
 	}
 	
 	@Transactional
