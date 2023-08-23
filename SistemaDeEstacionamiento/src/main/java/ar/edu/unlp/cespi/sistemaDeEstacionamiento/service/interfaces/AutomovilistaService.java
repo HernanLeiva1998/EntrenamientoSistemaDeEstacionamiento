@@ -13,7 +13,7 @@ public interface AutomovilistaService {
 	
 	public Automovilista crearAutomovilista(String telefono, String contrasena, String email, CuentaCorriente cuentaCorriente) throws SistemaDeEstacionamientoException;
 	
-	public CuentaCorriente crearCuentaCorriente(String cbu, Double saldo) throws SistemaDeEstacionamientoException;
+	public CuentaCorriente crearCuentaCorriente(Double saldo) throws SistemaDeEstacionamientoException;
 	
 	public boolean existeAutomovilistaPorTelefono(String telefono);
 	

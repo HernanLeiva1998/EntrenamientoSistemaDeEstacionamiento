@@ -17,9 +17,9 @@ export class CrearAutomovilistaComponent {
 
   constructor(private http: HttpClient, private service: AutomovilsitaService) { }
 
-  crearAutomovilista(telefono: string, contrasena: string, email: string, cbu: string): void {
+  crearAutomovilista(telefono: string, contrasena: string, email: string): void {
 
-    this.service.crearAutomovilista(telefono, contrasena, email,cbu).subscribe({
+    this.service.crearAutomovilista(telefono, contrasena, email).subscribe({
       next:() =>{this.mensaje= "Creado"} ,
       error: (e) => { this.mensaje=e}
     })

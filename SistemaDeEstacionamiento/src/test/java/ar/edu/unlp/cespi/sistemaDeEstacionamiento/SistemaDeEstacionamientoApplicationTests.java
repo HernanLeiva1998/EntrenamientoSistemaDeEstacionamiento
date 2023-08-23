@@ -146,12 +146,9 @@ class SistemaDeEstacionamientoApplicationTests {
 	
 	@Test
 	void testCrearAutomovilistaYAgregarPatente() throws SistemaDeEstacionamientoException{
-		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente( "1234567890123456789012", 10000d);
-		assertTrue(this.automovilistaService.existeCbu("1234567890123456789012"));
-		
+		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente(10000d);
 		Automovilista automovilista = this.automovilistaService.crearAutomovilista("2223334444", "1234", "automovilista@mail.com", cuentaCorriente);
 		assertNotNull(automovilista.getId());
-		assertEquals("1234567890123456789012", automovilista.getCuentaCorriente().getCbu());
 		assertEquals(10000d, automovilista.getCuentaCorriente().getSaldo());
 		assertEquals("automovilista@mail.com", automovilista.getEmail());
 		assertEquals("2223334444", automovilista.getTelefono());
@@ -188,8 +185,6 @@ class SistemaDeEstacionamientoApplicationTests {
 		
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.patenteService.agregarPatente(automovilista1, "54wq24"), "El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.patenteService.agregarPatente(automovilista1, "AAA111"), "Esta patente ya esta agregada a la lista de patentes");
-		
-		CuentaCorriente cuentaCorriente2 = this.automovilistaService.crearCuentaCorriente( "00000000000000001", 10000d);
 	}
 	
 	@Test
@@ -199,7 +194,7 @@ class SistemaDeEstacionamientoApplicationTests {
 		
 		
 		ConfiguracionDelSistema configuracionDelSistema = configuracionDelSistemaService.cambiarValorPrecioPorHora(10d);
-		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente( "1234567800003456789012", 10000d);
+		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente( 10000d);
 		Automovilista automovilista = this.automovilistaService.crearAutomovilista("4443334444", "1234", cuentaCorriente);
 		Patente patente= this.patenteService.agregarPatente(automovilista, "aaa111");
 		Estacionamiento estacionamiento= this.estacionamientoService.iniciarEstacionamiento(automovilista, patente);
@@ -212,13 +207,13 @@ class SistemaDeEstacionamientoApplicationTests {
 		
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.iniciarEstacionamiento(automovilista, patente), "Ya posee un estacionamiento activo");
 		
-		CuentaCorriente cuentaCorriente2 = this.automovilistaService.crearCuentaCorriente( "1234567890123456789010", 10000d);
+		CuentaCorriente cuentaCorriente2 = this.automovilistaService.crearCuentaCorriente( 10000d);
 		Automovilista automovilista2 = this.automovilistaService.crearAutomovilista("0001112222", "1234", cuentaCorriente2);
 		this.patenteService.agregarPatente(automovilista2, "aaa111");
 		
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.iniciarEstacionamiento(automovilista2, patente), "La patente ya posee un estacionamiento activo");
 		
-		CuentaCorriente cuentaCorriente3 = this.automovilistaService.crearCuentaCorriente( "1234567890123456789000", 1d);
+		CuentaCorriente cuentaCorriente3 = this.automovilistaService.crearCuentaCorriente( 1d);
 		Automovilista automovilista3 = this.automovilistaService.crearAutomovilista("3331112222", "1234", cuentaCorriente3);
 		Patente patente2 = this.patenteService.agregarPatente(automovilista3, "aaa222");
 		
@@ -250,7 +245,7 @@ class SistemaDeEstacionamientoApplicationTests {
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.crearEstacionamiento(this.localDateFueraDeHorario, localDateTime30minFin, automovilista, patente), "No es horario activo");
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.crearEstacionamiento(this.localDateFueraDeHorario1, localDateTime30minFin, automovilista, patente), "No es horario activo");
 		
-		CuentaCorriente cuentaCorriente1 = this.automovilistaService.crearCuentaCorriente( "1234567890123456789013", 9d);
+		CuentaCorriente cuentaCorriente1 = this.automovilistaService.crearCuentaCorriente(9d);
 		Automovilista automovilista1 = this.automovilistaService.crearAutomovilista("2113334444", "1234", cuentaCorriente1);
 		Patente patente1= this.patenteService.agregarPatente(automovilista, "aaa112");
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.crearEstacionamiento(this.localDateTime30minInicio, localDateTime30minFin, automovilista1, patente1), "No posee suficiente saldo para iniciar el estacionamiento");
@@ -258,7 +253,7 @@ class SistemaDeEstacionamientoApplicationTests {
 	
 	@Test
 	void testAutenticar() throws SistemaDeEstacionamientoException {
-		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente( "1234567890123456789012", 10000d);
+		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente(10000d);
 		Automovilista automovilista = this.automovilistaService.crearAutomovilista("2223334444", "1234", "automovilista@mail.com", cuentaCorriente);
 		
 		assertEquals(automovilista.getId(), this.loginService.autenticar("2223334444", "1234").getId());

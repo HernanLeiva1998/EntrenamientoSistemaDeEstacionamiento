@@ -1,5 +1,5 @@
 export interface CuentaCorriente {
     id: number;
-    cbu: string;
+    accountNumber: string;
     saldo: number;
 }

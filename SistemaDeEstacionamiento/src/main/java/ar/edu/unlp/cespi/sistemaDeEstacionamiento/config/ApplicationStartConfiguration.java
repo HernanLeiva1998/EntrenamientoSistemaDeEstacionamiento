@@ -25,13 +25,13 @@ public class ApplicationStartConfiguration implements ApplicationRunner {
 				"2213334444",
 				"1234",
 				"user@email.com",
-				automovilistaService.crearCuentaCorriente(String.valueOf("123456789012"), 1000d));
+				automovilistaService.crearCuentaCorriente(1000d));
 		if (!this.automovilistaService.existeAutomovilistaPorTelefono("1112223333"))
 		this.automovilistaService.crearAutomovilista(
 				"1112223333",
 				"1234",
 				"user0@email.com",
-				automovilistaService.crearCuentaCorriente(String.valueOf("111111111111"), 1d));	
+				automovilistaService.crearCuentaCorriente(1d));	
 	}
 
 }

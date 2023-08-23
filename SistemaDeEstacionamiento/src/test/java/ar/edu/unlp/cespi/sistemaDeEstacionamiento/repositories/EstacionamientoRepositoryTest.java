@@ -51,7 +51,7 @@ class EstacionamientoRepositoryTest {
 			    .withSecond(0)
 			    .withNano(0);
 		automovilista = new Automovilista("0001112222", "1234");
-		automovilista.setCuentaCorriente(this.cuentaCorrienteRepository.save(new CuentaCorriente("01234567890123456", 1000d)));
+		automovilista.setCuentaCorriente(this.cuentaCorrienteRepository.save(new CuentaCorriente(1000d)));
 		patente= this.patenteRepository.save(new Patente("AAA999"));
 		automovilista.addPatente(patente);
 		automovilistaRepository.save(automovilista);

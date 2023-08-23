@@ -20,7 +20,8 @@
         </nav>
     </ng-template>
     <div *ngIf="automovilista" class="mb-4">
-        <h2 class="mb-4">Cuenta Corriente</h2>
+        <h2 class="mb-4">Cuenta Corriente {{automovilista.cuentaCorriente.accountNumber}}</h2>
+
         <span>Saldo: {{automovilista.cuentaCorriente.saldo}}</span>
     </div>
 

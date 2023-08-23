@@ -31,7 +31,7 @@ public class AutomovilistaController {
 	@PostMapping("api/automovilistas/crear")
 	@CrossOrigin(origins = "http://localhost:4200")
 	  public ResponseEntity<?> crearAutomovilista(@RequestBody NuevoAutomovilistaDTO nuevoAutomovilista) throws SistemaDeEstacionamientoException {
-    	CuentaCorriente cc = service.crearCuentaCorriente(nuevoAutomovilista.getCbu(), 1000d);
+    	CuentaCorriente cc = service.crearCuentaCorriente(1000d);
     	service.crearAutomovilista(
 	    		nuevoAutomovilista.getTelefono(),
 	    		nuevoAutomovilista.getContrasena(),

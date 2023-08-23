@@ -1,5 +1,8 @@
 package ar.edu.unlp.cespi.sistemaDeEstacionamiento.models;
 
+import java.math.BigInteger;
+import java.util.UUID;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,7 +19,7 @@ public class CuentaCorriente {
     private Long id;
 	
 	@Column(nullable= false, unique = true)
-    private String cbu;
+    private String accountNumber;
 
     @Column(nullable = false)
     private Double saldo;
@@ -27,15 +30,16 @@ public class CuentaCorriente {
  */
 
     // Constructor, getters y setters
+    public CuentaCorriente(Double saldo) {
+    	this.saldo=saldo;
+    	this.accountNumber= String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));
+
+    }
+
     public CuentaCorriente() {
     	
     }
     
-    public CuentaCorriente(String cbu, Double saldo) {
-		this.cbu = cbu;
-		this.saldo = saldo;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -44,12 +48,12 @@ public class CuentaCorriente {
 		this.id = id;
 	}
 
-	public String getCbu() {
-		return cbu;
+	public String getAccountNumber() {
+		return accountNumber;
 	}
 
-	public void setCbu(String cbu) {
-		this.cbu = cbu;
+	public void setAccountNumber(String cbu) {
+		this.accountNumber = cbu;
 	}
 
 	public Double getSaldo() {

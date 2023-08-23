@@ -26,12 +26,11 @@ export class AutomovilsitaService {
     .pipe(catchError(this.errorHandler.handleError));
   }
 
-  crearAutomovilista(telefono: string, contrasena: string, email: string, cbu: string): Observable<Automovilista>{
+  crearAutomovilista(telefono: string, contrasena: string, email: string): Observable<Automovilista>{
     this.nuevoAutomovilsita = {
       telefono: telefono,
       contrasena: contrasena,
-      email: email,
-      cbu: cbu  
+      email: email
     }
     return this.http.post<Automovilista>(this.crearUrl, this.nuevoAutomovilsita)
     .pipe(catchError(this.errorHandler.handleError));

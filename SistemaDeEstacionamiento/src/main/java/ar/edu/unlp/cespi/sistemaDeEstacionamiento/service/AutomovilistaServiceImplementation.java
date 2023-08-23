@@ -21,14 +21,11 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 	CuentaCorrienteRepository cuentaCorrienteRepository;
 	
 	@Transactional
-	public CuentaCorriente crearCuentaCorriente(String cbu, Double saldo) throws SistemaDeEstacionamientoException {
-		try {
-	    	if (this.existeCbu(cbu)) { throw new SistemaDeEstacionamientoException("Ya existe el cbu");}
-			CuentaCorriente cuentaCorriente = new CuentaCorriente(cbu, saldo);
-			return this.cuentaCorrienteRepository.save(cuentaCorriente);
-		} catch (Exception e) {
-			throw new SistemaDeEstacionamientoException(e.getMessage());
-		}
+	public CuentaCorriente crearCuentaCorriente(Double saldo) throws SistemaDeEstacionamientoException {
+		
+			new CuentaCorriente(saldo);
+			return this.cuentaCorrienteRepository.save(new CuentaCorriente(saldo));
+		
 		
 	}
 	
@@ -96,7 +93,7 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 	
 	@Override
 	public boolean existeCbu(String cbu) {
-		return this.cuentaCorrienteRepository.findByCbu(cbu).isPresent();
+		return this.cuentaCorrienteRepository.findByAccountNumber(cbu).isPresent();
 	}
 
 	@Override

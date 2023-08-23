@@ -1,7 +1,7 @@
 
 <div class="container mt-5">
     <h2>Crear Automovilista</h2>
-    <form (ngSubmit)="crearAutomovilista(telefono.value, contrasena.value, email.value, cbu.value)">  
+    <form (ngSubmit)="crearAutomovilista(telefono.value, contrasena.value, email.value)">  
 <div class="mb-3">
     <label for="nueva-patente" class="form-label">Teléfono:</label>
     <input id="nueva-patente" #telefono  class="form-control" />
@@ -13,10 +13,6 @@
 <div class="mb-3">
     <label for="nueva-patente" class="form-label">Email:</label>
     <input id="nueva-patente" type="email" #email class="form-control" />
-</div>
-<div class="mb-3">
-    <label for="nueva-patente" class="form-label">CBU:</label>
-    <input id="nueva-patente" type="text" #cbu class="form-control" />
 </div>
 
 <app-mensaje [mensajeOk]="mensaje"></app-mensaje>
