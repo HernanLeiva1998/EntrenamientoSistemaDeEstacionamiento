@@ -22,7 +22,10 @@ export class AutomovilsitaService {
     
   }
   getAutomovilista(): Observable<Automovilista> {
-    return this.http.get<Automovilista>(this.automovilistaUrl)
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa('user:password')
+    });
+    return this.http.get<Automovilista>(this.automovilistaUrl, {headers})
     .pipe(catchError(this.errorHandler.handleError));
   }
 

@@ -2,12 +2,19 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.models;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Objects;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,9 +23,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
+@Data
+@Builder
 @Entity
-public class Automovilista {
+@AllArgsConstructor
+public class Automovilista implements UserDetails{
 	
 	
 
@@ -35,7 +48,7 @@ public class Automovilista {
 	
 	@JsonIgnore
 	@Column(nullable = false)
-	private String contraseña;
+	private String contrasena;
 
     @ManyToMany
     @JoinTable(
@@ -52,6 +65,8 @@ public class Automovilista {
     @OneToMany(mappedBy = "automovilista")
     private List<Estacionamiento> estacionamientos = new ArrayList<>();
     
+    @Enumerated(EnumType.STRING) 
+    Role role;
     
     // Constructor, getters y setters
     public Automovilista() {
@@ -60,12 +75,12 @@ public class Automovilista {
     
     public Automovilista(String telefono, String contraseña) {
 		this.telefono = telefono;
-		this.contraseña = contraseña;
+		this.contrasena = contraseña;
 	}
     
     public Automovilista(String telefono, String contraseña, String email) {
 		this.telefono = telefono;
-		this.contraseña = contraseña;
+		this.contrasena = contraseña;
 		this.email = email;
 	}
     
@@ -94,12 +109,12 @@ public class Automovilista {
 		this.telefono = telefono;
 	}
 
-	public String getContraseña() {
-		return this.contraseña;
+	public String getContrasena() {
+		return this.contrasena;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setContrasena(String contraseña) {
+		this.contrasena = contraseña;
 	}
 
 	public List<Patente> getPatentes() {
@@ -157,9 +172,42 @@ public class Automovilista {
 	}
 
 	public String getEmail() {
-		// TODO Auto-generated method stub
 		return this.email;
 	}
+
+
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return this.getContrasena();
+	}
+
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return  this.getTelefono();
+	}
+
+	@Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+      return List.of(new SimpleGrantedAuthority((role.name())));
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+       return true;
+    }
+    @Override
+    public boolean isAccountNonLocked() {
+       return true;
+    }
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
 	
 }

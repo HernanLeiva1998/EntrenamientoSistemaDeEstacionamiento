@@ -21,7 +21,7 @@ public class LoginServiceImplementation implements LoginService {
 	        Optional<Automovilista> automovilistaOptional = this.automovilistaRepository.findByTelefono(telefono);
 	        if (automovilistaOptional.isPresent()) {
 	        	Automovilista automovilista = automovilistaOptional.get();
-	        	if (automovilista.getContraseña().equals(password))
+	        	if (automovilista.getContrasena().equals(password))
 	        		return automovilista; 
 	        }
 	        throw new SistemaDeEstacionamientoException("Error en el teléfono o contraseña");

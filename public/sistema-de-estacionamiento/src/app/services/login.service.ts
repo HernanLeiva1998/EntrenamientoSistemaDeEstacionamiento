@@ -18,7 +18,10 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router, private errorHandler: ErrorHandlerService) { }
 
   login(loginData: LoginInterface): Observable<Automovilista> {
-    return this.http.post<Automovilista>(this.url, loginData).pipe(
+    let headers: Headers
+    headers=new Headers()
+    headers.append('Authorization', 'Basic ' + btoa('user:password'))
+    return this.http.post<Automovilista>(this.url, {contrasena: loginData.contrasena, telefono: loginData.telefono ,headers: headers}).pipe(
       catchError(this.errorHandler.handleError)
     )
   } 
