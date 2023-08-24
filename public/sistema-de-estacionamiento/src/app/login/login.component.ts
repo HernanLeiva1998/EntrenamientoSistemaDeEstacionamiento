@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { LoginInterface } from '../interfaces/login-interface';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-login',
@@ -20,12 +21,16 @@ export class LoginComponent {
   logear(telefono: string, contrasena: string) {
     this.loginData = { telefono: telefono, contrasena: contrasena }
     this.service.login(this.loginData).subscribe(
-      {next: (a) => {
-        localStorage.setItem('telefono', a.telefono)
-        this.router.navigate(['/dashboard'])
-      },
-      error: (e) => this.mensaje= e
-    })
+      {
+        next: (t) => {
+          localStorage.setItem('token', t.token)
+          const decodedToken: any = jwt_decode(t.token)
+          localStorage.setItem('telefono', decodedToken.sub)
+          console.log(decodedToken);
+          this.router.navigate(['/dashboard'])
+        },
+        error: (e) => this.mensaje = e
+      })
   }
 
   logout() {

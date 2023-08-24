@@ -1,4 +1,4 @@
-package ar.edu.unlp.cespi.sistemaDeEstacionamiento.Auth;
+package ar.edu.unlp.cespi.sistemaDeEstacionamiento.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

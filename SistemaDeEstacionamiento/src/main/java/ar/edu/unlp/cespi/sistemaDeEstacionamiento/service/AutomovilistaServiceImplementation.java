@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
@@ -60,7 +61,7 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 	
 	@Override
 	@Transactional
-	public Automovilista crearAutomovilista(String telefono, String contrasena, String email, CuentaCorriente cuentaCorriente)
+	public Automovilista crearAutomovilista(String telefono, String contrasena, String email, CuentaCorriente cuentaCorriente, Role role)
 			throws SistemaDeEstacionamientoException{
 		try {
 			if (telefono.length() != 10) {
@@ -74,7 +75,7 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 			}else if (this.existeAutomovilistaPorEmail(email)) {
 				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este correo electrónico");
 			}
-			Automovilista automovilista= new Automovilista(telefono, contrasena, email);
+			Automovilista automovilista= new Automovilista(telefono, contrasena, email, role);
 			automovilista.setCuentaCorriente(cuentaCorriente);
 			return this.automovilistaRepository.save(automovilista);
 			

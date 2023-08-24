@@ -16,26 +16,26 @@ export class AutomovilsitaService {
   nuevoAutomovilsita?: NuevoAutomovilista;
 
 
-  constructor(private http: HttpClient, private errorHandler: ErrorHandlerService) {}
+  constructor(private http: HttpClient, private errorHandler: ErrorHandlerService) { }
 
-  ngOnInit(){
-    
+  ngOnInit() {
+
   }
   getAutomovilista(): Observable<Automovilista> {
     const headers = new HttpHeaders({
-      Authorization: 'Basic ' + btoa('user:password')
+      Authorization: 'Bearer ' + localStorage.getItem('token')
     });
-    return this.http.get<Automovilista>(this.automovilistaUrl, {headers})
-    .pipe(catchError(this.errorHandler.handleError));
+    return this.http.get<Automovilista>(this.automovilistaUrl, { headers })
+      .pipe(catchError(this.errorHandler.handleError));
   }
 
-  crearAutomovilista(telefono: string, contrasena: string, email: string): Observable<Automovilista>{
+  crearAutomovilista(telefono: string, contrasena: string, email: string): Observable<Automovilista> {
     this.nuevoAutomovilsita = {
       telefono: telefono,
       contrasena: contrasena,
       email: email
     }
     return this.http.post<Automovilista>(this.crearUrl, this.nuevoAutomovilsita)
-    .pipe(catchError(this.errorHandler.handleError));
+      .pipe(catchError(this.errorHandler.handleError));
   }
 }

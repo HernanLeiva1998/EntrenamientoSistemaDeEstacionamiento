@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { Patente } from '../interfaces/patente';
 import { baseUrl } from '../baseUrl';
@@ -19,12 +19,18 @@ export class PatenteService {
   constructor(private http: HttpClient, private errorHandlerService: ErrorHandlerService) { }
 
   getPatentesAutomovilsita(): Observable<Patente[]> {
-    return this.http.get<Patente[]>(this.urlPatentes + localStorage.getItem('telefono'))
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    });
+    return this.http.get<Patente[]>(this.urlPatentes + localStorage.getItem('telefono'), { headers })
   }
 
   crearPatente(patente: string): Observable<Patente> {
+    const headers = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    });
     return this.http
-      .post<Patente>(this.urlAgregarPatente, { patente: patente, telefono: localStorage.getItem('telefono') })
+      .post<Patente>(this.urlAgregarPatente, { patente: patente, telefono: localStorage.getItem('telefono') }, { headers })
       .pipe(
         catchError(this.errorHandlerService.handleError)
       )

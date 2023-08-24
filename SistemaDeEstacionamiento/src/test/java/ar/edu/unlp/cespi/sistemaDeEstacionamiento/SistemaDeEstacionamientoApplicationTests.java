@@ -22,6 +22,7 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.ConfiguracionDelSistema
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.EstacionamientoService;
@@ -147,7 +148,7 @@ class SistemaDeEstacionamientoApplicationTests {
 	@Test
 	void testCrearAutomovilistaYAgregarPatente() throws SistemaDeEstacionamientoException{
 		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente(10000d);
-		Automovilista automovilista = this.automovilistaService.crearAutomovilista("2223334444", "1234", "automovilista@mail.com", cuentaCorriente);
+		Automovilista automovilista = this.automovilistaService.crearAutomovilista("2223334444", "1234", "automovilista@mail.com", cuentaCorriente, Role.USER);
 		assertNotNull(automovilista.getId());
 		assertEquals(10000d, automovilista.getCuentaCorriente().getSaldo());
 		assertEquals("automovilista@mail.com", automovilista.getEmail());
@@ -254,7 +255,7 @@ class SistemaDeEstacionamientoApplicationTests {
 	@Test
 	void testAutenticar() throws SistemaDeEstacionamientoException {
 		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente(10000d);
-		Automovilista automovilista = this.automovilistaService.crearAutomovilista("2223334444", "1234", "automovilista@mail.com", cuentaCorriente);
+		Automovilista automovilista = this.automovilistaService.crearAutomovilista("2223334444", "1234", "automovilista@mail.com", cuentaCorriente, Role.USER);
 		
 		assertEquals(automovilista.getId(), this.loginService.autenticar("2223334444", "1234").getId());
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.loginService.autenticar("22233344432432", "1234"), "Error en el teléfono o contraseña");

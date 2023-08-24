@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers.dtos.NuevoAutomovilistaDTO;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
 
 @RestController
@@ -36,7 +37,8 @@ public class AutomovilistaController {
 	    		nuevoAutomovilista.getTelefono(),
 	    		nuevoAutomovilista.getContrasena(),
 	    		nuevoAutomovilista.getEmail(),
-	    		cc
+	    		cc,
+	    		Role.USER
 	    );
     	return ResponseEntity.ok().build();
 	  }

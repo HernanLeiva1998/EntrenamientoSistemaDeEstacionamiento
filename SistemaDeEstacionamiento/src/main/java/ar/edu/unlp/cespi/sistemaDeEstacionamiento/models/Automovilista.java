@@ -56,14 +56,14 @@ public class Automovilista implements UserDetails{
             joinColumns = @JoinColumn(name = "id_automovilista"),
             inverseJoinColumns = @JoinColumn(name = "id_patente")
     )
-    private List<Patente> patentes = new ArrayList<>();
+    private List<Patente> patentes;
 
     @OneToOne
     @JoinColumn(name = "id_cuenta_corriente")
     private CuentaCorriente cuentaCorriente;
     
     @OneToMany(mappedBy = "automovilista")
-    private List<Estacionamiento> estacionamientos = new ArrayList<>();
+    private List<Estacionamiento> estacionamientos;
     
     @Enumerated(EnumType.STRING) 
     Role role;
@@ -82,6 +82,13 @@ public class Automovilista implements UserDetails{
 		this.telefono = telefono;
 		this.contrasena = contraseña;
 		this.email = email;
+	}
+    
+    public Automovilista(String telefono, String contraseña, String email, Role role) {
+		this.telefono = telefono;
+		this.contrasena = contraseña;
+		this.email = email;
+		this.role=role;
 	}
     
     public Boolean puedeIniciarEstacionamiento(Double monto) {

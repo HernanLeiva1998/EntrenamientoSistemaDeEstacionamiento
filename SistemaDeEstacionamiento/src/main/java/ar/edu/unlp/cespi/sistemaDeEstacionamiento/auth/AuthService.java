@@ -1,4 +1,4 @@
-package ar.edu.unlp.cespi.sistemaDeEstacionamiento.Auth;
+package ar.edu.unlp.cespi.sistemaDeEstacionamiento.auth;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.config.jwt.JwtService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ public class AuthService {
             .telefono(request.getUsername())
             .contrasena(passwordEncoder.encode( request.getPassword()))
             .role(Role.USER)
+            .cuentaCorriente(new CuentaCorriente(1000d))
             .build();
 
         userRepository.save(user);

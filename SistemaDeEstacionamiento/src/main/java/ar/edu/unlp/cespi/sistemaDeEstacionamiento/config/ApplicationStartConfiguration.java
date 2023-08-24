@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +31,15 @@ public class ApplicationStartConfiguration implements ApplicationRunner {
 				"2213334444",
 				passwordEncoder.encode("1234"),
 				"user@email.com",
-				automovilistaService.crearCuentaCorriente(1000d));
+				automovilistaService.crearCuentaCorriente(1000d),
+				Role.USER);
 		if (!this.automovilistaService.existeAutomovilistaPorTelefono("1112223333"))
 		this.automovilistaService.crearAutomovilista(
 				"1112223333",
 				passwordEncoder.encode("1234"),
 				"user0@email.com",
-				automovilistaService.crearCuentaCorriente(1d));	
+				automovilistaService.crearCuentaCorriente(1d),
+				Role.USER);	
 	}
 
 }
