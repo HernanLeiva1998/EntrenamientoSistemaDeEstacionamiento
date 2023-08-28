@@ -5,6 +5,7 @@ import { Automovilista } from '../interfaces/automovilista';
 import { NuevoAutomovilista } from '../interfaces/nuevo-automovilista';
 import { baseUrl } from '../baseUrl';
 import { ErrorHandlerService } from './error-handler.service';
+import { Token } from '../interfaces/token';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { ErrorHandlerService } from './error-handler.service';
 export class AutomovilsitaService {
 
   private automovilistaUrl = baseUrl + "api/automovilistas/buscar/" + localStorage.getItem('telefono');
-  private crearUrl = baseUrl + "api/automovilistas/crear";
+  private crearUrl = baseUrl + "auth/register";
   nuevoAutomovilsita?: NuevoAutomovilista;
 
 
@@ -29,13 +30,13 @@ export class AutomovilsitaService {
       .pipe(catchError(this.errorHandler.handleError));
   }
 
-  crearAutomovilista(telefono: string, contrasena: string, email: string): Observable<Automovilista> {
+  crearAutomovilista(telefono: string, contrasena: string, email: string): Observable<Token> {
     this.nuevoAutomovilsita = {
-      telefono: telefono,
-      contrasena: contrasena,
+      username: telefono,
+      password: contrasena,
       email: email
     }
-    return this.http.post<Automovilista>(this.crearUrl, this.nuevoAutomovilsita)
+    return this.http.post<Token>(this.crearUrl, this.nuevoAutomovilsita)
       .pipe(catchError(this.errorHandler.handleError));
   }
 }

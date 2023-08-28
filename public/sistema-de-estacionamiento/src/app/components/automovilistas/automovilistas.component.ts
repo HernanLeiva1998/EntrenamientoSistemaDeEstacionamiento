@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Automovilista } from '../interfaces/automovilista';
+import { Automovilista } from '../../interfaces/automovilista';
 
 @Component({
   selector: 'app-automovilistas',

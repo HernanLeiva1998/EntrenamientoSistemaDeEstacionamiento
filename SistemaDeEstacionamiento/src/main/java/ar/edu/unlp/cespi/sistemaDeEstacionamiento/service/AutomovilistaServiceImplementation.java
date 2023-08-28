@@ -75,6 +75,7 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 			}else if (this.existeAutomovilistaPorEmail(email)) {
 				throw new SistemaDeEstacionamientoException("Ya existe una cuenta con este correo electrónico");
 			}
+			cuentaCorrienteRepository.save(cuentaCorriente);
 			Automovilista automovilista= new Automovilista(telefono, contrasena, email, role);
 			automovilista.setCuentaCorriente(cuentaCorriente);
 			return this.automovilistaRepository.save(automovilista);

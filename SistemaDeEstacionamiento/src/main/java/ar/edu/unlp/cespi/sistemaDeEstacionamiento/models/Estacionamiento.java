@@ -3,6 +3,9 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.models;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,9 +43,11 @@ public class Estacionamiento {
     private Long id;
 	
 	@Column(name = "inicio_de_estacionamiento", nullable = false)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime inicioDeEstacionamiento;
 	
 	@Column(name = "fin_de_estacionamiento", nullable = true)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime finDeEstacionamiento;
 	
 	@Column(nullable = true)
@@ -53,10 +58,12 @@ public class Estacionamiento {
 	
 	@ManyToOne
     @JoinColumn(name = "id_automovilista")
+	@JsonIgnore
     private Automovilista automovilista;
 
     @ManyToOne
     @JoinColumn(name = "id_patente")
+    @JsonIgnore
     private Patente patente;
 
 	public Long getId() {

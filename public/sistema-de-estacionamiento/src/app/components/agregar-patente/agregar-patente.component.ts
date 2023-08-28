@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Patente } from '../interfaces/patente';
-import { Automovilista } from '../interfaces/automovilista';
-import { PatenteService } from '../services/patente.service';
+import { Patente } from '../../interfaces/patente';
+import { Automovilista } from '../../interfaces/automovilista';
+import { PatenteService } from '../../services/patente.service';
 import { Router } from '@angular/router';
 
 @Component({

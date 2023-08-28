@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Patente } from '../interfaces/patente';
+import { Patente } from '../../interfaces/patente';
 
 @Component({
   selector: 'app-patentes',

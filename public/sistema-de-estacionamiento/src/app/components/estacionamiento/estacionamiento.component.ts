@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Patente } from '../interfaces/patente';
-import { EstacionamientoService } from '../services/estacionamiento.service';
-import { Estacionamiento } from '../interfaces/estacionamiento';
-import { PatenteService } from '../services/patente.service';
+import { Patente } from '../../interfaces/patente';
+import { EstacionamientoService } from '../../services/estacionamiento.service';
+import { Estacionamiento } from '../../interfaces/estacionamiento';
+import { PatenteService } from '../../services/patente.service';
 import { Router } from '@angular/router';
 
 @Component({

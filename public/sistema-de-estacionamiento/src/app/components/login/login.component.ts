@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { LoginInterface } from '../interfaces/login-interface';
-import { LoginService } from '../services/login.service';
+import { LoginInterface } from '../../interfaces/login-interface';
+import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
 import jwt_decode from 'jwt-decode';
 

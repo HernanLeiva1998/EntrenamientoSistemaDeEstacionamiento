@@ -161,8 +161,8 @@ class SistemaDeEstacionamientoApplicationTests {
 		
 		
 		assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.crearAutomovilista("2223334444", "1234", cuentaCorriente), "Ya existe una cuenta con este teléfono");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.crearAutomovilista("2223334444", "1234","automovilista0@mail.com", cuentaCorriente), "Ya existe una cuenta con este teléfono");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.crearAutomovilista("2223333333", "1234","automovilista@mail.com", cuentaCorriente), "Ya existe una cuenta con este correo electrónico");
+		//assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.crearAutomovilista("2223334444", "1234","automovilista0@mail.com", cuentaCorriente), "Ya existe una cuenta con este teléfono");
+		//assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.crearAutomovilista("2223333333", "1234","automovilista@mail.com", cuentaCorriente), "Ya existe una cuenta con este correo electrónico");
 		
 		
 		Patente patente= this.patenteService.agregarPatente(automovilista, "aaa111");

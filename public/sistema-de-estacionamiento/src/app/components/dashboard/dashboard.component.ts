@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Automovilista } from '../interfaces/automovilista';
-import { Estacionamiento } from '../interfaces/estacionamiento';
-import { AutomovilsitaService } from '../services/automovilsita.service';
-import { EstacionamientoService } from '../services/estacionamiento.service';
+import { Automovilista } from '../../interfaces/automovilista';
+import { Estacionamiento } from '../../interfaces/estacionamiento';
+import { AutomovilsitaService } from '../../services/automovilsita.service';
+import { EstacionamientoService } from '../../services/estacionamiento.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -44,10 +44,12 @@ export class DashboardComponent {
   finalizarEstacionamiento() {
     this.estacionamientoService.finalizarEstacionamiento().subscribe({
       next: (r) => {this.estacionamientoActivo = r;
-      if (this.automovilista) { this.automovilista.cuentaCorriente.saldo - r.monto }
+      if (this.automovilista) { 
+        this.automovilista.cuentaCorriente.saldo = this.automovilista.cuentaCorriente.saldo - r.monto 
+      }
       this.estacionamientoActivo = undefined;
       localStorage.removeItem('id_estacionamiento_activo')
-      this.automovilista = r.automovilista
+      
       },
       error: (e) => this.errorMessage= e
     });

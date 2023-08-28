@@ -76,6 +76,7 @@ public class Automovilista implements UserDetails{
     public Automovilista(String telefono, String contraseña) {
 		this.telefono = telefono;
 		this.contrasena = contraseña;
+		this.role=Role.USER;
 	}
     
     public Automovilista(String telefono, String contraseña, String email) {
