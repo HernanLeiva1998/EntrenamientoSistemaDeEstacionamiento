@@ -16,18 +16,18 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Driver;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.ConfiguracionDelSistema;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Wallet;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Parking;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.LicensePlate;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.DriverService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.EstacionamientoService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ParkingService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LoginService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.PatenteService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LicensePlateService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProviderTest;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.TimeUnitsManager;
 
@@ -39,11 +39,11 @@ class SistemaDeEstacionamientoApplicationTests {
 
 
 	@Autowired
-	AutomovilistaService automovilistaService;
+	DriverService driverService;
 	@Autowired
-    private PatenteService patenteService;
+    private LicensePlateService licensePlateService;
 	@Autowired
-	private EstacionamientoService estacionamientoService;
+	private ParkingService parkingService;
     @Autowired 
     private ConfiguracionDelSistemaService configuracionDelSistemaService;
     @Autowired
@@ -146,120 +146,120 @@ class SistemaDeEstacionamientoApplicationTests {
 
 	
 	@Test
-	void testCrearAutomovilistaYAgregarPatente() throws SistemaDeEstacionamientoException{
-		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente(10000d);
-		Automovilista automovilista = this.automovilistaService.crearAutomovilista("2223334444", "1234", "automovilista@mail.com", cuentaCorriente, Role.USER);
+	void testCrearAutomovilistaYAgregarPatente() throws ParkingSystemException{
+		Wallet cuentaCorriente = this.driverService.createWallet(10000d);
+		Driver automovilista = this.driverService.createDriver("2223334444", "1234", "automovilista@mail.com", cuentaCorriente, Role.USER);
 		assertNotNull(automovilista.getId());
-		assertEquals(10000d, automovilista.getCuentaCorriente().getSaldo());
+		assertEquals(10000d, automovilista.getWallet().getBalance());
 		assertEquals("automovilista@mail.com", automovilista.getEmail());
-		assertEquals("2223334444", automovilista.getTelefono());
+		assertEquals("2223334444", automovilista.getPhone());
 		
-		Automovilista automovilistaEncontrado = this.automovilistaService.conseguirAutomovilistaPorTelefono("2223334444");
+		Driver automovilistaEncontrado = this.driverService.getDriverByPhone("2223334444");
 		assertEquals(automovilista.getId(), automovilistaEncontrado.getId());
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.conseguirAutomovilistaPorTelefono("0000"), "No existe el automovilista");
+		assertThrows(ParkingSystemException.class, () -> this.driverService.getDriverByPhone("0000"), "No existe el automovilista");
 		
 		
 		
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.crearAutomovilista("2223334444", "1234", cuentaCorriente), "Ya existe una cuenta con este teléfono");
+		assertThrows(ParkingSystemException.class, () -> this.driverService.createDriver("2223334444", "1234", cuentaCorriente), "Ya existe una cuenta con este teléfono");
 		//assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.crearAutomovilista("2223334444", "1234","automovilista0@mail.com", cuentaCorriente), "Ya existe una cuenta con este teléfono");
 		//assertThrows(SistemaDeEstacionamientoException.class, () -> this.automovilistaService.crearAutomovilista("2223333333", "1234","automovilista@mail.com", cuentaCorriente), "Ya existe una cuenta con este correo electrónico");
 		
 		
-		Patente patente= this.patenteService.agregarPatente(automovilista, "aaa111");
+		LicensePlate patente= this.licensePlateService.addLicensePlate(automovilista, "aaa111");
 		assertNotNull(patente);
-		assertEquals("AAA111", patente.getPatente());
-		Patente patente0= this.patenteService.agregarPatente(automovilista, "aa111aa");
-		assertEquals("AA111AA", patente0.getPatente());
+		assertEquals("AAA111", patente.getLicensePlate());
+		LicensePlate patente0= this.licensePlateService.addLicensePlate(automovilista, "aa111aa");
+		assertEquals("AA111AA", patente0.getLicensePlate());
 		
-		Patente patenteConseguida=this.patenteService.conseguirPatente("AAA111");
-		assertEquals(patente.getPatente(), patenteConseguida.getPatente());
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.patenteService.conseguirPatente("aaa333"), "No existe la patente");
+		LicensePlate patenteConseguida=this.licensePlateService.getLicensePlate("AAA111");
+		assertEquals(patente.getLicensePlate(), patenteConseguida.getLicensePlate());
+		assertThrows(ParkingSystemException.class, () -> this.licensePlateService.getLicensePlate("aaa333"), "No existe la patente");
 		
-		Automovilista automovilistaConPatente= this.patenteService.agregarPatenteSegunTelefonoDelAutomovilista("2223334444", "aaa333");
-		assertEquals("AAA333", automovilistaConPatente.getPatentes().get(2).getPatente());
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.patenteService.agregarPatenteSegunTelefonoDelAutomovilista("0000", "aaa333"), "El automovilista no existe");
+		Driver automovilistaConPatente= this.licensePlateService.addLicensePlateToDriverByPhone("2223334444", "aaa333");
+		assertEquals("AAA333", automovilistaConPatente.getPatentes().get(2).getLicensePlate());
+		assertThrows(ParkingSystemException.class, () -> this.licensePlateService.addLicensePlateToDriverByPhone("0000", "aaa333"), "El automovilista no existe");
 		
 		
-		Automovilista automovilista1 = this.automovilistaService.crearAutomovilista("2213334443", "1234", cuentaCorriente);
-		Patente patente2= this.patenteService.agregarPatente(automovilista1, "aaa111");
+		Driver automovilista1 = this.driverService.createDriver("2213334443", "1234", cuentaCorriente);
+		LicensePlate patente2= this.licensePlateService.addLicensePlate(automovilista1, "aaa111");
 		assertNotNull(patente2);
 		
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.patenteService.agregarPatente(automovilista1, "54wq24"), "El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.patenteService.agregarPatente(automovilista1, "AAA111"), "Esta patente ya esta agregada a la lista de patentes");
+		assertThrows(ParkingSystemException.class, () -> this.licensePlateService.addLicensePlate(automovilista1, "54wq24"), "El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
+		assertThrows(ParkingSystemException.class, () -> this.licensePlateService.addLicensePlate(automovilista1, "AAA111"), "Esta patente ya esta agregada a la lista de patentes");
 	}
 	
 	@Test
-	void testIniciarYFinalizarEstacionamiento() throws SistemaDeEstacionamientoException {
+	void testIniciarYFinalizarEstacionamiento() throws ParkingSystemException {
 		
-		this.estacionamientoService.changeLocalDateTimeProvider(new LocalDateTimeProviderTest(this.localDateTime30minInicio));
+		this.parkingService.changeLocalDateTimeProvider(new LocalDateTimeProviderTest(this.localDateTime30minInicio));
 		
 		
 		ConfiguracionDelSistema configuracionDelSistema = configuracionDelSistemaService.cambiarValorPrecioPorHora(10d);
-		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente( 10000d);
-		Automovilista automovilista = this.automovilistaService.crearAutomovilista("4443334444", "1234", cuentaCorriente);
-		Patente patente= this.patenteService.agregarPatente(automovilista, "aaa111");
-		Estacionamiento estacionamiento= this.estacionamientoService.iniciarEstacionamiento(automovilista, patente);
+		Wallet cuentaCorriente = this.driverService.createWallet( 10000d);
+		Driver automovilista = this.driverService.createDriver("4443334444", "1234", cuentaCorriente);
+		LicensePlate patente= this.licensePlateService.addLicensePlate(automovilista, "aaa111");
+		Parking estacionamiento= this.parkingService.startParking(automovilista, patente);
 		assertNotNull(estacionamiento);
-		assertEquals("AAA111", estacionamiento.getPatente().getPatente());
-		assertEquals("4443334444", estacionamiento.getAutomovilista().getTelefono());
+		assertEquals("AAA111", estacionamiento.getLicensePlate().getLicensePlate());
+		assertEquals("4443334444", estacionamiento.getDriver().getPhone());
 		
-		Estacionamiento estacionamientoActivo = this.estacionamientoService.conseguirEstacionamientoActivoPorTelefono("4443334444");		
+		Parking estacionamientoActivo = this.parkingService.getActiveParkingByPhone("4443334444");		
 		assertEquals(estacionamiento.getId(), estacionamientoActivo.getId());
 		
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.iniciarEstacionamiento(automovilista, patente), "Ya posee un estacionamiento activo");
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.startParking(automovilista, patente), "Ya posee un estacionamiento activo");
 		
-		CuentaCorriente cuentaCorriente2 = this.automovilistaService.crearCuentaCorriente( 10000d);
-		Automovilista automovilista2 = this.automovilistaService.crearAutomovilista("0001112222", "1234", cuentaCorriente2);
-		this.patenteService.agregarPatente(automovilista2, "aaa111");
+		Wallet cuentaCorriente2 = this.driverService.createWallet( 10000d);
+		Driver automovilista2 = this.driverService.createDriver("0001112222", "1234", cuentaCorriente2);
+		this.licensePlateService.addLicensePlate(automovilista2, "aaa111");
 		
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.iniciarEstacionamiento(automovilista2, patente), "La patente ya posee un estacionamiento activo");
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.startParking(automovilista2, patente), "La patente ya posee un estacionamiento activo");
 		
-		CuentaCorriente cuentaCorriente3 = this.automovilistaService.crearCuentaCorriente( 1d);
-		Automovilista automovilista3 = this.automovilistaService.crearAutomovilista("3331112222", "1234", cuentaCorriente3);
-		Patente patente2 = this.patenteService.agregarPatente(automovilista3, "aaa222");
+		Wallet cuentaCorriente3 = this.driverService.createWallet( 1d);
+		Driver automovilista3 = this.driverService.createDriver("3331112222", "1234", cuentaCorriente3);
+		LicensePlate patente2 = this.licensePlateService.addLicensePlate(automovilista3, "aaa222");
 		
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.iniciarEstacionamiento(automovilista3, patente2), "No posee suficiente saldo para iniciar el estacionamiento");
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.startParking(automovilista3, patente2), "No posee suficiente saldo para iniciar el estacionamiento");
 		
 		
-		estacionamiento= this.estacionamientoService.finalizarEstacionamiento(estacionamiento, configuracionDelSistema.getPrecioPorHora());
-		assertEquals(10d, estacionamiento.getMonto());
-		assertFalse(estacionamiento.getEstaActivo());
-		assertEquals(9990, estacionamiento.getAutomovilista().getCuentaCorriente().getSaldo());
+		estacionamiento= this.parkingService.endParking(estacionamiento, configuracionDelSistema.getPrecioPorHora());
+		assertEquals(10d, estacionamiento.getTotalCost());
+		assertFalse(estacionamiento.isActive());
+		assertEquals(9990, estacionamiento.getDriver().getWallet().getBalance());
 		
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.conseguirEstacionamientoActivoPorTelefono("4443334444"), "No tiene estacionamiento activo");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.conseguirEstacionamientoActivoPorTelefono("1232131232"), "No existe el automovilista");
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.getActiveParkingByPhone("4443334444"), "No tiene estacionamiento activo");
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.getActiveParkingByPhone("1232131232"), "No existe el automovilista");
 		
-		Estacionamiento estacionamientoPorId = this.estacionamientoService.conseguirEstacionamientoPorId(estacionamiento.getId());
+		Parking estacionamientoPorId = this.parkingService.getParkingById(estacionamiento.getId());
 		assertEquals(estacionamiento.getId(), estacionamientoPorId.getId());
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.conseguirEstacionamientoPorId(-1l), "No existe el estacionamiento");
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.getParkingById(-1l), "No existe el estacionamiento");
 		
 		
-		Estacionamiento r1=estacionamientoService.crearEstacionamiento(localDateTime30minInicio, localDateTime30minFin, automovilista, patente);
-		assertEquals(10d, r1.getMonto());
-		Estacionamiento r2=estacionamientoService.crearEstacionamiento(localDateTime60minInicio, localDateTime60minFin, automovilista, patente);
-		assertEquals(10d, r2.getMonto());
-		Estacionamiento r3=estacionamientoService.crearEstacionamiento(localDateTime12hrInicio, localDateTime12hrFin, automovilista, patente);
-		assertEquals(120d, r3.getMonto());
-		Estacionamiento r4=estacionamientoService.crearEstacionamiento(localDateTime13hrInicio, localDateTime13hrFin, automovilista, patente);
-		assertEquals(120d, r4.getMonto());
-		assertEquals(9730d, r4.getAutomovilista().getCuentaCorriente().getSaldo());
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.crearEstacionamiento(this.localDateFueraDeHorario, localDateTime30minFin, automovilista, patente), "No es horario activo");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.crearEstacionamiento(this.localDateFueraDeHorario1, localDateTime30minFin, automovilista, patente), "No es horario activo");
+		Parking r1=parkingService.createParkingWithStartAndEnd(localDateTime30minInicio, localDateTime30minFin, automovilista, patente);
+		assertEquals(10d, r1.getTotalCost());
+		Parking r2=parkingService.createParkingWithStartAndEnd(localDateTime60minInicio, localDateTime60minFin, automovilista, patente);
+		assertEquals(10d, r2.getTotalCost());
+		Parking r3=parkingService.createParkingWithStartAndEnd(localDateTime12hrInicio, localDateTime12hrFin, automovilista, patente);
+		assertEquals(120d, r3.getTotalCost());
+		Parking r4=parkingService.createParkingWithStartAndEnd(localDateTime13hrInicio, localDateTime13hrFin, automovilista, patente);
+		assertEquals(120d, r4.getTotalCost());
+		assertEquals(9730d, r4.getDriver().getWallet().getBalance());
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.createParkingWithStartAndEnd(this.localDateFueraDeHorario, localDateTime30minFin, automovilista, patente), "No es horario activo");
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.createParkingWithStartAndEnd(this.localDateFueraDeHorario1, localDateTime30minFin, automovilista, patente), "No es horario activo");
 		
-		CuentaCorriente cuentaCorriente1 = this.automovilistaService.crearCuentaCorriente(9d);
-		Automovilista automovilista1 = this.automovilistaService.crearAutomovilista("2113334444", "1234", cuentaCorriente1);
-		Patente patente1= this.patenteService.agregarPatente(automovilista, "aaa112");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.estacionamientoService.crearEstacionamiento(this.localDateTime30minInicio, localDateTime30minFin, automovilista1, patente1), "No posee suficiente saldo para iniciar el estacionamiento");
+		Wallet cuentaCorriente1 = this.driverService.createWallet(9d);
+		Driver automovilista1 = this.driverService.createDriver("2113334444", "1234", cuentaCorriente1);
+		LicensePlate patente1= this.licensePlateService.addLicensePlate(automovilista, "aaa112");
+		assertThrows(ParkingSystemException.class, () -> this.parkingService.createParkingWithStartAndEnd(this.localDateTime30minInicio, localDateTime30minFin, automovilista1, patente1), "No posee suficiente saldo para iniciar el estacionamiento");
 	}
 	
 	@Test
-	void testAutenticar() throws SistemaDeEstacionamientoException {
-		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente(10000d);
-		Automovilista automovilista = this.automovilistaService.crearAutomovilista("2223334444", "1234", "automovilista@mail.com", cuentaCorriente, Role.USER);
+	void testAutenticar() throws ParkingSystemException {
+		Wallet cuentaCorriente = this.driverService.createWallet(10000d);
+		Driver automovilista = this.driverService.createDriver("2223334444", "1234", "automovilista@mail.com", cuentaCorriente, Role.USER);
 		
 		assertEquals(automovilista.getId(), this.loginService.autenticar("2223334444", "1234").getId());
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.loginService.autenticar("22233344432432", "1234"), "Error en el teléfono o contraseña");
-		assertThrows(SistemaDeEstacionamientoException.class, () -> this.loginService.autenticar("2223334444", "12345"), "Error en el teléfono o contraseña");
+		assertThrows(ParkingSystemException.class, () -> this.loginService.autenticar("22233344432432", "1234"), "Error en el teléfono o contraseña");
+		assertThrows(ParkingSystemException.class, () -> this.loginService.autenticar("2223334444", "12345"), "Error en el teléfono o contraseña");
 	}
 	
 	

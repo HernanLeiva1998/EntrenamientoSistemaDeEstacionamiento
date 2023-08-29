@@ -3,28 +3,28 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.AutomovilistaServiceImplementation;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.DriverServiceImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.ConfiguracionDelSistemaServiceImplementation;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.EstacionamientoServiceImplementation;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.ParkingServiceImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.LoginServiceImplementation;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.PatenteServiceImplementation;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.LicensePlateServiceImplementation;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.DriverService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.EstacionamientoService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ParkingService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LoginService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.PatenteService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LicensePlateService;
 
 @Configuration
 public class SpringDataConfiguration {
 
 	@Bean
-    public AutomovilistaService springDataJpaAutomovilistaService() {
-		return new AutomovilistaServiceImplementation();
+    public DriverService springDataJpaAutomovilistaService() {
+		return new DriverServiceImplementation();
 	}
 	
 	@Bean
-    public EstacionamientoService springDataJpaEstacionamientoService() {
-		return new EstacionamientoServiceImplementation();
+    public ParkingService springDataJpaEstacionamientoService() {
+		return new ParkingServiceImplementation();
 	}
 	
 	@Bean
@@ -33,8 +33,8 @@ public class SpringDataConfiguration {
 	}
 	
 	@Bean
-    public PatenteService springDataJpaPatenteService() {
-		return new PatenteServiceImplementation();
+    public LicensePlateService springDataJpaPatenteService() {
+		return new LicensePlateServiceImplementation();
 	}
 	
 	@Bean

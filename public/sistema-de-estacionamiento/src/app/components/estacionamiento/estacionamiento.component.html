@@ -22,7 +22,7 @@
                     <button class="flex-grow-1  btn"
                         [ngClass]="{'btn-primary': patente === patenteSeleccionada, 'btn-custom': patente !== patenteSeleccionada}"
                         (click)="onSelect(patente)">
-                        <span>Patente: {{ patente.patente | uppercase }}</span>
+                        <span>Patente: {{ patente.licensePlate| uppercase }}</span>
                     </button>
                 </div>
             </li>
@@ -31,14 +31,14 @@
 
     </div>
 
-    
+
 
     <!-- Información del estacionamiento en curso -->
     <div *ngIf="estacionamiento && estacionamientoYaIniciado == true">
         <!-- Mostrar la fecha en formato "dd/MM/yyyy" -->
-        <p>Estacionamiento iniciado el: {{ estacionamiento.inicioDeEstacionamiento | date: 'dd/MM/yyyy' }}</p>
+        <p>Estacionamiento iniciado el: {{ estacionamiento.parkingStart | date: 'dd/MM/yyyy' }}</p>
         <!-- Mostrar la hora en formato "HH:mm:ss" -->
-        <p>Hora de inicio: {{ estacionamiento.inicioDeEstacionamiento | date: 'HH:mm:ss' }}</p>
+        <p>Hora de inicio: {{ estacionamiento.parkingStart| date: 'HH:mm:ss' }}</p>
         <button class="btn btn-danger finalizar" (click)="finalizarEstacionamiento()">Finalizar Estacionamiento</button>
     </div>
 

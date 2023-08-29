@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Automovilista } from '../../interfaces/automovilista';
+import { Driver } from '../../interfaces/driver';
 
 @Component({
   selector: 'app-automovilistas',
@@ -8,12 +8,12 @@ import { Automovilista } from '../../interfaces/automovilista';
   styleUrls: ['./automovilistas.component.css']
 })
 export class AutomovilistasComponent implements OnInit {
-  automovilistas: Automovilista[] = [];
+  automovilistas: Driver[] = [];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
-    this.http.get<Automovilista[]>('http://localhost:8080/automovilistas').subscribe(
+    this.http.get<Driver[]>('http://localhost:8080/automovilistas').subscribe(
       automovilistas => {
         this.automovilistas = automovilistas;
       },

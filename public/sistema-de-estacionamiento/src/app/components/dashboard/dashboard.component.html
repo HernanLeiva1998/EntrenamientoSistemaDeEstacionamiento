@@ -1,15 +1,15 @@
 <div class="container resaltar-seccion fondo-container">
     <app-mensaje [mensaje]="errorMessage"></app-mensaje>
     <div *ngIf="automovilista" class="mb-4">
-        <h2>Cuenta: {{automovilista.telefono}}</h2>
+        <h2>Cuenta: {{automovilista.phone}}</h2>
     </div>
     <div *ngIf="estacionamientoActivo; else elseBlock" class="mb-4">
         <h2>Estacionamiento activo</h2>
 
         <!-- Mostrar la fecha en formato "dd/MM/yyyy" -->
-        <p>Estacionamiento iniciado el: {{ estacionamientoActivo.inicioDeEstacionamiento | date: 'dd/MM/yyyy' }}</p>
+        <p>Estacionamiento iniciado el: {{ estacionamientoActivo.parkingStart| date: 'dd/MM/yyyy' }}</p>
         <!-- Mostrar la hora en formato "HH:mm:ss" -->
-        <p>Hora de inicio: {{ estacionamientoActivo.inicioDeEstacionamiento | date: 'HH:mm:ss' }}</p>
+        <p>Hora de inicio: {{ estacionamientoActivo.parkingStart| date: 'HH:mm:ss' }}</p>
         <button class="btn btn-danger" (click)="finalizarEstacionamiento()">Finalizar Estacionamiento</button>
 
     </div>
@@ -20,9 +20,9 @@
         </nav>
     </ng-template>
     <div *ngIf="automovilista" class="mb-4">
-        <h2 class="mb-4">Cuenta Corriente {{automovilista.cuentaCorriente.accountNumber}}</h2>
+        <h2 class="mb-4">Cuenta Corriente {{automovilista.wallet.accountNumber}}</h2>
 
-        <span>Saldo: {{automovilista.cuentaCorriente.saldo}}</span>
+        <span>Saldo: {{automovilista.wallet.balance}}</span>
     </div>
 
 </div>

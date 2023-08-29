@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.ConfiguracionDelSistema;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.ConfiguracionDelSistemaRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
@@ -18,7 +18,7 @@ public class ConfiguracionDelSistemaServiceImplementation implements Configuraci
 	
 	
 	@Override
-	public ConfiguracionDelSistema consequirConfiguracionDelSistema() throws SistemaDeEstacionamientoException{
+	public ConfiguracionDelSistema consequirConfiguracionDelSistema() throws ParkingSystemException{
 		// TODO Auto-generated method stub
 		List<ConfiguracionDelSistema> configuracionDelSistemaList= (List<ConfiguracionDelSistema>) this.configuracionDelSistemaRepository.findAll();
 		if (!configuracionDelSistemaList.isEmpty()) {
@@ -35,13 +35,13 @@ public class ConfiguracionDelSistemaServiceImplementation implements Configuraci
 		ConfiguracionDelSistema cds = new ConfiguracionDelSistema( valor, horaInicio, horaFin, formatosDePatentes );
 		return configuracionDelSistemaRepository.save(cds);
 	}
-	public ConfiguracionDelSistema cambiarValorPrecioPorHora(Double valor) throws SistemaDeEstacionamientoException {
+	public ConfiguracionDelSistema cambiarValorPrecioPorHora(Double valor) throws ParkingSystemException {
 		ConfiguracionDelSistema cds = this.consequirConfiguracionDelSistema();
 		cds.setPrecioPorHora(valor);
 		return configuracionDelSistemaRepository.save(cds);
 	}
 	
-	public ConfiguracionDelSistema cambiarHorarioActivo(LocalTime horaInicio, LocalTime horaFin) throws SistemaDeEstacionamientoException {
+	public ConfiguracionDelSistema cambiarHorarioActivo(LocalTime horaInicio, LocalTime horaFin) throws ParkingSystemException {
 		ConfiguracionDelSistema configuracionDelSistema = this.consequirConfiguracionDelSistema();
 		configuracionDelSistema.cambiarHorario(horaInicio, horaFin);
 		return this.configuracionDelSistemaRepository.save(configuracionDelSistema);

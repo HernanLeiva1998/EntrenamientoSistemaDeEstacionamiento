@@ -1,8 +1,7 @@
 package ar.edu.unlp.cespi.sistemaDeEstacionamiento.models;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -18,8 +17,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -31,73 +30,73 @@ import lombok.Data;
 @Builder
 @Entity
 @AllArgsConstructor
-public class Automovilista implements UserDetails{
+public class Driver implements UserDetails{
 	
 	
 
 	@Id
-	@Column(name = "id_automovilista")
+	@Column(name = "id_driver")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
 	@Column(nullable = false, unique = true)
-    private String telefono;
+    private String phone;
 	
 	@Column(unique = true)
     private String email;
 	
 	@JsonIgnore
 	@Column(nullable = false)
-	private String contrasena;
+	private String password;
 
     @ManyToMany
     @JoinTable(
-            name = "automovilista_patente",
-            joinColumns = @JoinColumn(name = "id_automovilista"),
-            inverseJoinColumns = @JoinColumn(name = "id_patente")
+            name = "driver_licensePlate",
+            joinColumns = @JoinColumn(name = "id_driver"),
+            inverseJoinColumns = @JoinColumn(name = "id_license_plate")
     )
-    private List<Patente> patentes;
+    private List<LicensePlate> licensePlates;
 
     @OneToOne
-    @JoinColumn(name = "id_cuenta_corriente")
-    private CuentaCorriente cuentaCorriente;
+    @JoinColumn(name = "id_wallet")
+    private Wallet wallet;
     
-    @OneToMany(mappedBy = "automovilista")
-    private List<Estacionamiento> estacionamientos;
+    @OneToMany(mappedBy = "driver")
+    private List<Parking> parkings;
     
     @Enumerated(EnumType.STRING) 
     Role role;
     
     // Constructor, getters y setters
-    public Automovilista() {
+    public Driver() {
     	
     }
     
-    public Automovilista(String telefono, String contraseña) {
-		this.telefono = telefono;
-		this.contrasena = contraseña;
+    public Driver(String phone, String password) {
+		this.phone = phone;
+		this.password = password;
 		this.role=Role.USER;
 	}
     
-    public Automovilista(String telefono, String contraseña, String email) {
-		this.telefono = telefono;
-		this.contrasena = contraseña;
+    public Driver(String phone, String password, String email) {
+		this.phone = phone;
+		this.password = password;
 		this.email = email;
 	}
     
-    public Automovilista(String telefono, String contraseña, String email, Role role) {
-		this.telefono = telefono;
-		this.contrasena = contraseña;
+    public Driver(String phone, String password, String email, Role role) {
+		this.phone = phone;
+		this.password = password;
 		this.email = email;
 		this.role=role;
 	}
     
-    public Boolean puedeIniciarEstacionamiento(Double monto) {
-    	return !this.getCuentaCorriente().saldoEsInferiorA(monto);
+    public Boolean canStartParking(Double monto) {
+    	return !this.getWallet().balanceIsLesserThan(monto);
     }
     
-    public void restarSaldo(Double monto) {
-		this.cuentaCorriente.restarSaldo(monto);
+    public void subtractBalance(Double amount) {
+		this.wallet.subtractBalance(amount);
 		
 	}
 
@@ -109,71 +108,64 @@ public class Automovilista implements UserDetails{
 		this.id = id;
 	}
 
-	public String getTelefono() {
-		return telefono;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getContrasena() {
-		return this.contrasena;
+		return this.password;
 	}
 
-	public void setContrasena(String contraseña) {
-		this.contrasena = contraseña;
+	public void setContrasena(String password) {
+		this.password = password;
 	}
 
-	public List<Patente> getPatentes() {
-		return patentes;
+	public List<LicensePlate> getPatentes() {
+		return licensePlates;
 	}
 
-	public void setPatentes(List<Patente> patentes) {
-		this.patentes = patentes;
+	public void setPatentes(List<LicensePlate> licensePlates) {
+		this.licensePlates = licensePlates;
 	}
 
-	public CuentaCorriente getCuentaCorriente() {
-		return cuentaCorriente;
+	public Wallet getWallet() {
+		return wallet;
 	}
 
-	public void setCuentaCorriente(CuentaCorriente cuentaCorriente) {
-		this.cuentaCorriente = cuentaCorriente;
-	}
-
-	public void iniciarEstacionamiento(Patente patente) {
-		
-	}
-	public void finalizarEstacionamiento() {
-		
+	public void setWallet(Wallet wallet) {
+		this.wallet = wallet;
 	}
 	
-	public void addPatente(Patente patente) {
-		this.patentes.add(patente);
+	public void addLicensePlate(LicensePlate licensePlate) {
+		this.licensePlates.add(licensePlate);
 	}
 	
-	public void addEstacionamiento(Estacionamiento estacionamiento) {
-		this.estacionamientos.add(estacionamiento);
+	public void addParking(Parking estacionamiento) {
+		this.parkings.add(estacionamiento);
 	}
 	
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Automovilista that = (Automovilista) o;
+        Driver that = (Driver) o;
         return Objects.equals(id, that.id) &&
-                Objects.equals(telefono, that.telefono);
+                Objects.equals(phone, that.phone);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, telefono);
+        return Objects.hash(id, phone);
     }
 
-	public boolean tienePatenteAsignada(String patenteString) {
-		for (Patente patente : patentes) {
-	        if (patente.getPatente().toLowerCase().equals(patenteString.toLowerCase())) {
-	            return true; // La patente existe en la lista
+	public boolean hasLicensePlateAssigned(String licensePlateString) {
+		for (LicensePlate licensePlate : licensePlates) {
+	        if (licensePlate.getLicensePlate().toLowerCase().equals(licensePlateString.toLowerCase())) {
+	            return true; // La licensePlate existe en la lista
 	        }
 	    }
 		return false;
@@ -193,7 +185,7 @@ public class Automovilista implements UserDetails{
 	@Override
 	public String getUsername() {
 		// TODO Auto-generated method stub
-		return  this.getTelefono();
+		return  this.getPhone();
 	}
 
 	@Override

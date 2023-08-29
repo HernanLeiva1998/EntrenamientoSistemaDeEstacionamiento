@@ -11,14 +11,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.DriverRepository;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final AutomovilistaRepository automovilistaRepository;
+    private final DriverRepository driverRepository;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception
@@ -42,7 +42,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return username -> automovilistaRepository.findByTelefono(username)
+        return username -> driverRepository.findByPhone(username)
         .orElseThrow(()-> new UsernameNotFoundException("User not fournd"));
     }
 

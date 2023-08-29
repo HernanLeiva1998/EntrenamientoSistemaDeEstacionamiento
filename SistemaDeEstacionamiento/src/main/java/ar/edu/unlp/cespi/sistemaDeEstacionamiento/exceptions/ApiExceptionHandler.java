@@ -14,8 +14,8 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers.dtos.ErrorDTO;
 public class ApiExceptionHandler {
 
     
-    @ExceptionHandler(value = {SistemaDeEstacionamientoException.class})
-    public ResponseEntity<Object> handleApiRequestException(SistemaDeEstacionamientoException e){
+    @ExceptionHandler(value = {ParkingSystemException.class})
+    public ResponseEntity<Object> handleApiRequestException(ParkingSystemException e){
         //crear payload
 
         //return response entity

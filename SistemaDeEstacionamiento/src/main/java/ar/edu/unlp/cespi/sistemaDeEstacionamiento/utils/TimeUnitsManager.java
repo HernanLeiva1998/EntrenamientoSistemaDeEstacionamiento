@@ -5,31 +5,31 @@ import java.time.temporal.ChronoUnit;
 
 public class TimeUnitsManager extends LocalTimeManager {
 	
-	private int intervaloEnMinutos;
+	private int timeIntervalInMinutes;
 	
 	public TimeUnitsManager() {
-		this.intervaloEnMinutos=60;
+		this.timeIntervalInMinutes=60;
 	}
-	public TimeUnitsManager(int intervaloEnMinutos) {
-		if (intervaloEnMinutos > 0) {
-			this.intervaloEnMinutos=intervaloEnMinutos;
+	public TimeUnitsManager(int timeIntervalInMinutes) {
+		if (timeIntervalInMinutes > 0) {
+			this.timeIntervalInMinutes=timeIntervalInMinutes;
 		} else {
-			this.intervaloEnMinutos=60;
+			this.timeIntervalInMinutes=60;
 		}
 	}
 	
-	private Boolean tieneResto(Long minutos) {
-		return (minutos % this.intervaloEnMinutos) != 0;
+	private Boolean hasRemainder(Long minutes) {
+		return (minutes % this.timeIntervalInMinutes) != 0;
 	}
 	
-	public int calcularUnidadesDeTiempo(LocalTime horaInicio, LocalTime horaFin) {
-        long minutosTranscurridos = ChronoUnit.MINUTES.between(horaInicio, horaFin);
-        if (minutosTranscurridos == 0) { return 1;}
-        int unidadesDeTiempo = (int) (minutosTranscurridos / this.intervaloEnMinutos);
-        if (this.tieneResto(minutosTranscurridos)){
-        	 return unidadesDeTiempo + 1;
+	public int calcularUnidadesDeTiempo(LocalTime startHour, LocalTime endHour) {
+        long minutesElapsed = ChronoUnit.MINUTES.between(startHour, endHour);
+        if (minutesElapsed == 0) { return 1;}
+        int timeUnits = (int) (minutesElapsed / this.timeIntervalInMinutes);
+        if (this.hasRemainder(minutesElapsed)){
+        	 return timeUnits + 1;
         }
-        return unidadesDeTiempo;
+        return timeUnits;
     }
 	
 }

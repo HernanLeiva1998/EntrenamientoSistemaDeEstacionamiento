@@ -12,30 +12,30 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.EstacionamientoRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Driver;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Wallet;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Parking;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.LicensePlate;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.DriverRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.WalletRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.ParkingRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.LicensePlateRepository;
 
 @DataJpaTest
 class EstacionamientoRepositoryTest {
 
 	@Autowired
-	AutomovilistaRepository automovilistaRepository;
+	DriverRepository driverRepository;
 	@Autowired
-	PatenteRepository patenteRepository;
+	LicensePlateRepository licensePlateRepository;
 	@Autowired
-	CuentaCorrienteRepository cuentaCorrienteRepository;
+	WalletRepository walletRepository;
 	@Autowired 
-	EstacionamientoRepository estacionamientoRepository;
+	ParkingRepository parkingRepository;
 	
-	Automovilista automovilista;
-	Patente patente;
-	Estacionamiento estacionamiento;
+	Driver automovilista;
+	LicensePlate patente;
+	Parking estacionamiento;
 	LocalDateTime horaInicio, horaFin;
 	
 	@BeforeEach
@@ -50,12 +50,12 @@ class EstacionamientoRepositoryTest {
 			    .withMinute(0)
 			    .withSecond(0)
 			    .withNano(0);
-		automovilista = new Automovilista("0001112222", "1234");
-		automovilista.setCuentaCorriente(this.cuentaCorrienteRepository.save(new CuentaCorriente(1000d)));
-		patente= this.patenteRepository.save(new Patente("AAA999"));
-		automovilista.addPatente(patente);
-		automovilistaRepository.save(automovilista);
-		estacionamiento=new Estacionamiento(automovilista, patente, horaInicio);
+		automovilista = new Driver("0001112222", "1234");
+		automovilista.setWallet(this.walletRepository.save(new Wallet(1000d)));
+		patente= this.licensePlateRepository.save(new LicensePlate("AAA999"));
+		automovilista.addLicensePlate(patente);
+		driverRepository.save(automovilista);
+		estacionamiento=new Parking(automovilista, patente, horaInicio);
 	}
 
 	@AfterEach
@@ -64,19 +64,19 @@ class EstacionamientoRepositoryTest {
 
 	@Test
 	void testFindByActivo() {
-		Optional<Estacionamiento> estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		Optional<Parking> estacionamientoOptional = this.parkingRepository.findByActive(estacionamiento.getId());
 		assertThat(estacionamientoOptional).isEmpty();
 		
-		estacionamientoRepository.save(estacionamiento);
-		estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		parkingRepository.save(estacionamiento);
+		estacionamientoOptional = this.parkingRepository.findByActive(estacionamiento.getId());
 		assertThat(estacionamientoOptional).isPresent();
 		assertThat(estacionamientoOptional.get()).usingRecursiveComparison().isEqualTo(estacionamiento);
 		
-		estacionamiento.setFinDeEstacionamiento(horaFin);
-		estacionamiento.setEstaActivo(false);
-		estacionamiento = this.estacionamientoRepository.save(estacionamiento);
+		estacionamiento.setParkingEnd(horaFin);
+		estacionamiento.setIsActive(false);
+		estacionamiento = this.parkingRepository.save(estacionamiento);
 		
-		estacionamientoOptional = this.estacionamientoRepository.findByActivo(estacionamiento.getId());
+		estacionamientoOptional = this.parkingRepository.findByActive(estacionamiento.getId());
 		assertThat(estacionamientoOptional).isEmpty();
 		
 	}
