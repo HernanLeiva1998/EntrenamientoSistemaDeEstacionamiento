@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,7 +26,7 @@ public class AuthController {
 
     @PostMapping(value = "register")
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws SistemaDeEstacionamientoException
+    public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) throws ParkingSystemException
     {
         return ResponseEntity.ok(authService.register(request));
     }

@@ -12,30 +12,30 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.CuentaCorrienteRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.EstacionamientoRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.DriverRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.WalletRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.ParkingRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.LicensePlateRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Driver;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Wallet;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Parking;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.LicensePlate;
 
 @DataJpaTest
 class PatenteRepositoryTest {
 
 	@Autowired
-	AutomovilistaRepository automovilistaRepository;
+	DriverRepository driverRepository;
 	@Autowired
-	PatenteRepository patenteRepository;
+	LicensePlateRepository licensePlateRepository;
 	@Autowired
-	CuentaCorrienteRepository cuentaCorrienteRepository;
+	WalletRepository walletRepository;
 	@Autowired 
-	EstacionamientoRepository estacionamientoRepository;
+	ParkingRepository parkingRepository;
 	
-	Automovilista automovilista;
-	Patente patente;
-	Estacionamiento estacionamiento;
+	Driver automovilista;
+	LicensePlate patente;
+	Parking estacionamiento;
 	LocalDateTime horaInicio, horaFin;
 	
 	@BeforeEach
@@ -50,43 +50,43 @@ class PatenteRepositoryTest {
 			    .withMinute(0)
 			    .withSecond(0)
 			    .withNano(0);
-		automovilista = new Automovilista("0001112222", "1234");
-		automovilista.setCuentaCorriente(this.cuentaCorrienteRepository.save(new CuentaCorriente(1000d)));
-		patente= this.patenteRepository.save(new Patente("AAA999"));
-		automovilista.addPatente(patente);
-		automovilistaRepository.save(automovilista);
-		estacionamiento=new Estacionamiento(automovilista, patente, horaInicio);
+		automovilista = new Driver("0001112222", "1234");
+		automovilista.setWallet(this.walletRepository.save(new Wallet(1000d)));
+		patente= this.licensePlateRepository.save(new LicensePlate("AAA999"));
+		automovilista.addLicensePlate(patente);
+		driverRepository.save(automovilista);
+		estacionamiento=new Parking(automovilista, patente, horaInicio);
 		
 		
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
-		estacionamientoRepository.deleteAll();
-		patenteRepository.deleteAll();
-		automovilistaRepository.deleteAll();
-		cuentaCorrienteRepository.deleteAll();
+		parkingRepository.deleteAll();
+		licensePlateRepository.deleteAll();
+		driverRepository.deleteAll();
+		walletRepository.deleteAll();
 	}
 
 	@Test
 	void testFindByIdAndExistingEstacionamientoActivo() {
 		
-		Optional<Patente> patenteOptional= this.patenteRepository.findByIdAndExistingEstacionamientoActivo(patente.getId());
+		Optional<LicensePlate> patenteOptional= this.licensePlateRepository.findByIdAndExistsActiveParking(patente.getId());
 		assertThat(patenteOptional).isEmpty();
 		
-		estacionamiento = this.estacionamientoRepository.save(estacionamiento);
-		patente.addEstacionamiento(estacionamiento);
-		patente= this.patenteRepository.save(patente);
+		estacionamiento = this.parkingRepository.save(estacionamiento);
+		patente.addParking(estacionamiento);
+		patente= this.licensePlateRepository.save(patente);
 		
-		patenteOptional= this.patenteRepository.findByIdAndExistingEstacionamientoActivo(patente.getId());
+		patenteOptional= this.licensePlateRepository.findByIdAndExistsActiveParking(patente.getId());
 		assertThat(patenteOptional).isPresent();
 		assertThat(patenteOptional.get()).usingRecursiveComparison().isEqualTo(patente);
 		
-		estacionamiento.setFinDeEstacionamiento(horaFin);
-		estacionamiento.setEstaActivo(false);
-		estacionamiento = this.estacionamientoRepository.save(estacionamiento);
+		estacionamiento.setParkingEnd(horaFin);
+		estacionamiento.setIsActive(false);
+		estacionamiento = this.parkingRepository.save(estacionamiento);
 		
-		patenteOptional= this.patenteRepository.findByIdAndExistingEstacionamientoActivo(patente.getId());
+		patenteOptional= this.licensePlateRepository.findByIdAndExistsActiveParking(patente.getId());
 		assertThat(patenteOptional).isEmpty();
 		
 	}

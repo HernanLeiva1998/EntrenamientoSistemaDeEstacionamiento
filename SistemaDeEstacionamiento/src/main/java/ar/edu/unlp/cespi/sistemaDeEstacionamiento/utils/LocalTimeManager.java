@@ -3,33 +3,32 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils;
 import java.time.LocalTime;
 
 public class LocalTimeManager {
-	protected LocalTime horaInicio;
-	protected LocalTime horaFin;
+	protected LocalTime startHour;
+	protected LocalTime endHour;
 	
 	public LocalTimeManager() {	
-		horaInicio = LocalTime.of(8, 0);
-		horaFin = LocalTime.of(20, 0);
+		startHour = LocalTime.of(8, 0);
+		endHour = LocalTime.of(20, 0);
 	}
 	
 	public LocalTimeManager(LocalTime horaInicio, LocalTime horaFin) {
-		this.horaInicio=horaInicio;
-		this.horaFin=horaFin;
+		this.startHour=horaInicio;
+		this.endHour=horaFin;
 	}
 
-	private Boolean esDespuesDelInicio(LocalTime hora) {
-		return !hora.isBefore(horaInicio);
+	private Boolean isAfterTheStartHour(LocalTime time) {
+		return !time.isBefore(startHour);
 	}
 	
-	private Boolean esAntesDelFin(LocalTime hora) {
-		return !hora.isAfter(horaFin);
+	private Boolean isBeforeTheEndHour(LocalTime time) {
+		return !time.isAfter(endHour);
 	}
  	
-	public Boolean esHorarioActivo() {
-		LocalTime hora = LocalTime.now();
-		return this.esDespuesDelInicio(hora) && this.esAntesDelFin(hora) ;
+	public Boolean isActiveTime() {
+		return this.isActiveTime(LocalTime.now());
 	}
-	public Boolean esHorarioActivo(LocalTime l) {
-		return this.esDespuesDelInicio(l) && this.esAntesDelFin(l) ;
+	public Boolean isActiveTime(LocalTime l) {
+		return this.isAfterTheStartHour(l) && this.isBeforeTheEndHour(l) ;
 	}
 	
 	

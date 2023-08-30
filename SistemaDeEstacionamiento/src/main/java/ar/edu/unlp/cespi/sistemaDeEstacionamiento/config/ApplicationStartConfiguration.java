@@ -6,9 +6,9 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.DriverService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
 import lombok.RequiredArgsConstructor;
 
@@ -17,28 +17,28 @@ import lombok.RequiredArgsConstructor;
 public class ApplicationStartConfiguration implements ApplicationRunner {
 	
 	@Autowired
-	AutomovilistaService automovilistaService;
+	DriverService driverService;
     @Autowired 
     private ConfiguracionDelSistemaService configuracionDelSistemaService;
 
     private final PasswordEncoder passwordEncoder;
 	
 	@Override
-	public void run(ApplicationArguments args) throws SistemaDeEstacionamientoException {
+	public void run(ApplicationArguments args) throws ParkingSystemException {
 		this.configuracionDelSistemaService.consequirConfiguracionDelSistema();
-		if (!this.automovilistaService.existeAutomovilistaPorTelefono("2213334444") )
-		this.automovilistaService.crearAutomovilista(
+		if (!this.driverService.checkDriverExistsByPhone("2213334444") )
+		this.driverService.createDriver(
 				"2213334444",
 				passwordEncoder.encode("1234"),
 				"user@email.com",
-				automovilistaService.crearCuentaCorriente(1000d),
+				driverService.createWallet(1000d),
 				Role.USER);
-		if (!this.automovilistaService.existeAutomovilistaPorTelefono("1112223333"))
-		this.automovilistaService.crearAutomovilista(
+		if (!this.driverService.checkDriverExistsByPhone("1112223333"))
+		this.driverService.createDriver(
 				"1112223333",
 				passwordEncoder.encode("1234"),
 				"user0@email.com",
-				automovilistaService.crearCuentaCorriente(1d),
+				driverService.createWallet(1d),
 				Role.USER);	
 	}
 

@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { baseUrl } from '../baseUrl';
 import { Observable, catchError } from 'rxjs';
-import { Automovilista } from '../interfaces/automovilista';
+import { Driver } from '../interfaces/driver';
 import { LoginInterface } from '../interfaces/login-interface';
 import { ErrorHandlerService } from './error-handler.service';
 import { Router } from '@angular/router';

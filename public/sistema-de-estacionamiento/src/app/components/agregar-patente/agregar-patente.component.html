@@ -1,13 +1,13 @@
 <div class="container">
     <h2 class="mt-4">Agregar Patente</h2>
-    
-    
+
+
     <app-mensaje [mensaje]="errorMessage"></app-mensaje>
-   
+
 
     <div class="mb-3">
         <label for="nueva-patente" class="form-label">Nueva patente:</label>
-        <input id="nueva-patente" #nueva_patente [(ngModel)]="patente.patente" class="form-control" />
+        <input id="nueva-patente" #nueva_patente [(ngModel)]="patente.licensePlate" class="form-control" />
     </div>
     <button type="button" class="btn btn-primary" (click)="save(nueva_patente.value)">Guardar</button>
 

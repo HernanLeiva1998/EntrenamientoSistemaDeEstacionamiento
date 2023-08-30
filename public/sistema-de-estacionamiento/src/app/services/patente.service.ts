@@ -30,7 +30,7 @@ export class PatenteService {
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
     return this.http
-      .post<Patente>(this.urlAgregarPatente, { patente: patente, telefono: localStorage.getItem('telefono') }, { headers })
+      .post<Patente>(this.urlAgregarPatente, { licensePlate: patente, phone: localStorage.getItem('telefono') }, { headers })
       .pipe(
         catchError(this.errorHandlerService.handleError)
       )

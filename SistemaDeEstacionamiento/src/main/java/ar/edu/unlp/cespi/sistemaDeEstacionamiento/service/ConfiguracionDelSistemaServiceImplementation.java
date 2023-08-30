@@ -5,8 +5,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.SystemConfig;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
+
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.ConfiguracionDelSistemaRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
 
@@ -18,7 +19,7 @@ public class ConfiguracionDelSistemaServiceImplementation implements Configuraci
 	
 	
 	@Override
-	public SystemConfig consequirConfiguracionDelSistema() throws SistemaDeEstacionamientoException{
+	public SystemConfig consequirConfiguracionDelSistema() throws ParkingSystemException{
 		// TODO Auto-generated method stub
 		List<SystemConfig> configuracionDelSistemaList= (List<SystemConfig>) this.configuracionDelSistemaRepository.findAll();
 		if (!configuracionDelSistemaList.isEmpty()) {
@@ -35,13 +36,13 @@ public class ConfiguracionDelSistemaServiceImplementation implements Configuraci
 		SystemConfig cds = new SystemConfig( valor, horaInicio, horaFin, formatosDePatentes );
 		return configuracionDelSistemaRepository.save(cds);
 	}
-	public SystemConfig cambiarValorPrecioPorHora(Double valor) throws SistemaDeEstacionamientoException {
+	public SystemConfig cambiarValorPrecioPorHora(Double valor) throws ParkingSystemException {
 		SystemConfig cds = this.consequirConfiguracionDelSistema();
 		cds.setPrecioPorHora(valor);
 		return configuracionDelSistemaRepository.save(cds);
 	}
 	
-	public SystemConfig cambiarHorarioActivo(LocalTime horaInicio, LocalTime horaFin) throws SistemaDeEstacionamientoException {
+	public SystemConfig cambiarHorarioActivo(LocalTime horaInicio, LocalTime horaFin) throws ParkingSystemException {
 		SystemConfig configuracionDelSistema = this.consequirConfiguracionDelSistema();
 		configuracionDelSistema.cambiarHorario(horaInicio, horaFin);
 		return this.configuracionDelSistemaRepository.save(configuracionDelSistema);

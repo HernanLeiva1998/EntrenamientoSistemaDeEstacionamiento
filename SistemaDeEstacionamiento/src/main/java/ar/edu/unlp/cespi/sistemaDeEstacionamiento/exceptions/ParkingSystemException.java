@@ -2,15 +2,15 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions;
 
 import org.springframework.http.HttpStatus;
 
-public class SistemaDeEstacionamientoException extends Exception{
+public class ParkingSystemException extends Exception{
 	
 	private String message;
 	private HttpStatus httpStatus;
 
-    public SistemaDeEstacionamientoException(String message) {
+    public ParkingSystemException(String message) {
         this.message = message;
     }
-    public SistemaDeEstacionamientoException(String message, HttpStatus httpStatus) {
+    public ParkingSystemException(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus=httpStatus;
     }

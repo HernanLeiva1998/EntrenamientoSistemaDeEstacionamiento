@@ -15,33 +15,33 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 @Entity
-public class Patente {
+public class LicensePlate {
 	@Id
-	@Column(name = "id_patente")
+	@Column(name = "id_license_plate")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
 	@Column(nullable= false, unique = true)
-    private String patente;
+    private String licensePlate;
 	
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "patentes")
-    private List<Automovilista> automovilistas = new ArrayList<>();
+	@ManyToMany(mappedBy = "licensePlates")
+    private List<Driver> drivers = new ArrayList<>();
 	
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "patente")
-    private List<Estacionamiento> estacionamientos = new ArrayList<>();
+	@OneToMany(mappedBy = "licensePlate")
+    private List<Parking> parkings = new ArrayList<>();
 
     // Constructor, getters y setters
 	
-	public Patente() {
+	public LicensePlate() {
     	
     }
 	
-    public Patente(String patenteString) {
-    	this.patente = patenteString;
+    public LicensePlate(String licensePlateString) {
+    	this.licensePlate = licensePlateString;
     	
     }
  
@@ -53,20 +53,20 @@ public class Patente {
 		this.id = id;
 	}
 
-	public String getPatente() {
-		return patente;
+	public String getLicensePlate() {
+		return licensePlate;
 	}
 
-	public void setPatente(String patente) {
-		this.patente = patente;
+	public void setLicensePlate(String licensePlate) {
+		this.licensePlate = licensePlate;
 	}
 	
-	public List<Automovilista> getAutomovilistas() {
-		return automovilistas;
+	public List<Driver> getDrivers() {
+		return drivers;
 	}
 	
-	public void addEstacionamiento(Estacionamiento estacionamiento) {
-		this.estacionamientos.add(estacionamiento);
+	public void addParking(Parking parking) {
+		this.parkings.add(parking);
 	}
 
 	

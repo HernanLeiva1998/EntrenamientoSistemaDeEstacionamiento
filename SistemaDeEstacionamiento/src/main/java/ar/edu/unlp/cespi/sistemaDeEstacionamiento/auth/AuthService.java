@@ -8,27 +8,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.config.jwt.JwtService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Driver;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Wallet;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.AutomovilistaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.DriverRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.DriverService;
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final AutomovilistaRepository userRepository;
-    @Autowired private AutomovilistaService automovilistaService;
+    private final DriverRepository userRepository;
+    @Autowired private DriverService driverService;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails user=userRepository.findByTelefono(request.getUsername()).orElseThrow();
+        UserDetails user=userRepository.findByPhone(request.getUsername()).orElseThrow();
         String token=jwtService.getToken(user);
         return AuthResponse.builder()
             .token(token)
@@ -36,7 +36,7 @@ public class AuthService {
 
     }
 
-    public AuthResponse register(RegisterRequest request) throws SistemaDeEstacionamientoException  {
+    public AuthResponse register(RegisterRequest request) throws ParkingSystemException  {
        /* Automovilista user = Automovilista.builder()
             .telefono(request.getUsername())
             .contrasena(passwordEncoder.encode( request.getPassword()))
@@ -44,11 +44,11 @@ public class AuthService {
             .cuentaCorriente(new CuentaCorriente(1000d))
             .build();
         */ 
-    	Automovilista user= automovilistaService.crearAutomovilista(
+    	Driver user= driverService.createDriver(
         		request.getUsername(), 
         		passwordEncoder.encode( request.getPassword()),
         		request.getEmail(),
-        		new CuentaCorriente(1000d),
+        		new Wallet(1000d),
         		Role.USER);
         //userRepository.save(user);
 

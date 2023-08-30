@@ -23,7 +23,7 @@ export class EstacionamientoService {
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
     return this.http.post<Estacionamiento>(this.urlIniciar,
-      { patente: patente?.patente, telefono: localStorage.getItem('telefono') }, { headers })
+      { licensePlate: patente?.licensePlate, phone: localStorage.getItem('telefono') }, { headers })
       .pipe(
         catchError(this.errorHandler.handleError)
       )

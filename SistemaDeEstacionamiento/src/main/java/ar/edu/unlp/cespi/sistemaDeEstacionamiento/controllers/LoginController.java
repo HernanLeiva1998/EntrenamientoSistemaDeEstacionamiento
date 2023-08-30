@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers.dtos.LoginDTO;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Driver;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LoginService;
 
 @RestController
@@ -20,9 +20,9 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	   @CrossOrigin(origins = "http://localhost:4200")
-	    public ResponseEntity<?> autenticar(@RequestBody LoginDTO request) throws SistemaDeEstacionamientoException {
+	    public ResponseEntity<?> autenticar(@RequestBody LoginDTO request) throws ParkingSystemException {
 		
-	            Automovilista automovilista = service.autenticar(request.getTelefono(), request.getContrasena());
+	            Driver automovilista = service.autenticar(request.getTelefono(), request.getContrasena());
 	  
 	            return ResponseEntity.ok().body(automovilista);
 

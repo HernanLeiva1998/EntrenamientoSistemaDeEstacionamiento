@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Patente } from '../../interfaces/patente';
-import { Automovilista } from '../../interfaces/automovilista';
+import { Driver } from '../../interfaces/driver';
 import { PatenteService } from '../../services/patente.service';
 import { Router } from '@angular/router';
 
@@ -16,9 +16,9 @@ export class AgregarPatenteComponent {
   errorMessage?: String;
 
   ngOnInit() {
-    if(localStorage.getItem('telefono') == undefined){
+    if (localStorage.getItem('telefono') == undefined) {
       this.router.navigate(['/login']);
-    } 
+    }
   }
 
   save(patente: string) {
@@ -30,7 +30,7 @@ export class AgregarPatenteComponent {
 
 
   }
-  patente: Patente = { id: 0, patente: '' };
-  automovilista?: Automovilista;
+  patente: Patente = { id: 0, licensePlate: '' };
+  automovilista?: Driver;
 
 }

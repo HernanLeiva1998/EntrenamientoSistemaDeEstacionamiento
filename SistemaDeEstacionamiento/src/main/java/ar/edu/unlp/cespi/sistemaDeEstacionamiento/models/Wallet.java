@@ -10,11 +10,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class CuentaCorriente {
+public class Wallet {
 	
 
 	@Id
-	@Column(name = "id_cuenta_corriente")
+	@Column(name = "id_wallet")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 	
@@ -22,7 +22,7 @@ public class CuentaCorriente {
     private String accountNumber;
 
     @Column(nullable = false)
-    private Double saldo;
+    private Double balance;
 
    /* @OneToOne
     @JoinColumn(name = "id_automovilista")
@@ -30,13 +30,13 @@ public class CuentaCorriente {
  */
 
     // Constructor, getters y setters
-    public CuentaCorriente(Double saldo) {
-    	this.saldo=saldo;
+    public Wallet(Double saldo) {
+    	this.balance=saldo;
     	this.accountNumber= String.format("%040d", new BigInteger(UUID.randomUUID().toString().replace("-", ""), 16));
 
     }
 
-    public CuentaCorriente() {
+    public Wallet() {
     	
     }
     
@@ -56,20 +56,20 @@ public class CuentaCorriente {
 		this.accountNumber = cbu;
 	}
 
-	public Double getSaldo() {
-		return saldo;
+	public Double getBalance() {
+		return balance;
 	}
 
-	public void setSaldo(Double saldo) {
-		this.saldo = saldo;
+	public void setBalance(Double saldo) {
+		this.balance = saldo;
 	}
 	
 	
-	public void restarSaldo(Double costoDeEstacionamientoFinalizado) {
-		this.saldo-= costoDeEstacionamientoFinalizado;
+	public void subtractBalance(Double amountToSubtract) {
+		this.balance-= amountToSubtract;
 	}
 	
-	public Boolean saldoEsInferiorA(Double costo) {
-		return costo > this.saldo;
+	public Boolean balanceIsLesserThan(Double amount) {
+		return amount > this.balance;
 	}
 }
