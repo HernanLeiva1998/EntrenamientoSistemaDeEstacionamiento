@@ -12,8 +12,6 @@ export class AppComponent {
 
   title = 'Sistema de Estacionamiento';
 
-  logout() {
-    this.loginService.logout()
-  }
+  
 
 }

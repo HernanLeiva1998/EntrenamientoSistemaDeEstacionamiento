@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.ConfiguracionDelSistema;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.SystemConfig;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.CuentaCorriente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Estacionamiento;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
@@ -194,7 +194,7 @@ class SistemaDeEstacionamientoApplicationTests {
 		this.estacionamientoService.changeLocalDateTimeProvider(new LocalDateTimeProviderTest(this.localDateTime30minInicio));
 		
 		
-		ConfiguracionDelSistema configuracionDelSistema = configuracionDelSistemaService.cambiarValorPrecioPorHora(10d);
+		SystemConfig configuracionDelSistema = configuracionDelSistemaService.cambiarValorPrecioPorHora(10d);
 		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente( 10000d);
 		Automovilista automovilista = this.automovilistaService.crearAutomovilista("4443334444", "1234", cuentaCorriente);
 		Patente patente= this.patenteService.agregarPatente(automovilista, "aaa111");

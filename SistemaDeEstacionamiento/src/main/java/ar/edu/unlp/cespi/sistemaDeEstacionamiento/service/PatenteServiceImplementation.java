@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Automovilista;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.ConfiguracionDelSistema;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.SystemConfig;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Patente;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.AutomovilistaRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.PatenteRepository;
@@ -83,7 +83,7 @@ public class PatenteServiceImplementation implements PatenteService {
 		if (patenteOptional.isPresent()) {
 			return patenteOptional.get();
 		}
-		throw new SistemaDeEstacionamientoException("No existe la patente");
+		throw new SistemaDeEstacionamientoException("No existe la patente", HttpStatus.NO_CONTENT);
 	}
 
 

@@ -3,6 +3,7 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
@@ -104,7 +105,7 @@ public class AutomovilistaServiceImplementation implements AutomovilistaService{
 		if (automovilistaOptional.isPresent()) {
 			return automovilistaOptional.get();
 		}
-		throw new SistemaDeEstacionamientoException("No existe el automovilista");
+		throw new SistemaDeEstacionamientoException("No existe el automovilista", HttpStatus.NO_CONTENT);
 	}
 
 }

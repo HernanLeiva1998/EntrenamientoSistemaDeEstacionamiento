@@ -10,7 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class ConfiguracionDelSistema {
+public class SystemConfig {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_configuracion_del_sistema")
@@ -30,18 +30,18 @@ public class ConfiguracionDelSistema {
 
 	
 
-	public ConfiguracionDelSistema() {
+	public SystemConfig() {
 		
 	}
 
-	public ConfiguracionDelSistema(Double valor) {
+	public SystemConfig(Double valor) {
 		this.precioPorHora=valor;
 		this.horaDeInicioDeJornada= LocalTime.of(8, 0);
 		this.horaDeFinDeJornada=LocalTime.of(20, 0);
 		this.formatosPatentes="^(?:[A-Za-z]{3}\\d{3}|[A-Za-z]{2}\\d{3}[A-Za-z]{2})$";
 	}
 	
-	public ConfiguracionDelSistema(Double precioPorHora, LocalTime horaDeInicio, LocalTime horaDeFin, String formatosPatentes) {
+	public SystemConfig(Double precioPorHora, LocalTime horaDeInicio, LocalTime horaDeFin, String formatosPatentes) {
 		this.precioPorHora=precioPorHora;
 		this.horaDeInicioDeJornada=horaDeInicio;
 		this.horaDeFinDeJornada=horaDeFin;

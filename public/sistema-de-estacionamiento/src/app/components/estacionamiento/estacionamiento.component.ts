@@ -32,8 +32,10 @@ export class EstacionamientoComponent {
 
     this.patenteService.getPatentesAutomovilsita().subscribe(p => this.patentes = p)
     this.service.getEstacionamiento().subscribe({
-      next: (e) => {this.estacionamientoYaIniciado = true
+      next: (e) => {if (e){
+        this.estacionamientoYaIniciado = true
         this.estacionamiento = e}
+      }
     })
   }
 

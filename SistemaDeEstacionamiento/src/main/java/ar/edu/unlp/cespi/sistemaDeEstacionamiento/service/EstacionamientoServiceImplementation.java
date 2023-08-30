@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.SistemaDeEstacionamientoException;
@@ -140,7 +141,7 @@ public class EstacionamientoServiceImplementation implements EstacionamientoServ
 				if (estacionamientoOptional.isPresent()) {
 					return estacionamientoOptional.get();
 				}
-				throw new SistemaDeEstacionamientoException("No tiene estacionamiento activo");
+				throw new SistemaDeEstacionamientoException("No tiene estacionamiento activo", HttpStatus.NO_CONTENT);
 			}
 			throw new SistemaDeEstacionamientoException("No existe el automovilista");
 			
