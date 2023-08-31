@@ -8,6 +8,7 @@ import { LoginInterface } from '../interfaces/login-interface';
 import { ErrorHandlerService } from './error-handler.service';
 import { Router } from '@angular/router';
 import { Token } from '../interfaces/token';
+import jwt_decode from 'jwt-decode';
 
 
 @Injectable({
@@ -34,6 +35,17 @@ export class LoginService {
     headers.append('Authorization', 'Bearer ' + '')
     localStorage.removeItem("token");
     this.router.navigate(['/login'])
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken: any = jwt_decode(token);
+      const expirationDate = new Date(0);
+      expirationDate.setUTCSeconds(decodedToken.exp);
+      return expirationDate > new Date(); // Verificar que el token no haya expirado
+    }
+    return false;
   }
 
 }

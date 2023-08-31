@@ -4,6 +4,7 @@ import { EstacionamientoService } from '../../services/estacionamiento.service';
 import { Estacionamiento } from '../../interfaces/estacionamiento';
 import { PatenteService } from '../../services/patente.service';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-estacionamiento',
@@ -16,7 +17,11 @@ export class EstacionamientoComponent {
   estacionamiento?: Estacionamiento;
 
 
-  constructor(private service: EstacionamientoService, private patenteService: PatenteService, private router: Router) { }
+  constructor(private service: EstacionamientoService, 
+    private patenteService: PatenteService, 
+    private router: Router,
+    private authService: LoginService
+    ) { }
 
   patentes?: Patente[] = [];
   patenteSeleccionada?: Patente;
@@ -25,7 +30,7 @@ export class EstacionamientoComponent {
 
   ngOnInit() {
 
-    if(localStorage.getItem('telefono') == undefined){
+    if(!this.authService.isAuthenticated()){
       this.router.navigate(['/login']);
     } 
     

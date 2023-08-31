@@ -4,6 +4,7 @@ import { Estacionamiento } from '../../interfaces/estacionamiento';
 import { AutomovilsitaService } from '../../services/automovilsita.service';
 import { EstacionamientoService } from '../../services/estacionamiento.service';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,12 +16,15 @@ export class DashboardComponent {
   estacionamientoActivo?: Estacionamiento;
   errorMessage?: String;
 
-  constructor(private automovilistaService: AutomovilsitaService, private estacionamientoService: EstacionamientoService,
-    private router: Router) { }
+  constructor(private automovilistaService: AutomovilsitaService,
+      private estacionamientoService: EstacionamientoService,
+      private router: Router,
+      private authService: LoginService
+      ) { }
 
 
   ngOnInit() {
-    if (localStorage.getItem('telefono') == undefined) {
+    if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
     } else {
       this.getAutomovilista();

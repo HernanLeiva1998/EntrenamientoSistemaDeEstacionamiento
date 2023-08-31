@@ -3,6 +3,7 @@ import { Patente } from '../../interfaces/patente';
 import { Driver } from '../../interfaces/driver';
 import { PatenteService } from '../../services/patente.service';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-agregar-patente',
@@ -11,12 +12,14 @@ import { Router } from '@angular/router';
 })
 export class AgregarPatenteComponent {
 
-  constructor(private service: PatenteService, private router: Router) { }
+  constructor(private service: PatenteService, 
+    private router: Router,
+    private authService: LoginService) { }
 
   errorMessage?: String;
 
   ngOnInit() {
-    if (localStorage.getItem('telefono') == undefined) {
+    if (!this.authService.isAuthenticated()) {
       this.router.navigate(['/login']);
     }
   }

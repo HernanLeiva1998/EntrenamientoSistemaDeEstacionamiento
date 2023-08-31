@@ -10,7 +10,16 @@ export class NavbarComponent {
 
   constructor(private loginService: LoginService){}
 
+  collapsed = true;
+  toggleCollapsed(): void {
+    this.collapsed = !this.collapsed;
+  }
+
   logout() {
     this.loginService.logout()
+  }
+
+  isAuthenticated(){
+    return this.loginService.isAuthenticated()
   }
 }

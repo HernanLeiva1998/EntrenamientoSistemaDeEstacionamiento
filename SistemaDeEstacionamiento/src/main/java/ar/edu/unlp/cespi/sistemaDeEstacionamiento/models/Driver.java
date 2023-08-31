@@ -1,5 +1,6 @@
 package ar.edu.unlp.cespi.sistemaDeEstacionamiento.models;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -76,12 +77,17 @@ public class Driver implements UserDetails{
 		this.phone = phone;
 		this.password = password;
 		this.role=Role.USER;
+		this.licensePlates= new ArrayList<>();
+		this.parkings=new ArrayList<>();
 	}
     
     public Driver(String phone, String password, String email) {
 		this.phone = phone;
 		this.password = password;
 		this.email = email;
+
+		this.licensePlates= new ArrayList<>();
+		this.parkings=new ArrayList<>();
 	}
     
     public Driver(String phone, String password, String email, Role role) {
@@ -89,6 +95,8 @@ public class Driver implements UserDetails{
 		this.password = password;
 		this.email = email;
 		this.role=role;
+		this.licensePlates= new ArrayList<>();
+		this.parkings=new ArrayList<>();
 	}
     
     public Boolean canStartParking(Double monto) {

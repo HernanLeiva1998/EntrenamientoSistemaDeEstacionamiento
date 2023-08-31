@@ -194,19 +194,13 @@ class SistemaDeEstacionamientoApplicationTests {
 		this.parkingService.changeLocalDateTimeProvider(new LocalDateTimeProviderTest(this.localDateTime30minInicio));
 		
 		
-<<<<<<< HEAD
+
 		SystemConfig configuracionDelSistema = configuracionDelSistemaService.cambiarValorPrecioPorHora(10d);
-		CuentaCorriente cuentaCorriente = this.automovilistaService.crearCuentaCorriente( 10000d);
-		Automovilista automovilista = this.automovilistaService.crearAutomovilista("4443334444", "1234", cuentaCorriente);
-		Patente patente= this.patenteService.agregarPatente(automovilista, "aaa111");
-		Estacionamiento estacionamiento= this.estacionamientoService.iniciarEstacionamiento(automovilista, patente);
-=======
-		ConfiguracionDelSistema configuracionDelSistema = configuracionDelSistemaService.cambiarValorPrecioPorHora(10d);
 		Wallet cuentaCorriente = this.driverService.createWallet( 10000d);
 		Driver automovilista = this.driverService.createDriver("4443334444", "1234", cuentaCorriente);
 		LicensePlate patente= this.licensePlateService.addLicensePlate(automovilista, "aaa111");
 		Parking estacionamiento= this.parkingService.startParking(automovilista, patente);
->>>>>>> 46550c38deefa9ea8b4b2c11ae89340a8327d42a
+
 		assertNotNull(estacionamiento);
 		assertEquals("AAA111", estacionamiento.getLicensePlate().getLicensePlate());
 		assertEquals("4443334444", estacionamiento.getDriver().getPhone());

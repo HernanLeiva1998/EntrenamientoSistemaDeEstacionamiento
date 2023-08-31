@@ -13,7 +13,7 @@ public interface LicensePlateRepository extends CrudRepository<LicensePlate, Lon
 
 	Optional<LicensePlate> findByLicensePlate(String licensePlate);
 
-	@Query("SELECT p "
+	@Query("SELECT lp "
 			+ "FROM LicensePlate lp JOIN lp.parkings p "
 			+ "where lp.id = :licensePlateId and p.isActive = true")
 	Optional<LicensePlate> findByIdAndExistsActiveParking(@Param("licensePlateId") Long licensePlateId);
