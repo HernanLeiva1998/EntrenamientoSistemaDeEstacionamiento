@@ -1,0 +1,33 @@
+<div class="container resaltar-seccion fondo-container">
+    
+    <app-mensaje [mensaje]="errorMessage"></app-mensaje>
+    <div *ngIf="automovilista" class="mb-4">
+        <h2>Cuenta: {{automovilista.phone}}</h2>
+    </div>
+    <div *ngIf="estacionamientoActivo; else elseBlock" class="mb-4">
+        <h2>Estacionamiento activo</h2>
+
+        <!-- Mostrar la fecha en formato "dd/MM/yyyy" -->
+        <p>Estacionamiento iniciado el: {{ estacionamientoActivo.parkingStart| date: 'dd/MM/yyyy' }}</p>
+        <!-- Mostrar la hora en formato "HH:mm:ss" -->
+        <p>Hora de inicio: {{ estacionamientoActivo.parkingStart| date: 'HH:mm:ss' }}</p>
+        <button class="btn btn-danger" (click)="finalizarEstacionamiento()">Finalizar Estacionamiento</button>
+
+    </div>
+    <ng-template #elseBlock class="mb-4 resaltar-seccion">
+        <h2>Ningun estacionamiento activo</h2>
+        <nav>
+            <a class="btn btn-primary" routerLink="/iniciarEstacionamiento">Iniciar Estacionamiento</a>
+        </nav>
+    </ng-template>
+    <div *ngIf="automovilista" class="mb-4">
+        <h2 class="mb-2">Numero de cuenta:</h2>
+        <div class=" row">
+            <div class="col">
+                <h3 class="text-break">{{automovilista.wallet.accountNumber}}</h3>
+            </div>
+        </div>
+        <span>Saldo: {{automovilista.wallet.balance}}</span>
+    </div>
+
+</div>

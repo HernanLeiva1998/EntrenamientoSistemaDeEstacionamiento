@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AutomovilistasComponent } from './automovilistas/automovilistas.component';
-import { LoginComponent } from './login/login.component';
-import { CrearAutomovilistaComponent } from './crear-automovilista/crear-automovilista.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AgregarPatenteComponent } from './agregar-patente/agregar-patente.component';
-import { EstacionamientoComponent } from './estacionamiento/estacionamiento.component';
+import { AutomovilistasComponent } from './components/automovilistas/automovilistas.component';
+import { LoginComponent } from './components/login/login.component';
+import { CrearAutomovilistaComponent } from './components/crear-automovilista/crear-automovilista.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AgregarPatenteComponent } from './components/agregar-patente/agregar-patente.component';
+import { EstacionamientoComponent } from './components/estacionamiento/estacionamiento.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

@@ -1,15 +1,5 @@
 <h1>{{title}}</h1>
 
-<nav class="mb-4">
-    <a routerLink="/dashboard">Dashboard</a>
-    <a routerLink="/iniciarEstacionamiento">Iniciar Estacionamiento</a>
-    <a routerLink="/agregarPatente">Agregar Patente</a>
-    <a routerLink="/login">Login</a>
-    <a (click)="logout()">
-        Logout
-    </a>
-    <a routerLink="/crearAutomovilista">Crear Cuenta</a>
-
-</nav>
+<app-navbar></app-navbar>
 
 <router-outlet></router-outlet>

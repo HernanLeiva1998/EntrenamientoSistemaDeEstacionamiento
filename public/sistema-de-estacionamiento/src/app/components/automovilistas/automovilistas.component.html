@@ -1,0 +1,17 @@
+<div *ngFor="let automovilista of automovilistas">
+    <h2>Automovilista</h2>
+    <p>ID: {{ automovilista.id }}</p>
+    <p>Teléfono: {{ automovilista.phone }}</p>
+
+    <h3>Patentes</h3>
+    <ul>
+        <li *ngFor="let patente of automovilista.licensePlates">
+            <p>ID: {{ patente.id }}</p>
+            <p>Patente: {{ patente.licensePlate }}</p>
+        </li>
+    </ul>
+
+    <h3>Cuenta Corriente</h3>
+    <p>ID: {{ automovilista.wallet.id }}</p>
+    <p>Saldo: {{ automovilista.wallet.balance }}</p>
+</div>

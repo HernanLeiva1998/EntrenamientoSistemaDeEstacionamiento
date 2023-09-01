@@ -6,14 +6,15 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AutomovilistasComponent } from './automovilistas/automovilistas.component';
-import { CrearAutomovilistaComponent } from './crear-automovilista/crear-automovilista.component';
-import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { AgregarPatenteComponent } from './agregar-patente/agregar-patente.component';
-import { PatentesComponent } from './patentes/patentes.component';
-import { EstacionamientoComponent } from './estacionamiento/estacionamiento.component';
-import { MensajeComponent } from './mensaje/mensaje.component';
+import { AutomovilistasComponent } from './components/automovilistas/automovilistas.component';
+import { CrearAutomovilistaComponent } from './components/crear-automovilista/crear-automovilista.component';
+import { LoginComponent } from './components/login/login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { AgregarPatenteComponent } from './components/agregar-patente/agregar-patente.component';
+import { PatentesComponent } from './components/patentes/patentes.component';
+import { EstacionamientoComponent } from './components/estacionamiento/estacionamiento.component';
+import { MensajeComponent } from './components/mensaje/mensaje.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MensajeComponent } from './mensaje/mensaje.component';
     AgregarPatenteComponent,
     PatentesComponent,
     EstacionamientoComponent,
-    MensajeComponent
+    MensajeComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

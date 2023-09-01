@@ -1,7 +1,6 @@
 export interface NuevoAutomovilista {
 
-    telefono: string;
-    contrasena: string;
+    username: string;
+    password: string;
     email: string;
-    cbu: string;
 }
