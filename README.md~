@@ -50,3 +50,9 @@ Bug: Despues de loguearse hay que recargar la pagina para que aparescan los dato
 
 Recordar borrar la base de datos de la entrega anterior, ejecutar npm install para la aplicacion angular.
 Gradle bootRun deberia instalar las dependencias nuevas como lombok y spring security.
+
+Cosas que faltaron:
+Traducir algunas cosas, eliminar todos los usos del localStorage que usa 'telefono' enves de valerse solo
+con el token JWT el cual ya es suficiente para las consultas porque permite operar con el usuario en el backend,
+cambiar las consultas http de angular para que no usen promesas, implementar i18n.
+
