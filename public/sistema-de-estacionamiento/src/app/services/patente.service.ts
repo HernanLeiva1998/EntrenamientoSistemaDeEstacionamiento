@@ -12,7 +12,7 @@ import { ErrorHandlerService } from './error-handler.service';
 })
 export class PatenteService {
 
-  urlPatentes = baseUrl + 'api/patentes/buscar/';
+  urlPatentes = baseUrl + 'api/patentes/buscar';
   urlAgregarPatente = baseUrl + 'api/patentes/agregar';
 
 
@@ -22,7 +22,7 @@ export class PatenteService {
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
-    return this.http.get<Patente[]>(this.urlPatentes + localStorage.getItem('telefono'), { headers })
+    return this.http.get<Patente[]>(this.urlPatentes, { headers })
   }
 
   crearPatente(patente: string): Observable<Patente> {

@@ -8,42 +8,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.SystemConfig;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
 
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.ConfiguracionDelSistemaRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.SystemConfigRepository;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.SystemConfigService;
 
-public class ConfiguracionDelSistemaServiceImplementation implements ConfiguracionDelSistemaService {
+public class SystemConfigServiceImplementation implements SystemConfigService {
 
 	
 	@Autowired
-	ConfiguracionDelSistemaRepository configuracionDelSistemaRepository;
+	SystemConfigRepository configuracionDelSistemaRepository;
 	
 	
 	@Override
-	public SystemConfig consequirConfiguracionDelSistema() throws ParkingSystemException{
+	public SystemConfig getSystemConfig() throws ParkingSystemException{
 		// TODO Auto-generated method stub
 		List<SystemConfig> configuracionDelSistemaList= (List<SystemConfig>) this.configuracionDelSistemaRepository.findAll();
 		if (!configuracionDelSistemaList.isEmpty()) {
 			return configuracionDelSistemaList.get(0);
 		}
-		return  this.configurar(
+		return  this.configure(
 				10d, 
 				LocalTime.of(8, 0),
 				LocalTime.of(20, 0), 
 				"^(?:[A-Za-z]{3}\\d{3}|[A-Za-z]{2}\\d{3}[A-Za-z]{2})$");
 	}
 	
-	private SystemConfig configurar(Double valor, LocalTime horaInicio, LocalTime horaFin, String formatosDePatentes) {
+	private SystemConfig configure(Double valor, LocalTime horaInicio, LocalTime horaFin, String formatosDePatentes) {
 		SystemConfig cds = new SystemConfig( valor, horaInicio, horaFin, formatosDePatentes );
 		return configuracionDelSistemaRepository.save(cds);
 	}
-	public SystemConfig cambiarValorPrecioPorHora(Double valor) throws ParkingSystemException {
-		SystemConfig cds = this.consequirConfiguracionDelSistema();
+	public SystemConfig changePricePerHour(Double valor) throws ParkingSystemException {
+		SystemConfig cds = this.getSystemConfig();
 		cds.setPrecioPorHora(valor);
 		return configuracionDelSistemaRepository.save(cds);
 	}
 	
-	public SystemConfig cambiarHorarioActivo(LocalTime horaInicio, LocalTime horaFin) throws ParkingSystemException {
-		SystemConfig configuracionDelSistema = this.consequirConfiguracionDelSistema();
+	public SystemConfig changeActiveTime(LocalTime horaInicio, LocalTime horaFin) throws ParkingSystemException {
+		SystemConfig configuracionDelSistema = this.getSystemConfig();
 		configuracionDelSistema.cambiarHorario(horaInicio, horaFin);
 		return this.configuracionDelSistemaRepository.save(configuracionDelSistema);
 	}

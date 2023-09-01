@@ -16,7 +16,7 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers.dtos.StartParkingD
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Parking;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.DriverService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.SystemConfigService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ParkingService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LicensePlateService;
 
@@ -29,7 +29,7 @@ public class ParkingController {
     @Autowired
     private LicensePlateService licensePlateService;
     @Autowired 
-    private ConfiguracionDelSistemaService configuracionDelSistemaService;
+    private SystemConfigService configuracionDelSistemaService;
 	
 	@PostMapping("/api/estacionamientos/iniciar")
 	@CrossOrigin(origins = "http://localhost:4200")
@@ -48,7 +48,7 @@ public class ParkingController {
 
 		Parking parkingFinalizada = this.service.endParking(
 				this.service.getActiveParkingByPhone(request.get("telefono")),
-				this.configuracionDelSistemaService.consequirConfiguracionDelSistema().getPrecioPorHora()
+				this.configuracionDelSistemaService.getSystemConfig().getPrecioPorHora()
 			);
 		return ResponseEntity.ok().body(parkingFinalizada);
 		

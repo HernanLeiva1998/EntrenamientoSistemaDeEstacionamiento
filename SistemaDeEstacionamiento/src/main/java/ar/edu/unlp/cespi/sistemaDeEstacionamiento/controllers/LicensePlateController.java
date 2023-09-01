@@ -2,6 +2,7 @@ package ar.edu.unlp.cespi.sistemaDeEstacionamiento.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,17 @@ public class LicensePlateController {
     @Autowired
     private LicensePlateService service;//SistemaDeEstacionamientoService service;
 
+    private String getDriverPhoneFromSecurityContextHolder() {
+		return ((Driver)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPhone();
+	}
+    @GetMapping("/api/patentes/buscar")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public ResponseEntity<?> getLicensePlateListByPhone() throws ParkingSystemException {
+    	
+    	return ResponseEntity.ok(service.getDriverLicensePlatesList(this.getDriverPhoneFromSecurityContextHolder()));
+    }
+        
+    
     @GetMapping("/api/patentes/buscar/{telefono}")
     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> getLicensePlatesByPhone(@PathVariable String telefono) throws ParkingSystemException {

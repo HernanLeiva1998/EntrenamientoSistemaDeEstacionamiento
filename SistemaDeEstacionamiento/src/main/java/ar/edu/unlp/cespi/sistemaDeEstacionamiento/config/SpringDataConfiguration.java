@@ -4,12 +4,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.DriverServiceImplementation;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.ConfiguracionDelSistemaServiceImplementation;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.SystemConfigServiceImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.ParkingServiceImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.LoginServiceImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.LicensePlateServiceImplementation;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.DriverService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.SystemConfigService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ParkingService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LoginService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LicensePlateService;
@@ -38,8 +38,8 @@ public class SpringDataConfiguration {
 	}
 	
 	@Bean
-	public ConfiguracionDelSistemaService springDataJpaConfiguracionDelSistemaService() {
-		return new ConfiguracionDelSistemaServiceImplementation();
+	public SystemConfigService springDataJpaConfiguracionDelSistemaService() {
+		return new SystemConfigServiceImplementation();
 	}
 
 }

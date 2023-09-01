@@ -26,7 +26,7 @@ Otra opcion es ejecutar el archivo createDatabase.sh Solo funciona si la termina
 reconoce el comando "mysql"
 
 
-Spring
+# Spring
 Ya con la Base de datos creada entrar en la carpeta SistemaDeEstacionamiento 
 y ejecutar el comando "gradle bootRun".
 Al ejecutar el comando la aplicación isntalará las dependencias y creara por defecto las tablas de la base de datos. Ademas,
@@ -35,7 +35,7 @@ y dos automovlistas con su cuenta corriente. Si no hubo ningun problema la aplic
 estará lista para recibir consultas http.
 
 
-Angular:
+# Angular:
 
 Dentro de la carpeta public\sistema_de_estacionamiento ejecutar el comando npm install. 
 Usar el comando ng serve --open para iniciar la aplicación y abrirla automaticamente en el navegador. 
@@ -45,3 +45,8 @@ Telefonos de automovilsitas: 2213334444, 1112223333
 Contraseña de ambos: 1234
 
 Bug: Despues de loguearse hay que recargar la pagina para que aparescan los datos correspondientes.
+
+# Segunda entrega
+
+Recordar borrar la base de datos de la entrega anterior, ejecutar npm install para la aplicacion angular.
+Gradle bootRun deberia instalar las dependencias nuevas como lombok y spring security.

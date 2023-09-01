@@ -1,6 +1,5 @@
 package ar.edu.unlp.cespi.sistemaDeEstacionamiento;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -18,16 +17,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Driver;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.LicensePlate;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Parking;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.SystemConfig;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Wallet;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Parking;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.LicensePlate;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.SystemConfigService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.DriverService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ParkingService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LoginService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LicensePlateService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LoginService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ParkingService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LocalDateTimeProviderTest;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.TimeUnitsManager;
 
@@ -45,7 +44,7 @@ class SistemaDeEstacionamientoApplicationTests {
 	@Autowired
 	private ParkingService parkingService;
     @Autowired 
-    private ConfiguracionDelSistemaService configuracionDelSistemaService;
+    private SystemConfigService configuracionDelSistemaService;
     @Autowired
     private LoginService loginService;
 	
@@ -195,7 +194,7 @@ class SistemaDeEstacionamientoApplicationTests {
 		
 		
 
-		SystemConfig configuracionDelSistema = configuracionDelSistemaService.cambiarValorPrecioPorHora(10d);
+		SystemConfig configuracionDelSistema = configuracionDelSistemaService.changePricePerHour(10d);
 		Wallet cuentaCorriente = this.driverService.createWallet( 10000d);
 		Driver automovilista = this.driverService.createDriver("4443334444", "1234", cuentaCorriente);
 		LicensePlate patente= this.licensePlateService.addLicensePlate(automovilista, "aaa111");

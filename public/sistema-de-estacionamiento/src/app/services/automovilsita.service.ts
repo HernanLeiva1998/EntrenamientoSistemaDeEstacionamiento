@@ -12,7 +12,7 @@ import { Token } from '../interfaces/token';
 })
 export class AutomovilsitaService {
 
-  private automovilistaUrl = baseUrl + "api/automovilistas/buscar/" + localStorage.getItem('telefono');
+  private automovilistaUrl = baseUrl + "api/automovilistas/buscar";
   private crearUrl = baseUrl + "auth/register";
   nuevoAutomovilsita?: NuevoAutomovilista;
 

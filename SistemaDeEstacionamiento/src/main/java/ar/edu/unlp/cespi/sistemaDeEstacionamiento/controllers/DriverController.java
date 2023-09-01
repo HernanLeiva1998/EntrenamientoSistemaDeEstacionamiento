@@ -23,14 +23,20 @@ public class DriverController {
 	@Autowired
 	DriverService service;
 	
+	private String getDriverPhoneFromSecurityContextHolder() {
+		return ((Driver)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPhone();
+	}
 	
-	
-	@GetMapping("/api/automovilistas/buscar/{phone}")
+	@GetMapping("/api/automovilistas/buscar")
     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<?> getDriverByPhone(@PathVariable String phone) throws ParkingSystemException {
-		((Driver)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPhone();
-		return ResponseEntity.ok().body(service.getDriverByPhone(phone));
-    }
+    public ResponseEntity<?> getDriverByPhone() throws ParkingSystemException {
+		return ResponseEntity
+				.ok()
+				.body(
+						service.getDriverByPhone(this.getDriverPhoneFromSecurityContextHolder())
+				);
+    }	
+		
 	
 	@PostMapping("api/automovilistas/crear")
 	@CrossOrigin(origins = "http://localhost:4200")

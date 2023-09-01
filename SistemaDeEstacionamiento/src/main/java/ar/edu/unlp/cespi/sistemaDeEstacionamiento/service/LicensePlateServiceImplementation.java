@@ -11,7 +11,7 @@ import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Driver;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.LicensePlate;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.DriverRepository;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.repositories.LicensePlateRepository;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.SystemConfigService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.LicensePlateService;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.utils.LicensePlateValidator;
 
@@ -22,13 +22,13 @@ public class LicensePlateServiceImplementation implements LicensePlateService {
 	@Autowired
 	DriverRepository driverRepository;
 	@Autowired
-	ConfiguracionDelSistemaService configuracionDelSistemaService;
+	SystemConfigService configuracionDelSistemaService;
 	
 	@Override
 	@Transactional
 	public LicensePlate addLicensePlate(Driver driver, String licensePlateString) throws ParkingSystemException {
 		licensePlateString = licensePlateString.toUpperCase();
-		String validFormats = this.configuracionDelSistemaService.consequirConfiguracionDelSistema().getFormatosPatentes(); 
+		String validFormats = this.configuracionDelSistemaService.getSystemConfig().getFormatosPatentes(); 
 		if (!LicensePlateValidator.validateLicensePlate(licensePlateString, validFormats)){
 			throw new ParkingSystemException("El formato de patente no es valido. Debe ser AAA111 o bien AA111AA");
 		}else if (driver.hasLicensePlateAssigned(licensePlateString)) {

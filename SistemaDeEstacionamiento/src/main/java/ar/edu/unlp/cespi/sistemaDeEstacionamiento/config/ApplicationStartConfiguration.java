@@ -9,7 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.exceptions.ParkingSystemException;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.models.Role;
 import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.DriverService;
-import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.ConfiguracionDelSistemaService;
+import ar.edu.unlp.cespi.sistemaDeEstacionamiento.service.interfaces.SystemConfigService;
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -19,13 +19,13 @@ public class ApplicationStartConfiguration implements ApplicationRunner {
 	@Autowired
 	DriverService driverService;
     @Autowired 
-    private ConfiguracionDelSistemaService configuracionDelSistemaService;
+    private SystemConfigService configuracionDelSistemaService;
 
     private final PasswordEncoder passwordEncoder;
 	
 	@Override
 	public void run(ApplicationArguments args) throws ParkingSystemException {
-		this.configuracionDelSistemaService.consequirConfiguracionDelSistema();
+		this.configuracionDelSistemaService.getSystemConfig();
 		if (!this.driverService.checkDriverExistsByPhone("2213334444") )
 		this.driverService.createDriver(
 				"2213334444",
